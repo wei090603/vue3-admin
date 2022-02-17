@@ -53,11 +53,11 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-// import { useCounterStore } from '@/store/counter';
 import { useRouter } from 'vue-router';
+import { useCounterStore } from '@/store';
+
 const router = useRouter();
-const { currentRoute } = router;
-import { ElForm } from 'element-plus';
+const conunter = useCounterStore();
 
 interface LoginForm {
   account: string;
@@ -84,13 +84,13 @@ const rules = ref({
   ],
 });
 
-const loginForm = ref<typeof ElForm>();
+const loginForm = ref<null>();
 const handleLogin = async () => {
   const valid = await loginForm.value?.validate();
   // if (valid === true) {
   //   const res = await store.dispatch('user/login', form);
   //   if (res) {
-  //     const { redirect, ...query } = currentRoute.value.query;
+  //     const { redirect, ...query } = router.currentRoute.value.query;
   //     router.replace({
   //       path: redirect ?? '/',
   //       query: {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 // 对外部暴露一个 use 方法，该方法会导出我们定义的 state
-const useCounterStore = defineStore({
+export const useCounterStore = defineStore({
   // 每个 store 的 id 必须唯一
   id: 'counter',
   // state 表示数据源
@@ -18,5 +18,3 @@ const useCounterStore = defineStore({
     },
   },
 });
-
-export default useCounterStore;
