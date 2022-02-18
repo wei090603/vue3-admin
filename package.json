@@ -11,10 +11,14 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/js-cookie": "^3.0.1",
     "@types/vue-router": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "axios": "^0.26.0",
     "element-plus": "^2.0.2",
     "eslint-plugin-vue": "^8.4.1",
+    "js-cookie": "^3.0.1",
     "normalize.css": "^8.0.1",
     "pinia": "^2.0.11",
     "vue": "^3.2.25"
@@ -33,6 +37,7 @@
     "svg-sprite-loader": "^6.0.11",
     "typescript": "^4.5.4",
     "unplugin-auto-import": "^0.6.0",
+    "unplugin-element-plus": "^0.3.1",
     "unplugin-vue-components": "^0.17.18",
     "vite": "^2.8.0",
     "vite-plugin-svg-icons": "^2.0.1",

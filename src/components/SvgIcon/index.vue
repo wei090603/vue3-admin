@@ -1,6 +1,6 @@
 <template>
-  <svg :class="svgClass" v-bind="$ n" :style="{ color: color }">
-    <use :xlink:href="iconName" />
+  <svg :class="svgClass" aria-hidden="true">
+    <use :xlink:href="symbolId" :fill="color" />
   </svg>
 </template>
 
@@ -18,9 +18,8 @@ const props = defineProps({
   },
 });
 
-const iconName = computed(() => `#icon-${props.name}`);
+const symbolId = computed(() => `#icon-${props.name}`);
 const svgClass = computed(() => {
-  console.log(props.name, 'props.name');
   if (props.name) {
     return `svg-icon icon-${props.name}`;
   }

@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { resolve } from 'path';
-import viteSvgIcons from 'vite-plugin-svg-icons';
+import * as path from 'path';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import ElementPlus from 'unplugin-element-plus/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,16 +18,17 @@ export default defineConfig({
     Components({
       resolvers: [ElementPlusResolver()],
     }),
-    viteSvgIcons({
-      // 指定需要缓存的图标文件夹
-      iconDirs: [resolve(process.cwd(), 'src/icons')],
-      // 指定symbolId格式
+    ElementPlus(),
+    createSvgIconsPlugin({
+      // 指定要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), 'src/icons/svg')],
+      // 执行icon name的格式
       symbolId: 'icon-[dir]-[name]',
     }),
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, '.', 'src'),
+      '@': path.resolve(__dirname, '.', 'src'),
     },
   },
   css: {
