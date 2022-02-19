@@ -5,13 +5,13 @@
       <div class="menu-icon" @click="opendStateChange">
         <i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
       </div>
-      <Breadcrumb />
+      <!-- <Breadcrumb /> -->
     </div>
     <div class="right-box">
       <!-- 快捷功能按钮 -->
       <div class="function-list">
-        <div class="function-list-item hidden-sm-and-down"><Full-screen /></div>
-        <div class="function-list-item"><SizeChange /></div>
+        <!-- <div class="function-list-item hidden-sm-and-down"><Full-screen /></div> -->
+        <!-- <div class="function-list-item"><SizeChange /></div> -->
         <!-- <div class="function-list-item hidden-sm-and-down"><Theme /></div> -->
       </div>
       <!-- 用户信息 -->
@@ -31,17 +31,17 @@
           </template>
         </el-dropdown>
       </div>
-      <password-layer v-if="layer.show" :layer="layer" />
+      <!-- <password-layer v-if="layer.show" :layer="layer" /> -->
     </div>
   </header>
 </template>
 
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
-import SizeChange from './functionList/sizeChange.vue';
-import Theme from './functionList/theme.vue';
-import Breadcrumb from './Breadcrumb.vue';
-import PasswordLayer from './passwordLayer.vue';
+// import SizeChange from './functionList/sizeChange.vue';
+// import Theme from './functionList/theme.vue';
+// import Breadcrumb from './Breadcrumb.vue';
+// import PasswordLayer from './passwordLayer.vue';
 import { useAppStore } from '@/store/app';
 
 const store = useAppStore();

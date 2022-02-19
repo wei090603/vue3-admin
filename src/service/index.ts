@@ -21,7 +21,7 @@ let loadingFn: any;
 // 配置新建一个 axios 实例
 const service: AxiosInstance = axios.create({
   timeout: 30000,
-  baseURL: import.meta.env.BASE_URL, // api的base_url
+  baseURL: import.meta.env.VITE_BASE_URL as string, // api的base_url
   responseType: 'json',
   headers: { 'Content-Type': 'application/json;charset=UTF-8' },
 });

@@ -7,19 +7,19 @@ declare module 'vue' {
     ElAside: typeof import('element-plus/es')['ElAside'];
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb'];
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem'];
-    ElButton: typeof import('element-plus/es')['ElButton'];
-    ElContainer: typeof import('element-plus/es')['ElContainer'];
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog'];
-    ElDropdown: typeof import('element-plus/es')['ElDropdown'];
-    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem'];
-    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu'];
-    ElFormItem: typeof import('element-plus/es')['ElFormItem'];
-    ElHeader: typeof import('element-plus/es')['ElHeader'];
-    ElInput: typeof import('element-plus/es')['ElInput'];
-    ElMain: typeof import('element-plus/es')['ElMain'];
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
+    ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElInput: typeof import('element-plus/es')['ElInput']
+    ElMain: typeof import('element-plus/es')['ElMain']
     Layer: typeof import('./src/components/Layer/index.vue')['default'];
-    SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default'];
+    SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
   }
 }
 
-export {};
+export { }

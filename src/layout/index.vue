@@ -5,41 +5,31 @@
       class="mask"
       @click="hideMenu()"
     ></div>
-    <el-aside
+    <!-- <el-aside
       v-show="!contentFullScreen"
       :width="isCollapse ? '60px' : '250px'"
       :class="isCollapse ? 'hide-aside' : 'show-side'"
     >
       <Logo v-if="showLogo" />
       <Menu />
-    </el-aside>
+    </el-aside> -->
     <el-container>
       <el-header v-show="!contentFullScreen">
         <Header />
       </el-header>
-      <Tabs v-show="showTabs" />
+      <!-- <Tabs v-show="showTabs" /> -->
       <el-main>
         <router-view v-slot="{ Component, route }">
-          <keep-alive ref="keepDom" :max="10">
-            <transition appear name="fade-transform" mode="out-in">
-              <div
-                v-if="route.meta.keepAlive"
-                :key="route.path"
-                class="el-main-box"
-              >
-                <component :is="Component" />
+          <transition appear name="fade-transform" mode="out-in">
+            <keep-alive v-if="route.meta.keepAlive" include="">
+              <div class="el-main-box">
+                <component :is="Component" :key="route.fullPath" />
               </div>
-            </transition>
-          </keep-alive>
-          <div
-            v-if="!route.meta.keepAlive"
-            :key="route.path"
-            class="el-main-box"
-          >
-            <transition appear name="fade-transform" mode="out-in">
-              <component :is="Component" />
-            </transition>
-          </div>
+            </keep-alive>
+            <div class="el-main-box" v-else>
+              <component :is="Component" :key="route.fullPath" />
+            </div>
+          </transition>
         </router-view>
       </el-main>
     </el-container>
@@ -49,6 +39,7 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue';
 import { useEventListener } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
 import Header from './Header/index.vue';
 
@@ -59,10 +50,8 @@ const store = useAppStore();
 // import Tabs from './Tabs/index.vue';
 
 // computed
-const isCollapse = computed(() => store.$state.isCollapse);
-const contentFullScreen = computed(() => store.$state.contentFullScreen);
-const showLogo = computed(() => store.$state.showLogo);
-const showTabs = computed(() => store.$state.showTabs);
+const { isCollapse, contentFullScreen, showLogo, showTabs } =
+  storeToRefs(store);
 // 页面宽度变化监听后执行的方法
 const resizeHandler = () => {
   if (document.body.clientWidth <= 1000 && !isCollapse.value) {
