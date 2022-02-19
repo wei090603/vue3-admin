@@ -32,7 +32,7 @@ const store = useAppStore();
 const { isCollapse, expandOneMenu } = storeToRefs(store);
 
 const allRoutes = useRouter()
-  .options.routes.filter((item) => !item.meta?.hideMenu)
+  .options.routes.filter((item) => !item.meta?.hidden)
   .map((item) => {
     if (item.path === '/' && item.children) {
       return item.children[0];

@@ -5,7 +5,7 @@
       <div class="menu-icon" @click="opendStateChange">
         <i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
       </div>
-      <!-- <Breadcrumb /> -->
+      <Breadcrumb />
     </div>
     <div class="right-box">
       <!-- 快捷功能按钮 -->
@@ -40,9 +40,10 @@
 import { computed, reactive } from 'vue';
 // import SizeChange from './functionList/sizeChange.vue';
 // import Theme from './functionList/theme.vue';
-// import Breadcrumb from './Breadcrumb.vue';
+import Breadcrumb from './Breadcrumb.vue';
 // import PasswordLayer from './passwordLayer.vue';
 import { useAppStore } from '@/store/app';
+import { storeToRefs } from 'pinia';
 
 const store = useAppStore();
 
@@ -50,10 +51,11 @@ const layer = reactive({
   show: false,
   showButton: true,
 });
-const isCollapse = computed(() => store.$state.isCollapse);
+
+const { isCollapse } = storeToRefs(store);
 // isCollapse change to hide/show the sidebar
 const opendStateChange = () => {
-  store.isCollapseChange(!isCollapse.value);
+  store.isCollapse = !store.isCollapse;
 };
 
 // login out the system

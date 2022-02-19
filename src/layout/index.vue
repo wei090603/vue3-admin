@@ -5,19 +5,19 @@
       class="mask"
       @click="hideMenu()"
     ></div>
-    <!-- <el-aside
+    <el-aside
       v-show="!contentFullScreen"
       :width="isCollapse ? '60px' : '250px'"
       :class="isCollapse ? 'hide-aside' : 'show-side'"
     >
       <Logo v-if="showLogo" />
       <Menu />
-    </el-aside> -->
+    </el-aside>
     <el-container>
       <el-header v-show="!contentFullScreen">
         <Header />
       </el-header>
-      <!-- <Tabs v-show="showTabs" /> -->
+      <Tabs v-show="showTabs" />
       <el-main>
         <router-view v-slot="{ Component, route }">
           <transition appear name="fade-transform" mode="out-in">
@@ -39,15 +39,14 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue';
 import { useEventListener } from '@vueuse/core';
+import Menu from './Menu/index.vue';
+import Logo from './Logo/index.vue';
+import Header from './Header/index.vue';
+import Tabs from './Tabs/index.vue';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
-import Header from './Header/index.vue';
 
 const store = useAppStore();
-
-// import Menu from './Menu/index.vue';
-// import Logo from './Logo/index.vue';
-// import Tabs from './Tabs/index.vue';
 
 // computed
 const { isCollapse, contentFullScreen, showLogo, showTabs } =
@@ -67,10 +66,9 @@ onBeforeMount(() => {
   // 监听页面变化
   useEventListener('resize', resizeHandler);
 });
-// methods
 // 隐藏菜单
 const hideMenu = (status = true) => {
-  store.isCollapseChange(status);
+  store.isCollapse = status;
 };
 </script>
 
