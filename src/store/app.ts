@@ -14,11 +14,10 @@ export const useAppStore = defineStore({
     expandOneMenu: true, // 一次是否只能展开一个菜单
     elementSize: 'mini', // element默认尺寸，支持官网四个大小参数
     theme: {
-      state: {
-        style: 'default',
-        primaryColor: '#409eff',
-        menuType: 'side',
-      },
+      style: 'default',
+      primaryColor: '#409eff',
+      menuType: 'side',
+      primaryTextColor: '',
     },
   }),
   // getters 类似于 computed，可对 state 的值进行二次计算

@@ -12,6 +12,5 @@
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  color: $cwarning;
 }
 </style>

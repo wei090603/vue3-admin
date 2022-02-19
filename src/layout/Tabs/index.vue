@@ -16,6 +16,7 @@
     <div class="handle">
       <el-dropdown placement="bottom">
         <div class="el-dropdown-link">
+          icon
           <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
         <template #dropdown>
@@ -50,6 +51,7 @@
         :content="contentFullScreen ? '退出全屏' : '内容全屏'"
         placement="bottom"
       >
+        icon
         <i class="el-icon-full-screen" @click="onFullscreen"></i>
       </el-tooltip>
     </div>

@@ -13,42 +13,34 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-export default defineComponent({
-  props: {
-    menu: {
-      type: Object,
-      default: () => {
-        return {
-          path: '',
-          meta: {
-            label: '',
-            hideClose: false,
-          },
-        };
-      },
-    },
-    active: {
-      type: Boolean,
-      default: false,
+<script lang="ts" setup>
+const props = defineProps({
+  menu: {
+    type: Object,
+    default: () => {
+      return {
+        path: '',
+        meta: {
+          label: '',
+          hideClose: false,
+        },
+      };
     },
   },
-  setup(props, { emit }) {
-    // 关闭按钮
-    function closeTab() {
-      emit('close');
-    }
-    // 刷新按钮
-    function reload() {
-      emit('reload');
-    }
-    return {
-      closeTab,
-      reload,
-    };
+  active: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const emits = defineEmits(['close', 'reload']);
+const closeTab = () => {
+  emits('close');
+};
+// 刷新按钮
+const reload = () => {
+  emits('reload');
+};
 </script>
 
 <style lang="scss" scoped>

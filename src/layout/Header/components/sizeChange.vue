@@ -1,0 +1,52 @@
+<template>
+  <el-dropdown @command="handleCommand" size="medium">
+    <span class="el-dropdown-link">
+      11
+      <i class="sfont system-zuixiaohua"></i>
+    </span>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item
+          v-for="d in list"
+          :key="d.size"
+          :command="d.size"
+          :disabled="elementSize === d.size"
+        >
+          {{ d.name }}
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+</template>
+
+<script lang="ts" setup>
+import { computed, unref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useAppStore } from '@/store/app';
+import { storeToRefs } from 'pinia';
+
+const store = useAppStore();
+const route = useRoute();
+const router = useRouter();
+const { elementSize } = storeToRefs(store);
+const list = [
+  { size: 'default', name: '默认' },
+  { size: 'medium', name: '中' },
+  { size: 'small', name: '小' },
+  { size: 'mini', name: '迷你' },
+];
+const { fullPath } = unref(route);
+
+const handleCommand = (command: string) => {
+  store.elementSize = command;
+  setElementSize();
+};
+const setElementSize = () => {
+  // this.$ELEMENT.size = this.elementSize;
+  router.replace({
+    path: '/redirect' + route.fullPath,
+  });
+};
+</script>
+
+<style lang="scss" scoped></style>

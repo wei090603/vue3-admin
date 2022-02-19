@@ -1,0 +1,215 @@
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: -apple-system, 'Microsoft Yahei', 'Helvetica Neue', Helvetica,
+    Arial, 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+}
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+// 内外边距通常让各个浏览器样式的表现位置不同
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+div:focus {
+  outline: none;
+}
+// input框点击时蓝色方框消失
+input:focus {
+  outline: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+a.udl-h:hover {
+  text-decoration: underline;
+}
+
+@for $i from 1 through 200 {
+  .m#{$i} {
+    margin: ($i) + px;
+  }
+  .mt#{$i} {
+    margin-top: ($i) + px;
+  }
+  .mb#{$i} {
+    margin-bottom: ($i) + px;
+  }
+  .ml#{$i} {
+    margin-left: ($i) + px;
+  }
+  .mr#{$i} {
+    margin-right: ($i) + px;
+  }
+
+  .p#{$i} {
+    padding: ($i) + px;
+  }
+  .pt#{$i} {
+    padding-top: ($i) + px;
+  }
+  .pb#{$i} {
+    padding-bottom: ($i) + px;
+  }
+  .pl#{$i} {
+    padding-left: ($i) + px;
+  }
+  .pr#{$i} {
+    padding-right: ($i) + px;
+  }
+
+  .fz#{$i} {
+    font-size: ($i) + px;
+  }
+
+  .lh#{$i} {
+    font-size: ($i) + px;
+  }
+}
+
+// //定位上下左右居中
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// table
+// .table {
+//   .el-table {
+//     th {
+//       height: 50px;
+//       font-size: 14px;
+//       background: #fbfbfb;
+//     }
+//     td {
+//       height: 41px;
+//       padding: 0;
+//       font-size: 14px;
+//     }
+//     .el-table__empty-block {
+//       min-height: 41px;
+//       font-size: 14px;
+//       .el-table__empty-text {
+//         line-height: 41px;
+//       }
+//     }
+//   }
+//   .el-pagination {
+//     margin-top: 25px;
+//     text-align: right;
+//     padding-bottom: 25px;
+//     span:not([class*='suffix']) {
+//       font-size: 14px;
+//     }
+//   }
+//   .text-hidden {
+//     width: 100%;
+//     height: 23px;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+//   }
+//   // tree arrow
+//   .el-table__expand-icon {
+//     .el-icon-arrow-right {
+//       position: relative;
+//       top: 3px;
+//       font-size: 22px;
+//       &:before {
+//         content: '\e791';
+//       }
+//     }
+//   }
+// }
+
+// .operate {
+//   height: 70px;
+//   .operate-btn-list {
+//     padding: 20px 0;
+//     .el-button--small {
+//       padding: 7px 12px;
+//       margin-left: 14px;
+//     }
+//   }
+// }
