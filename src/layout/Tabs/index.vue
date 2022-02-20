@@ -68,7 +68,7 @@ import {
   ref,
   nextTick,
 } from 'vue';
-import Item from './item.vue';
+import Item from './Item.vue';
 import {
   RouteLocationNormalizedLoaded,
   RouteRecordRaw,

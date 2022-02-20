@@ -9,7 +9,7 @@ const Route: RouteRecordRaw[] = [
     meta: { title: '系统管理' },
     children: [
       {
-        path: '/system',
+        path: 'manager',
         component: () => import('@/pages/system/manager/index.vue'),
         meta: { title: '管理员列表', hidden: true },
       },

@@ -21,7 +21,7 @@
           :style="{ 'background-color': main }"
         >
           <div class="active" v-if="active === name">
-            <i class="el-icon-check" :style="{ color: activeColor }"></i>
+            <el-icon :style="{ color: activeColor }"><Check /></el-icon>
           </div>
         </div>
       </div>
@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { Check } from '@element-plus/icons-vue';
 export default defineComponent({
   props: {
     name: {
@@ -66,7 +67,11 @@ export default defineComponent({
       default: '',
     },
   },
+  components: {
+    Check,
+  },
   setup(props, ctx) {
+    console.log(props.active, props.name, 'active');
     // 点击事件，触发v-model修改active值
     const handleClick = () => {
       ctx.emit('update:active', props.name);

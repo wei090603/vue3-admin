@@ -54,7 +54,7 @@
           v-bind="item.inputConfig"
         ></el-input>
         <el-select
-          v-if="item.type === GroupFilterType.simpleSelect"
+          v-if="item.type === GroupFilterType.select"
           v-model="form[item.key]"
           placeholder="请选择"
           clearable
@@ -147,6 +147,15 @@ import { GroupFilterType } from '@/constants';
 import { ElForm } from 'element-plus';
 import { reactive, ref } from 'vue';
 
+interface FiltersItem {
+  initialValue: string;
+  key: string;
+  label: string;
+  type: string;
+  validator: any[];
+  [propName: string]: any;
+}
+
 const props = defineProps({
   labelWidth: {
     type: Number,
@@ -173,10 +182,12 @@ const props = defineProps({
     required: true,
   },
   filters: {
-    type: Array,
+    type: Array as () => Array<FiltersItem>,
     required: true,
   },
 });
+
+console.log(props.filters, 'filters');
 
 const form: any = reactive({});
 const formRules: any = reactive({});
@@ -205,22 +216,12 @@ const handleChangeFilterValue = (key: string) => {
 
 const handleClickClear = () => {
   searchForm.value!.clearValidate();
-  props.filters.forEach((item: any) => {
+  props.filters.forEach((item: FiltersItem) => {
     const key = item.key;
     form[key] = item.initialValue;
   });
   defaultDate.value = new Date();
   props.onClickClear(form);
-};
-
-/**
- * 重置表单
- * @param formName
- */
-const resetForm = () => {
-  // this.tableData.currentPage = 1;
-  // this.$refs[formName].resetFields();
-  // this.getTableData();
 };
 </script>
 

@@ -3,17 +3,21 @@
     <router-link :to="menu.path" v-if="menu.meta.title">
       {{ menu.meta.title }}
     </router-link>
-    <i class="el-icon-refresh-right" @click.stop="reload" v-if="active" />
-    <i
+    <el-icon class="el-icon-refresh-right" @click.stop="reload" v-if="active">
+      <refresh-right />
+    </el-icon>
+    <el-icon
       class="el-icon-close"
       @click.stop="closeTab"
       v-if="!menu.meta.hideClose"
-      alt=""
-    ></i>
+    >
+      <Close />
+    </el-icon>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Close, RefreshRight } from '@element-plus/icons-vue';
 const props = defineProps({
   menu: {
     type: Object,

@@ -3,7 +3,9 @@
     <div class="left-box">
       <!-- 收缩按钮 -->
       <div class="menu-icon" @click="opendStateChange">
-        <i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
+        <el-icon>
+          <component :is="isCollapse ? Expand : Fold"></component>
+        </el-icon>
       </div>
       <Breadcrumb />
     </div>
@@ -38,6 +40,7 @@
 
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
+import { Expand, Fold } from '@element-plus/icons-vue';
 import SizeChange from './components/sizeChange.vue';
 import Fullscreen from './components/fullscreen.vue';
 import Theme from './components/theme.vue';
