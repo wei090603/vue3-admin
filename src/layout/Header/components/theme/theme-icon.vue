@@ -20,7 +20,7 @@
           class="theme-icon-content-main"
           :style="{ 'background-color': main }"
         >
-          <div class="active" v-if="active === name">
+          <div v-if="active === name" class="active">
             <el-icon :style="{ color: activeColor }"><Check /></el-icon>
           </div>
         </div>
@@ -33,6 +33,9 @@
 import { defineComponent } from 'vue';
 import { Check } from '@element-plus/icons-vue';
 export default defineComponent({
+  components: {
+    Check,
+  },
   props: {
     name: {
       type: String,
@@ -66,9 +69,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-  },
-  components: {
-    Check,
   },
   setup(props, ctx) {
     console.log(props.active, props.name, 'active');

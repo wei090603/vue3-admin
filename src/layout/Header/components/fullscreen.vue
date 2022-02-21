@@ -1,16 +1,17 @@
 <template>
   <div :title="isFullscreen ? '退出全屏' : '内容全屏'">
-    22
-    <i
+    <el-icon
       class="sfont"
       :class="isFullscreen ? 'system-quanping' : 'system-quanping1'"
       @click="toggle"
-    ></i>
+      ><full-screen
+    /></el-icon>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useFullscreen } from '@vueuse/core';
+import { FullScreen } from '@element-plus/icons-vue';
 
 const { isFullscreen, toggle } = useFullscreen();
 </script>

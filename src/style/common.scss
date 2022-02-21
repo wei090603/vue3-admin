@@ -11,47 +11,47 @@ html {
   box-sizing: border-box;
 }
 // 内外边距通常让各个浏览器样式的表现位置不同
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-code,
-form,
-fieldset,
-legend,
-input,
-textarea,
-p,
-blockquote,
-th,
-td,
-hr,
-button,
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  margin: 0;
-  padding: 0;
-}
+// body,
+// div,
+// dl,
+// dt,
+// dd,
+// ul,
+// ol,
+// li,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6,
+// pre,
+// code,
+// form,
+// fieldset,
+// legend,
+// input,
+// textarea,
+// p,
+// blockquote,
+// th,
+// td,
+// hr,
+// button,
+// article,
+// aside,
+// details,
+// figcaption,
+// figure,
+// footer,
+// header,
+// hgroup,
+// menu,
+// nav,
+// section {
+//   margin: 0;
+//   padding: 0;
+// }
 
 *,
 *:before,
@@ -239,6 +239,19 @@ a {
       &:hover {
         background: rgba(144, 147, 153, 0.5);
       }
+    }
+  }
+}
+
+.operate-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 0px;
+  border-bottom: 1px solid var(--el-border-color-base);
+  .operate-btn-list {
+    .el-button {
+      margin-left: 15px;
     }
   }
 }

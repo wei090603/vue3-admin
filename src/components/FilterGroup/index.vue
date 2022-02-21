@@ -30,12 +30,12 @@
  *  },
  -->
 <template>
-  <div>
+  <div class="search-wrapper">
     <el-form
+      ref="searchForm"
       :rules="formRules"
       :inline="true"
       :model="form"
-      ref="searchForm"
       class="search-form clearfix"
       :label-width="`${labelWidth}px`"
     >
@@ -129,8 +129,8 @@
           >{{ searchBtnText }}</el-button
         >
         <el-button
-          type="primary"
           v-if="isShowClearBtn"
+          type="primary"
           class="btn-primary"
           @click="handleClickClear"
           >{{ clearBtnText }}</el-button
@@ -138,7 +138,7 @@
         <slot name="operate-after"></slot>
       </div>
     </el-form>
-    <el-divider class="search-divider"></el-divider>
+    <!-- <el-divider class="search-divider"></el-divider> -->
   </div>
 </template>
 
@@ -146,6 +146,10 @@
 import { GroupFilterType } from '@/constants';
 import { ElForm } from 'element-plus';
 import { reactive, ref } from 'vue';
+
+interface FormItem {
+  [propName: string]: string;
+}
 
 interface FiltersItem {
   initialValue: string;
@@ -187,9 +191,7 @@ const props = defineProps({
   },
 });
 
-console.log(props.filters, 'filters');
-
-const form: any = reactive({});
+const form: FormItem = reactive({});
 const formRules: any = reactive({});
 const defaultDate = ref(new Date());
 props.filters.forEach((item: any) => {
@@ -225,7 +227,10 @@ const handleClickClear = () => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.search-wrapper {
+  border-bottom: 1px solid var(--el-border-color-base);
+}
 // 查询表单
 .search-form {
   .el-form-item__content {
@@ -258,6 +263,26 @@ const handleClickClear = () => {
       width: 94px;
       margin: 0 0 0 18px;
     }
+  }
+}
+
+.btn-search {
+  min-width: 80px;
+
+  &,
+  &:focus {
+    border-color: #f90;
+    background: #f90;
+  }
+
+  &:hover {
+    background: #f60;
+    border-color: #f60;
+  }
+
+  &:active {
+    background: #fc3;
+    border-color: #fc3;
   }
 }
 </style>

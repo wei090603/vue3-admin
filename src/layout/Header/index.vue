@@ -21,7 +21,9 @@
         <el-dropdown>
           <span class="el-dropdown-link">
             管理员
-            <i class="el-icon-arrow-down el-icon--right"></i>
+            <el-icon class="el-icon-arrow-down el-icon--right"
+              ><arrow-down
+            /></el-icon>
           </span>
           <template #dropdown>
             <el-dropdown-menu>
@@ -40,7 +42,7 @@
 
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
-import { Expand, Fold } from '@element-plus/icons-vue';
+import { Expand, Fold, ArrowDown } from '@element-plus/icons-vue';
 import SizeChange from './components/sizeChange.vue';
 import Fullscreen from './components/fullscreen.vue';
 import Theme from './components/theme.vue';
@@ -123,6 +125,7 @@ header {
     margin-left: 20px;
     .el-dropdown-link {
       color: var(--system-header-breadcrumb-text-color);
+      cursor: pointer;
     }
   }
 }

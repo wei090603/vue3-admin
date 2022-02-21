@@ -42,7 +42,7 @@ export const style: Style = {
     name: '默认菜单风格',
     menu: {
       textColor: '#bfcbd9',
-      background: '#28415a',
+      background: '#181f31',
       childrenBackground: '#1f2d3d',
       hoverBackground: '#203448',
       submenuActiveColor: '#fff',

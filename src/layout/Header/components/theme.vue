@@ -1,11 +1,10 @@
 <template>
   <div title="系统设置" @click="drawerChange(true)">
-    icon color
-    <i class="sfont system-shezhi"></i>
+    <el-icon class="sfont system-shezhi"><setting /></el-icon>
   </div>
   <el-drawer
-    title="系统设置"
     v-model="drawer"
+    title="系统设置"
     size="300px"
     :show-close="false"
     direction="rtl"
@@ -13,33 +12,33 @@
     <h3>整体风格设置</h3>
     <div class="theme-box">
       <theme-icon
-        v-model:active="state.style"
         v-for="(row, index) in style"
         :key="index"
+        v-model:active="state.style"
         :name="index + ''"
         :tip="row.name"
         :logo="row.logo.background"
         :menu="row.menu.background"
         :header="row.header.background"
         :main="row.container.background"
-        :activeColor="row.page.color"
+        :active-color="row.page.color"
       ></theme-icon>
     </div>
     <h3>主题色</h3>
     <div class="theme-box">
       <theme-color
         v-for="(item, key) in themeColorArr"
+        :key="key"
         v-model:active="state.primaryColor"
         v-model:activeTextColor="state.primaryTextColor"
-        :key="key"
         :color="item.color"
-        :textColor="item.textColor"
+        :text-color="item.textColor"
         :tip="item.tip"
       ></theme-color>
     </div>
     <h3>其他设置</h3>
     <div class="list">
-      <div class="list-item" v-for="option in options" :key="option.name">
+      <div v-for="option in options" :key="option.name" class="list-item">
         <span>{{ option.name }}</span>
         <el-switch
           v-model="option.value"
@@ -59,7 +58,7 @@ import themeIcon from './theme/theme-icon.vue';
 import themeColor from './theme/theme-color.vue';
 import { useAppStore } from '@/store/app';
 import { storeToRefs } from 'pinia';
-
+import { Setting } from '@element-plus/icons-vue';
 import type { Style, Colors } from '@/theme/index';
 import { style } from '@/theme/index';
 

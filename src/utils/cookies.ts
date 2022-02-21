@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-const TokenKey = `${import.meta.env.BASE_PREFIX}token`;
+const TokenKey = `${import.meta.env.VITE_BASE_PREFIX}token`;
 
 export function getToken() {
   return Cookies.get(TokenKey);

@@ -3,7 +3,7 @@ import request from '@/service';
 // 登录
 export const login = (data: object) =>
   request({
-    url: 'api/admin/auth/login',
+    url: '/auth/login',
     method: 'post',
     data,
   });

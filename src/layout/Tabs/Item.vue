@@ -1,15 +1,15 @@
 <template>
   <div class="tags-view-item" :class="active ? 'active' : ''">
-    <router-link :to="menu.path" v-if="menu.meta.title">
+    <router-link v-if="menu.meta.title" :to="menu.path">
       {{ menu.meta.title }}
     </router-link>
-    <el-icon class="el-icon-refresh-right" @click.stop="reload" v-if="active">
+    <el-icon v-if="active" class="el-icon-refresh-right" @click.stop="reload">
       <refresh-right />
     </el-icon>
     <el-icon
+      v-if="!menu.meta.hideClose"
       class="el-icon-close"
       @click.stop="closeTab"
-      v-if="!menu.meta.hideClose"
     >
       <Close />
     </el-icon>

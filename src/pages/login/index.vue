@@ -55,10 +55,10 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElForm } from 'element-plus';
-// import { useCounterStore } from '@/store';
+import { useUserStore } from '@/store/user';
 
 const router = useRouter();
-// const conunter = useCounterStore();
+const store = useUserStore();
 
 interface LoginForm {
   account: string;
@@ -73,7 +73,7 @@ const state = reactive<LoginState>({
 });
 
 const form = reactive<LoginForm>({
-  account: '',
+  account: 'admin',
   password: '123456',
 });
 
@@ -88,19 +88,14 @@ const rules = ref({
 const loginForm = ref<typeof ElForm>();
 const handleLogin = async () => {
   const valid = await loginForm.value!.validate();
-  console.log(valid, 'valid');
-  // if (valid === true) {
-  //   const res = await store.dispatch('user/login', form);
-  //   if (res) {
-  //     const { redirect, ...query } = router.currentRoute.value.query;
-  //     router.replace({
-  //       path: redirect ?? '/',
-  //       query: {
-  //         ...query,
-  //       },
-  //     });
-  //   }
-  // }
+  if (valid) {
+    await store.login(form);
+    const { redirect } = router.currentRoute.value.query;
+    console.log(redirect, 'query');
+    router.replace({
+      path: (redirect as string) || '/',
+    });
+  }
 };
 
 const showPwd = () => {

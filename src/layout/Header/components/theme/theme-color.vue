@@ -5,7 +5,7 @@
       :style="{ 'background-color': color }"
       @click="handleClick"
     >
-      <div class="active" v-if="active === color">
+      <div v-if="active === color" class="active">
         <i class="el-icon-check" :style="{ color: textColor }"></i>
       </div>
     </div>

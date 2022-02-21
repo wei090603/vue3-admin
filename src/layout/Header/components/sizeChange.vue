@@ -1,8 +1,7 @@
 <template>
-  <el-dropdown @command="handleCommand" size="medium">
+  <el-dropdown size="medium" @command="handleCommand">
     <span class="el-dropdown-link">
-      11
-      <i class="sfont system-zuixiaohua"></i>
+      <el-icon class="sfont system-zuixiaohua"><copy-document /></el-icon>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -24,6 +23,7 @@ import { computed, unref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAppStore } from '@/store/app';
 import { storeToRefs } from 'pinia';
+import { CopyDocument } from '@element-plus/icons-vue';
 
 const store = useAppStore();
 const route = useRoute();

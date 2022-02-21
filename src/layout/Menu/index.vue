@@ -53,45 +53,44 @@ const activeMenu = computed(() => {
 .el-scrollbar {
   background-color: var(--system-menu-background);
 }
-.layout-menu {
+:deep(.layout-menu) {
   width: 100%;
   &.collapse {
     margin-left: 0px;
   }
-  :deep() {
-    .el-menu-item,
-    .el-submenu {
-      background-color: var(--system-menu-background) !important;
-    }
-    .el-menu-item i,
-    .el-menu-item-group__title,
-    .el-submenu__title i {
-      color: var(--system-menu-text-color);
-    }
-    .el-menu-item,
-    .el-submenu__title {
-      &.is-active {
-        background-color: var(--system-primary-color) !important;
+  .el-sub-menu {
+    background-color: var(--system-menu-background) !important;
+  }
+  .el-menu-item i,
+  .el-menu-item-group__title,
+  .el-sub-menu__title i {
+    color: var(--system-menu-text-color);
+  }
+  .el-menu-item,
+  .el-sub-menu__title {
+    &.is-active {
+      background-color: var(--system-primary-color) !important;
+      color: var(--system-primary-text-color) !important;
+      i {
         color: var(--system-primary-text-color) !important;
-        i {
-          color: var(--system-primary-text-color) !important;
-        }
-        &:hover {
-          background-color: var(--system-primary-color) !important;
-          color: var(--system-primary-text-color) !important;
-        }
       }
       &:hover {
-        background-color: var(--system-menu-hover-background) !important;
+        background-color: var(--system-primary-color) !important;
+        color: var(--system-primary-text-color) !important;
       }
     }
-    .el-submenu {
-      &.is-active {
-        > .el-submenu__title,
-        > .el-submenu__title i {
-          color: var(--system-menu-submenu-active-color) !important;
-        }
+    &:hover {
+      background-color: var(--system-menu-hover-background) !important;
+    }
+  }
+  .el-sub-menu {
+    &.is-active {
+      > .el-sub-menu__title,
+      > .el-sub-menu__title i {
+        color: var(--system-menu-submenu-active-color) !important;
       }
+    }
+    .el-menu {
       .el-menu-item {
         background-color: var(--system-menu-children-background) !important;
         &.is-active {
@@ -106,12 +105,13 @@ const activeMenu = computed(() => {
           background-color: var(--system-menu-hover-background) !important;
         }
       }
-      .el-submenu {
-        .el-submenu__title {
-          background-color: var(--system-menu-children-background) !important;
-          &:hover {
-            background-color: var(--system-menu-hover-background) !important;
-          }
+    }
+
+    .el-sub-menu {
+      .el-sub-menu__title {
+        background-color: var(--system-menu-children-background) !important;
+        &:hover {
+          background-color: var(--system-menu-hover-background) !important;
         }
       }
     }

@@ -1,8 +1,8 @@
 <template>
   <div class="tabs">
     <el-scrollbar
-      class="scroll-container tags-view-container"
       ref="scrollbarDom"
+      class="scroll-container tags-view-container"
     >
       <Item
         v-for="menu in menuList"
@@ -16,8 +16,7 @@
     <div class="handle">
       <el-dropdown placement="bottom">
         <div class="el-dropdown-link">
-          icon
-          <i class="el-icon-arrow-down el-icon--right"></i>
+          <el-icon><arrow-down /></el-icon>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
@@ -51,8 +50,9 @@
         :content="contentFullScreen ? '退出全屏' : '内容全屏'"
         placement="bottom"
       >
-        icon
-        <i class="el-icon-full-screen" @click="onFullscreen"></i>
+        <el-icon class="el-icon-full-screen" @click="onFullscreen"
+          ><full-screen
+        /></el-icon>
       </el-tooltip>
     </div>
   </div>
@@ -78,6 +78,7 @@ import {
 import tabsHook from './tabsHook';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
+import { FullScreen, ArrowDown } from '@element-plus/icons-vue';
 
 const store = useAppStore();
 const route = useRoute();
@@ -109,9 +110,10 @@ router.afterEach(() => {
 });
 
 // 全屏
-function onFullscreen() {
+const onFullscreen = () => {
+  console.log(111);
   store.contentFullScreen = !store.contentFullScreen;
-}
+};
 // 当前页面组件重新加载
 function pageReload() {
   const self: any = route.matched[route.matched.length - 1].instances.default;
@@ -188,7 +190,7 @@ function delMenu(menu: RouteLocationNormalizedLoaded) {
 function initMenu(menu: { path: string }) {
   activeMenu = menu;
   nextTick(() => {
-    setPosition();
+    // setPosition();
   });
 }
 // 设置当前滚动条应该在的位置
@@ -265,15 +267,12 @@ initMenu(route);
     }
   }
 }
-.scroll-container {
+:deep(.scroll-container) {
   white-space: nowrap;
   position: relative;
   overflow: hidden;
   width: 100%;
-  :deep {
-    .el-scrollbar__bar {
-      bottom: 0px;
-    }
+  .el-scrollbar__bar {
     .el-scrollbar__wrap {
       height: 49px;
     }
