@@ -8,6 +8,8 @@ import 'virtual:svg-icons-register';
 import svgIcon from './components/SvgIcon/index.vue';
 import router from './router';
 
+import '@/permission';
+
 const app = createApp(App);
 app
   .use(router)

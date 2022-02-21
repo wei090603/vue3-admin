@@ -70,24 +70,6 @@ const tableData = reactive({
       useSlot: true,
     },
     {
-      label: '最后登录IP',
-      prop: 'lastLoginIp',
-      width: '140',
-      useSlot: true,
-    },
-    {
-      label: '最后登录地址',
-      prop: 'lastLoginAddress',
-      width: '160',
-      useSlot: true,
-    },
-    {
-      label: '最后登录时间',
-      prop: 'updatedAt',
-      width: '170',
-      useSlot: true,
-    },
-    {
       label: '状态',
       prop: 'status',
       minWidth: '80',

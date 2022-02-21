@@ -1,6 +1,10 @@
-// import { login } from '@/api/login';
-// import { setToken } from '@/utils/cookies';
+import { login, loginOut, userInfo } from '@/api/login';
+import { removeToken, setToken } from '@/utils/cookies';
 import { defineStore } from 'pinia';
+
+interface State {
+  roles: number[];
+}
 
 // 对外部暴露一个 use 方法，该方法会导出我们定义的 state
 export const useUserStore = defineStore('user', {
@@ -14,17 +18,26 @@ export const useUserStore = defineStore('user', {
   getters: {},
   // actions 用来修改 state
   actions: {
-    login(params: { account: string; password: string }) {
-      return new Promise((resolve) => {
-        // login(params).then((res) => {
-        //   this.token = res.token;
-        //   setToken(res.token);
-        //   resolve(res.token);
-        // });
-        resolve('');
-      });
+    async loginAction(params: { account: string; password: string }) {
+      const { token } = await login(params);
+      this.token = token;
+      setToken(token);
     },
-    getInfo() {},
-    loginOut() {},
+    async getInfo() {
+      try {
+        const { info, roles } = await userInfo();
+        this.info = info;
+        this.roles = roles;
+      } catch (error) {
+        throw new Error(error as string);
+      }
+    },
+    async loginOut() {
+      await loginOut();
+      this.roles = [];
+      this.info = '';
+      removeToken();
+      location.reload();
+    },
   },
 });

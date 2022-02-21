@@ -89,9 +89,8 @@ const loginForm = ref<typeof ElForm>();
 const handleLogin = async () => {
   const valid = await loginForm.value!.validate();
   if (valid) {
-    await store.login(form);
+    await store.loginAction(form);
     const { redirect } = router.currentRoute.value.query;
-    console.log(redirect, 'query');
     router.replace({
       path: (redirect as string) || '/',
     });
