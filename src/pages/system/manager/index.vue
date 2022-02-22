@@ -13,6 +13,7 @@
     v-model:tableOpts="tableData"
     @getTableData="getTableData"
     @handleEdit="handleEdit"
+    @handleRestPwd="handleRestPwd"
   >
     <template #avatar="props">
       <ImagePreview :url="props.value" :size="64"></ImagePreview>
@@ -93,9 +94,15 @@ import { nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import FilterGroup from '@/components/FilterGroup/index.vue';
 import ImagePreview from '@/components/ImagePreview/index.vue';
 import { GroupFilterType } from '@/constants';
-import { managerGet, managerPatch, managerPost } from '@/api/manager';
+import {
+  managerGet,
+  managerPatch,
+  managerPost,
+  managerPwdPatch,
+  managerStatusPatch,
+} from '@/api/manager';
 import { PaginationSearch, Roles } from '@/interface';
-import { ElForm, ElMessage } from 'element-plus';
+import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
 import { rolesGetList } from '@/api/roles';
 
 interface State {
@@ -133,7 +140,6 @@ const rolesList = async () => {
 };
 
 const handleFilterChange = (filters: any) => {
-  console.log(filters, 'filters');
   // 搜索后要回到第一页
   tableData.currentPage = 1;
   state.searchForm = filters;
@@ -265,13 +271,10 @@ const filterGroup = reactive({
 const getTableData = async () => {
   state.searchForm.page = tableData.currentPage;
   state.searchForm.limit = tableData.pageSize;
-  console.log(state.searchForm, 'state.searchForm');
   const { list, total } = await managerGet(state.searchForm);
   tableData.data = list;
   tableData.total = total;
 };
-
-const handleStatusClick = (id: number) => {};
 
 // 清空表单
 const managerFormEle = ref<typeof ElForm>();
@@ -344,6 +347,33 @@ const handleSubmit = async () => {
   ElMessage({
     type: 'success',
     message: formData.id ? '修改成功' : '新增成功',
+  });
+};
+
+// 重置密码
+const handleRestPwd = async (item: TableFormData) => {
+  ElMessageBox.confirm('确定重置该用户密码为123456, 是否继续?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(async () => {
+      await managerPwdPatch(item.id);
+      ElMessage({
+        type: 'success',
+        message: '重置成功!',
+      });
+    })
+    .catch(() => {});
+};
+
+// 禁用用户
+const handleStatusClick = async (id: string) => {
+  await managerStatusPatch(id);
+  getTableData();
+  ElMessage({
+    message: '修改成功',
+    type: 'success',
   });
 };
 
