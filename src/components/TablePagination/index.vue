@@ -85,14 +85,13 @@
                 </div>
               </el-popover>
             </template>
-            <template v-else-if="item.boolean">
-              <span>{{ scope.row[item.prop] ? '是' : '否' }}</span>
-            </template>
-            <span v-else>{{
-              item.date
-                ? formatTimeUtil(scope.row[item.prop])
-                : scope.row[item.prop]
-            }}</span>
+            <span v-else>
+              {{
+                item.date
+                  ? dayjs(scope.row[item.prop]).format('YYYY-MM-DD HH:MM:ss')
+                  : scope.row[item.prop]
+              }}
+            </span>
           </template>
         </el-table-column>
       </template>
@@ -110,14 +109,12 @@
               v-if="item.isShow ? item.isShow(scope.row) : true"
               :key="item.id"
               :type="item.type || 'text'"
-              :size="item.size || 'small'"
-              :icon="item.icon"
+              :size="item.size || 'default'"
               :class="
                 item.classNameFun
                   ? item.classNameFun(scope.row)
                   : item.className || ''
               "
-              :data-test-id="item.dataTestId"
               @click.stop="
                 handleOperation(item.handleFunc, scope.row, scope.$index)
               "
@@ -144,8 +141,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onActivated } from 'vue';
-import { formatTimeUtil } from '@/utils';
+import { ref, onActivated } from 'vue';
+import dayjs from 'dayjs';
 
 const props = defineProps({
   tableOpts: {
@@ -169,7 +166,6 @@ const props = defineProps({
           emptyText: '', // 字段为 null 或者 undefined 时的展示内容
           useSlot: false, // 使用 slot 渲染内容, slot name 由 prop 指定
           useHeaderSlot: false, // 使用 slot 渲染表头, slot name 由 prop + 'Header' 指定
-          boolean: false, // 返回值如果是布尔值 需判断
         },
       ],
       indexes: ['编号', 60], // 是否显示编号，第一个值：编号名称，第二个值：自定义列宽
@@ -210,7 +206,6 @@ const props = defineProps({
 // console.log(emits);
 
 const emit = defineEmits([
-  'update:tableOpts',
   'handleEdit',
   'handleRestPwd',
   'handlePermission',
@@ -257,8 +252,8 @@ const handleCurrentChange = (currentPage: number) => {
  * @param row
  * @param subscript
  */
-const handleOperation = (handleName: string, row: any, subscript: any) => {
-  // emit(handleName, row, subscript);
+const handleOperation = (handleName: any, row: any, subscript: any) => {
+  emit(handleName, row, subscript);
   // if (sotre.getters.roles.includes('admin')) {
   //   emit(handleName, row, subscript);
   // } else {

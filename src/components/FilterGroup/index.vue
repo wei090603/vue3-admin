@@ -84,7 +84,7 @@
           v-if="item.type === GroupFilterType.date"
           v-model="form[item.key]"
           type="date"
-          size="medium"
+          size="default"
           :value-format="item.filterParams ?? 'YYYY-MM-DD'"
           placeholder="选择日期"
           v-bind="item.dateConfig"
@@ -95,6 +95,7 @@
           v-if="item.type === GroupFilterType.dateRange"
           v-model="form[item.key]"
           type="daterange"
+          size="default"
           :value-format="item.filterParams ? item.filterParams : 'YYYY-MM-DD'"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -105,6 +106,7 @@
           v-if="item.type === GroupFilterType.datetimeRange"
           v-model="form[item.key]"
           type="datetimerange"
+          size="default"
           :value-format="item.filterParams ? item.filterParams : 'YYYY-MM-DD'"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -156,7 +158,7 @@ interface FiltersItem {
   key: string;
   label: string;
   type: string;
-  validator: any[];
+  validator?: any[];
   [propName: string]: any;
 }
 

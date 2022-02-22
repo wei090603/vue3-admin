@@ -2,17 +2,6 @@ export function isExternal(path: string) {
   return /^(https?:|mailto:|tel:)/.test(path);
 }
 
-/**
- * 时间格式化
- * @param date
- * @param format 'yyyy-MM-dd hh:mm:ss';
- * @returns {string|*}
- */
-
-export const formatTimeUtil = (date: any, format = 'yyyy-MM-dd'): string => {
-  return '';
-};
-
 export function deepClone(obj: any) {
   if (!obj) return obj;
   if (typeof obj !== 'object') return obj;

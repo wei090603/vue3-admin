@@ -245,17 +245,35 @@ a {
 
 .operate-wrapper {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: space-between;
   padding: 15px 0px;
-  border-bottom: 1px solid var(--el-border-color-base);
-  .operate-btn-list {
+  // border-bottom: 1px solid var(--el-border-color-base);
+  .operate-right-btn {
     .el-button {
       margin-left: 15px;
     }
   }
+  .operate-left-btn {
+    .el-button {
+      margin-right: 15px;
+      &:last-child {
+        margin-left: 0px;
+      }
+    }
+  }
 }
 
+.table {
+  .el-pagination {
+    float: right;
+    margin-top: 25px;
+    padding-bottom: 25px;
+    span:not([class*='suffix']) {
+      font-size: 14px;
+    }
+  }
+}
 // table
 // .table {
 //   .el-table {
