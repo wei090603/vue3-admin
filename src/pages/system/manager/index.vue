@@ -314,7 +314,7 @@ const rules = reactive({
     { min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur' },
   ],
   name: [
-    { required: true, message: '请输入用户昵称', trigger: 'blur' },
+    { required: true, message: '请输入姓名', trigger: 'blur' },
     { min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur' },
   ],
   email: [

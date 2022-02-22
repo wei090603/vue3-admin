@@ -49,7 +49,7 @@ export const style: Style = {
     },
     logo: {
       color: '#f1f1f1',
-      background: '#263445',
+      background: '#181f31',
     },
     header: {
       background: '#fff',
