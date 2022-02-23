@@ -4,7 +4,7 @@
   <div class="operate-wrapper">
     <div class="operate-left-btn">
       <el-button plain @click="formVisible = true">新增</el-button>
-      <el-button plain>删除选中</el-button>
+      <el-button plain>删除</el-button>
     </div>
     <div class="operate-right-btn">
       <el-button type="primary" class="r">导入</el-button>

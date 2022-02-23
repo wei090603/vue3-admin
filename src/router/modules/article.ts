@@ -11,19 +11,19 @@ const Route = [
       {
         path: 'category',
         name: 'category',
-        component: () => import('@/pages/article/category.vue'),
+        component: () => import('@/pages/article/category/index.vue'),
         meta: { title: '分类列表', keepAlive: true, activeMenu: '' },
       },
       {
         path: 'tag',
         name: 'tag',
-        component: () => import('@/pages/article/tag.vue'),
+        component: () => import('@/pages/article/tag/tag.vue'),
         meta: { title: '标签列表', keepAlive: true, activeMenu: '' },
       },
       {
         path: 'articleList',
         name: 'articleList',
-        component: () => import('@/pages/article/manage.vue'),
+        component: () => import('@/pages/article/article/index.vue'),
         meta: { title: '文章列表', keepAlive: true, activeMenu: '' },
       },
     ],
