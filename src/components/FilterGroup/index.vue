@@ -126,14 +126,14 @@
         <slot name="operate-before"></slot>
         <el-button
           type="primary"
-          class="btn-search"
+          class="btn-primary"
           @click.native="handleClickSearch"
           >{{ searchBtnText }}</el-button
         >
         <el-button
           v-if="isShowClearBtn"
           type="primary"
-          class="btn-primary"
+          class="btn-search"
           @click="handleClickClear"
           >{{ clearBtnText }}</el-button
         >

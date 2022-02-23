@@ -4,10 +4,10 @@
   <div class="operate-wrapper">
     <div class="operate-left-btn">
       <el-button plain @click="formVisible = true">新增</el-button>
-      <el-button plain>删除</el-button>
+      <el-button plain type="danger">删除</el-button>
     </div>
     <div class="operate-right-btn">
-      <el-button type="primary" class="r">导入</el-button>
+      <el-button type="primary">导入</el-button>
       <el-button type="primary" @click="">导出</el-button>
     </div>
   </div>
@@ -29,6 +29,7 @@
       ref="formEle"
       :model="formData"
       :rules="rules"
+      status-icon
       label-width="100px"
       class="demo-resourceForm"
     >
@@ -119,10 +120,6 @@ const formClose = () => {
   state.formVisible = false;
 };
 
-onMounted(() => {
-  getTableData();
-});
-
 const handleFilterChange = (filters: any) => {
   // 搜索后要回到第一页
   console.log(filters, 'filters');
@@ -136,6 +133,7 @@ const formData = reactive({
 });
 const rules = reactive({
   roleName: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
+  mark: [{ required: true, message: '请输入角色标识', trigger: 'blur' }],
 });
 
 const handleSubmit = async () => {
@@ -302,6 +300,10 @@ const tableData = reactive({
       },
     ],
   },
+});
+
+onMounted(() => {
+  getTableData();
 });
 
 const { formVisible } = toRefs(state);
