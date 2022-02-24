@@ -209,7 +209,7 @@ const emit = defineEmits([
   'handleEdit',
   'handleRestPwd',
   'handlePermission',
-  'handleDelete',
+  'handleDel',
   'getTableData',
   'handleCreate',
 ]);

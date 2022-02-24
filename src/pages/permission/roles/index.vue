@@ -83,16 +83,9 @@ import { GroupFilterType } from '@/constants';
 import TablePagination from '@/components/TablePagination/index.vue';
 import { rolesGet, rolesPost } from '@/api/roles';
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
-import { PaginationSearch, Roles } from '@/interface';
-
-interface State {
-  rolesData: Roles[];
-  searchForm: PaginationSearch;
-  formVisible: boolean;
-}
 
 const formEle = ref<typeof ElForm>();
-const state = reactive<State>({
+const state = reactive<API.Role.RoleState>({
   rolesData: [],
   searchForm: { limit: 10, page: 1 },
   formVisible: false,

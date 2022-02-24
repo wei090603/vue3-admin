@@ -3,6 +3,7 @@
   <div class="operate-wrapper">
     <div class="operate-left-btn">
       <el-button plain @click="formVisible = true">新增</el-button>
+      <el-button plain type="danger">删除</el-button>
     </div>
     <div class="operate-right-btn">
       <el-button type="primary">导入</el-button>
@@ -101,34 +102,10 @@ import {
   managerPwdPatch,
   managerStatusPatch,
 } from '@/api/manager';
-import { PaginationSearch, Roles } from '@/interface';
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
 import { rolesGetList } from '@/api/roles';
 
-interface State {
-  rolesData: Roles[];
-  searchForm: PaginationSearch;
-  formVisible: boolean;
-}
-
-interface CommonFormData {
-  id: string;
-  name: string;
-  account: string;
-  email: string;
-  phone: string;
-  remark: string;
-}
-
-interface FormData extends CommonFormData {
-  roles: number[];
-}
-
-interface TableFormData extends CommonFormData {
-  roles: Roles[];
-}
-
-const state = reactive<State>({
+const state = reactive<API.Manager.ManagerState>({
   rolesData: [],
   searchForm: { limit: 10, page: 1 },
   formVisible: false,
@@ -288,7 +265,7 @@ const managerFromClose = () => {
   state.formVisible = false;
 };
 
-const formData = reactive<FormData>({
+const formData = reactive<API.Manager.ManagerFormItem>({
   id: '',
   name: '',
   account: '',
@@ -351,7 +328,7 @@ const handleSubmit = async () => {
 };
 
 // 重置密码
-const handleRestPwd = async (item: TableFormData) => {
+const handleRestPwd = async (item: API.Manager.ManagerTableItem) => {
   ElMessageBox.confirm('确定重置该用户密码为123456, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -378,7 +355,7 @@ const handleStatusClick = async (id: string) => {
 };
 
 // 点击编辑还原表单数据
-const handleEdit = (item: TableFormData) => {
+const handleEdit = (item: API.Manager.ManagerTableItem) => {
   state.formVisible = true;
   nextTick(() => {
     formData.id = item.id;
