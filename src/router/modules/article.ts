@@ -17,7 +17,7 @@ const Route = [
       {
         path: 'tag',
         name: 'tag',
-        component: () => import('@/pages/article/tag/tag.vue'),
+        component: () => import('@/pages/article/tag/index.vue'),
         meta: { title: '标签列表', keepAlive: true, activeMenu: '' },
       },
       {

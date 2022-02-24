@@ -9,3 +9,15 @@ export interface Roles {
   roleName: string;
   remark: string;
 }
+
+declare namespace API {
+  type RequestPage = {
+    limit: number;
+    page: number;
+  };
+  namespace Tag {
+    type TagItem = {
+      title: string;
+    };
+  }
+}
