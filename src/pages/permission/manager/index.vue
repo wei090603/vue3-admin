@@ -320,11 +320,11 @@ const handleSubmit = async () => {
     ? await managerPatch(formData.id, formData)
     : await managerPost(formData);
   getTableData();
-  managerFromClose();
   ElMessage({
     type: 'success',
     message: formData.id ? '修改成功' : '新增成功',
   });
+  managerFromClose();
 };
 
 // 重置密码
