@@ -9,14 +9,19 @@ const Route: RouteRecordRaw[] = [
     meta: { title: '权限管理' },
     children: [
       {
-        path: 'manager',
-        component: () => import('@/pages/permission/manager/index.vue'),
-        meta: { title: '管理员列表', hidden: false },
+        path: 'resource',
+        component: () => import('@/pages/permission/resource/index.vue'),
+        meta: { title: '菜单列表', hidden: false },
       },
       {
         path: 'roles',
         component: () => import('@/pages/permission/roles/index.vue'),
         meta: { title: '角色列表', hidden: false },
+      },
+      {
+        path: 'manager',
+        component: () => import('@/pages/permission/manager/index.vue'),
+        meta: { title: '管理员列表', hidden: false },
       },
     ],
   },

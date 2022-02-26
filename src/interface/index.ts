@@ -38,6 +38,15 @@ declare namespace API {
       rolesData: Role.RoleItem[];
     };
   }
+  namespace Category {
+    type CategoryItem = {
+      id: string;
+      title: string;
+    };
+    type CategoryState = CommonState & {
+      formVisible: boolean;
+    };
+  }
   namespace Tag {
     type TagItem = {
       id: string;

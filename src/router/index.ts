@@ -5,13 +5,15 @@ import System from './modules/system';
 import Permission from './modules/permission';
 import Platform from './modules/platform';
 import Article from './modules/article';
+import Navigation from './modules/navigation';
 
 const routes: RouteRecordRaw[] = [
   ...Dashboard,
-  ...System,
+  ...Navigation,
   ...Permission,
   ...Article,
   ...Platform,
+  ...System,
 ];
 
 const router = createRouter({

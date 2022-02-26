@@ -19,7 +19,7 @@
   </table-pagination>
 
   <el-dialog
-    :title="`${formData.id ? '编辑' : '新增'}用户`"
+    :title="`${formData.id ? '编辑' : '新增'}标签`"
     v-model="formVisible"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -92,11 +92,11 @@ const handleSubmit = async () => {
   await formEle.value!.validate();
   formData.id ? await tagPatch(formData.id, formData) : await tagPost(formData);
   getTableData();
-  fromClose();
   ElMessage({
     type: 'success',
     message: formData.id ? '修改成功' : '新增成功',
   });
+  fromClose();
 };
 
 // 点击编辑还原表单数据
@@ -161,18 +161,15 @@ const tableData = reactive({
     {
       label: '标签名',
       prop: 'name',
-      minWidth: '80',
     },
     {
       label: '创建日期',
       prop: 'createdAt',
-      minWidth: '100',
       date: true,
     },
     {
       label: '更新日期',
       prop: 'updateAt',
-      minWidth: '100',
       date: true,
     },
   ],

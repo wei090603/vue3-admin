@@ -30,3 +30,34 @@ export const tagDel = (id: string) =>
     url: `tag/${id}`,
     method: 'delete',
   });
+
+// 分类列表
+export const categoryGet = (params: object) =>
+  request({
+    url: 'category',
+    method: 'get',
+    params,
+  });
+
+// 添加分类
+export const categoryPost = (data: object) =>
+  request({
+    url: 'category',
+    method: 'post',
+    data,
+  });
+
+// 修改分类信息
+export const categoryPatch = (id: string, data: object) =>
+  request({
+    url: `category/${id}`,
+    method: 'patch',
+    data,
+  });
+
+// 删除分类
+export const categoryDel = (id: string) =>
+  request({
+    url: `category/${id}`,
+    method: 'delete',
+  });
