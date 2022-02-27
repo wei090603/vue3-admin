@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Base: typeof import('./src/components/FileUploader/base.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -33,10 +34,13 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    FileUploader: typeof import('./src/components/FileUploader/index.vue')['default']
     FilterGroup: typeof import('./src/components/FilterGroup/index.vue')['default']
     ImagePreview: typeof import('./src/components/ImagePreview/index.vue')['default']
+    ImageUploader: typeof import('./src/components/FileUploader/ImageUploader.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TablePagination: typeof import('./src/components/TablePagination/index.vue')['default']
+    VideoUploader: typeof import('./src/components/FileUploader/VideoUploader.vue')['default']
   }
 }
 

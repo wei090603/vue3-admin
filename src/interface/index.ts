@@ -56,4 +56,19 @@ declare namespace API {
       formVisible: boolean;
     };
   }
+  namespace Advertise {
+    enum Type {
+      HOME = 'home',
+    }
+    type AdvertiseItem = {
+      id: string;
+      title: string;
+      picture: string;
+      type: Type;
+      status: boolean;
+    };
+    type AdvertiseState = CommonState & {
+      formVisible: boolean;
+    };
+  }
 }
