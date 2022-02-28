@@ -17,27 +17,26 @@
       :onChange="handleSelect"
       :onUploadSuccess="handleUploadSuccess"
       :onUploadFail="handleUploadError"
-      :onBeforeUploadPromise="getBeforeUploadPromise"
       :fileList="state.fileList"
-      ><i class="el-icon-plus"></i
+      ><el-icon class="avatar-uploader-icon"><plus /></el-icon
     ></BaseUploader>
     <el-dialog
       v-if="isShowPreview"
       :modal="false"
       v-model="state.imgPreviewDialogVisible"
-      title=""
+      title="图片预览"
       custom-class="preview-dialog"
       width="600px"
     >
-      <img :src="imageUrl" alt="" />
+      <img :src="fileBaseUrl + imageUrl" alt="" />
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ElLoading, ElMessage } from 'element-plus';
-import { reactive, watch, computed } from 'vue';
+import { reactive, watch, computed, ref, Ref } from 'vue';
 import BaseUploader from './base.vue';
+import { Plus } from '@element-plus/icons-vue';
 
 const props = defineProps({
   disabled: Boolean,
@@ -73,57 +72,28 @@ const props = defineProps({
 
 const emit = defineEmits(['update:imageUrl']);
 
-const state = reactive({
+interface State {
+  [proppName: string]: any;
+}
+
+const state = reactive<State>({
   hideUpload: false,
   fileList: [],
   imgPreviewDialogVisible: false,
   file: null,
-  loading: null,
 });
 
-const getBeforeUploadPromise = computed(() => {
-  const { pixelLimit, scaleLimit } = props;
-  if ((pixelLimit && pixelLimit.length === 2) || scaleLimit) {
-    return (file: any) =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function readerCB(theFile) {
-          const image = new Image();
-          image.src = theFile.target!.result as string;
-          image.onload = function onloadCB() {
-            const { width, height } = this;
-            if (pixelLimit && pixelLimit.length === 2) {
-              if (width !== pixelLimit[0] || height !== pixelLimit[1]) {
-                reject(
-                  new Error(
-                    `图片尺寸必须为 ${pixelLimit[0]}px * ${pixelLimit[1]}px，请重新上传！`
-                  )
-                );
-              } else {
-                resolve();
-              }
-            } else if (width / height !== scaleLimit) {
-              reject(
-                new Error(`图片尺寸宽高比必须为 ${scaleLimit}，请重新上传！`)
-              );
-            } else {
-              resolve();
-            }
-            resolve();
-          };
-        };
-      });
-  }
-  return null;
-});
+const loading = ref<any>();
+const fileBaseUrl: Ref<string> = ref(
+  (import.meta.env.VITE_BASE_URL + '/') as string
+);
 
 watch(
   () => props.imageUrl,
   (newVal, oldVal) => {
-    console.log(newVal, 'newVal');
     if (newVal) {
       const file = { name: props.imageUrl, url: props.imageUrl };
+      console.log(file, 'file');
       state.fileList = [file];
       state.hideUpload = true;
       state.file = file;
@@ -131,53 +101,6 @@ watch(
   }
 );
 
-/**
- * 校验文件类型和大小
- * @param file
- */
-const handleBeforeUpload = (file: any) => {
-  // 如果需要额外的校验函数使用 onBeforeUpload 函数
-  // 返回 msg，则不通过校验，应该，展示给用户 msg，返回一个【非值(false, null, '',等)】则校验通过
-  if (props.onBeforeUpload) {
-    const result = props.onBeforeUpload(file);
-    if (result) {
-      ElMessage.error(result);
-      return false;
-    }
-  }
-
-  if (props.onBeforeUploadPromise) {
-    return props
-      .onBeforeUploadPromise(file)
-      .then(() => {
-        props.file = file;
-        state.hideUpload = true;
-        state.loading = ElLoading.service({
-          customClass: 'global-loading',
-          lock: true,
-          text: '上传中...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)',
-        });
-        return true;
-      })
-      .catch((text) => {
-        ElMessage.error(text);
-        return Promise.reject();
-      });
-  }
-
-  state.file = file;
-  state.hideUpload = true;
-  state.loading = ElLoading.service({
-    customClass: 'global-loading',
-    lock: true,
-    text: '上传中...',
-    spinner: 'el-icon-loading',
-    background: 'rgba(0, 0, 0, 0.7)',
-  });
-  return true;
-};
 /**
  * 文件上传后执行操作
  */
@@ -204,22 +127,23 @@ const handleRemove = () => {
 /**
  * 上传文件接口回调
  */
-const handleUploadSuccess = (url) => {
+const handleUploadSuccess = (url: string) => {
   state.hideUpload = true;
   props.onUploadSuccess?.(url);
   emit('update:imageUrl', url);
-  state.loading?.close();
+  loading.value?.close();
 };
 /**
  * 上传文件接口报错
  */
-const handleUploadError = (errMsg) => {
+const handleUploadError = (errMsg: string) => {
   props.onUploadFail?.(errMsg);
   setTimeout(() => {
-    props.handleRemove();
+    handleRemove();
   }, 0);
 };
 </script>
+
 <style lang="scss" scoped>
 .image-uploader {
   :deep(.el-upload-list) {

@@ -20,7 +20,10 @@
       @handleDel="handleDel"
     >
       <template v-slot:picture="props">
-        <ImagePreview :url="props.value" :size="64"></ImagePreview>
+        <ImagePreview
+          :url="fileBaseUrl + props.value"
+          :size="64"
+        ></ImagePreview>
       </template>
     </table-pagination>
 
@@ -57,6 +60,17 @@
             v-model:imageUrl="formData.picture"
           ></ImageUploader>
         </el-form-item>
+        <el-form-item label="广告状态" prop="status">
+          <el-radio v-model="formData.status" :label="true" size="large"
+            >显示</el-radio
+          >
+          <el-radio v-model="formData.status" :label="false" size="large"
+            >隐藏</el-radio
+          >
+        </el-form-item>
+        <el-form-item label="描述：" prop="desc">
+          <el-input v-model="formData.describe" type="textarea"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSubmit">保存</el-button>
           <el-button @click="resetForm()">重置</el-button>
@@ -81,17 +95,23 @@ import {
 } from '@/api/advertise';
 import { ElMessage, ElMessageBox, ElForm } from 'element-plus';
 
+const fileBaseUrl = import.meta.env.VITE_FILE_BASE_URL;
 const state = reactive<API.Advertise.AdvertiseState>({
   searchForm: { limit: 10, page: 1 },
   formVisible: false,
 });
 
+enum Type {
+  HOME = 'home',
+}
+
 const formData = reactive<API.Advertise.AdvertiseItem>({
   id: '',
   title: '',
   picture: '',
-  type: API.Advertise.Type.HOME,
+  type: Type.HOME,
   status: true,
+  describe: '',
 });
 
 const handleFilterChange = (filters: any) => {
@@ -145,8 +165,8 @@ const handleEdit = (item: API.Advertise.AdvertiseItem) => {
   });
 };
 
-const handleDel = ({ id }: API.Tag.TagItem) => {
-  ElMessageBox.confirm('确定删除该标签, 是否继续?', '提示', {
+const handleDel = ({ id }: API.Advertise.AdvertiseItem) => {
+  ElMessageBox.confirm('确定删除该广告, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
@@ -211,12 +231,10 @@ const tableData = reactive({
     {
       label: '广告标题',
       prop: 'title',
-      minWidth: '80',
     },
     {
       label: '广告位置',
-      prop: 'position',
-      minWidth: '80',
+      prop: 'type',
     },
     {
       label: '广告图',
@@ -225,14 +243,24 @@ const tableData = reactive({
       useSlot: true,
     },
     {
+      label: '广告状态',
+      prop: 'status',
+      render: (value: boolean) => (value ? '显示' : '隐藏'),
+    },
+    {
+      label: '广告描述',
+      prop: 'describe',
+    },
+    {
       label: '创建日期',
       prop: 'createdAt',
       minWidth: '80',
+      date: true,
     },
   ],
   operation: {
     label: '操作', // 操作
-    width: '300',
+    width: '200',
     data: [
       {
         label: '编辑',
@@ -244,15 +272,16 @@ const tableData = reactive({
         label: '删除',
         type: 'danger',
         icon: 'el-icon-delete',
-        handleFunc: 'handleDelete',
+        handleFunc: 'handleDel',
       },
     ],
   },
 });
 
 const rules = reactive({
-  title: [{ required: true, message: '请输入广告名称', trigger: 'blur' }],
-  position: [{ required: true, message: '请选择广告位置', trigger: 'change' }],
+  title: [{ required: true, message: '请输入广告标题', trigger: 'blur' }],
+  status: [{ required: true, message: '请选择广告状态', trigger: 'change' }],
+  type: [{ required: true, message: '请选择广告位置', trigger: 'change' }],
   picture: [{ required: true, message: '请上传广告图片', trigger: 'change' }],
 });
 
@@ -263,4 +292,8 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.el-select.el-select--default) {
+  width: 100%;
+}
+</style>

@@ -66,6 +66,7 @@ declare namespace API {
       picture: string;
       type: Type;
       status: boolean;
+      describe: string;
     };
     type AdvertiseState = CommonState & {
       formVisible: boolean;

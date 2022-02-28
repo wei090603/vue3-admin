@@ -14,6 +14,6 @@ const app = createApp(App);
 app
   .use(router)
   .use(createPinia())
-  .use(ElementPlus, { size: 'default', zIndex: 3000, locale })
+  .use(ElementPlus, { size: 'default', zIndex: 999, locale })
   .component('svg-icon', svgIcon)
   .mount('#app');

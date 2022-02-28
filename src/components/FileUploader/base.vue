@@ -6,7 +6,7 @@
     :class="[{ 'hide-upload': hideUpload, 'disabled-upload': disabled }]"
     :disabled="disabled"
     :data="{ sensitive: state.uploadSensitiveStatus }"
-    :action="import.meta.env.VITE_BASE_URL"
+    :action="action"
     :headers="state.uploadHeaders"
     :on-preview="onPreview"
     :on-change="onChange"
@@ -23,7 +23,12 @@
 <script lang="ts" setup>
 import { ElLoading, ElMessage } from 'element-plus';
 import { getToken } from '@/utils/cookies';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import type {
+  UploadFile,
+  ElUploadProgressEvent,
+  ElFile,
+} from 'element-plus/es/components/upload/src/upload.type';
 
 const props = defineProps({
   hideUpload: Boolean,
@@ -35,11 +40,6 @@ const props = defineProps({
   accept: {
     type: String,
     default: '.jpg, .jpeg, .png',
-  },
-  isShowPreview: {
-    // 是否需要预览文件，默认为需要, 如果文件不是文件也不会出现预览
-    type: Boolean,
-    default: true,
   },
   sizeLimit: {
     type: Number, // 单位为 MB
@@ -79,8 +79,11 @@ const state = reactive({
   },
   uploadSensitiveStatus: 0,
   file: null,
-  loading: null,
 });
+
+const loading = ref<any>();
+
+const action = import.meta.env.VITE_BASE_URL + '/upload/file';
 
 /**
  * 校验文件类型和大小
@@ -88,7 +91,7 @@ const state = reactive({
  */
 const handleBeforeUpload = (file: any) => {
   const isValidFileType = props.accept.includes(
-    file.name.toLowerCase().split('.').pop()
+    file.name.toLowerCase().split('.').pop() as string
   );
   const isValidFileSize = file.size <= props.sizeLimit * 1024 * 1024;
   if (!isValidFileType) {
@@ -119,7 +122,7 @@ const handleBeforeUpload = (file: any) => {
       .onBeforeUploadPromise(file)
       .then(() => {
         state.file = file;
-        state.loading = ElLoading.service({
+        loading.value = ElLoading.service({
           lock: true,
           text: '上传中...',
           spinner: 'el-icon-loading',
@@ -134,7 +137,7 @@ const handleBeforeUpload = (file: any) => {
   }
 
   state.file = file;
-  state.loading = ElLoading.service({
+  loading.value = ElLoading.service({
     lock: true,
     text: 'Loading',
     spinner: 'el-icon-loading',
@@ -145,22 +148,23 @@ const handleBeforeUpload = (file: any) => {
 /**
  * 上传文件接口回调
  */
-const handleUploadSuccess = (resp: any) => {
-  if (resp.code === 200) {
-    const { data } = resp;
-    props.onUploadSuccess?.(data.url);
+const handleUploadSuccess = (res: any, file: UploadFile) => {
+  if (res.code === 200) {
+    const { data } = res;
+    props.onUploadSuccess?.(data.path);
   } else {
-    ElMessage.error(resp.errorMsg || '上传文件失败');
-    props.onUploadFail?.(resp.errorMsg, state.file);
+    ElMessage.error(res.message || '上传文件失败');
+    props.onUploadFail?.(res.message, state.file);
   }
-  state.loading.close?.();
+  loading.value.close?.();
 };
+
 /**
  * 上传文件接口报错
  */
 const handleUploadError = () => {
   ElMessage.error('上传文件失败');
   props.onUploadFail?.('上传文件失败', state.file);
-  state.loading.close?.();
+  loading.value.close?.();
 };
 </script>
