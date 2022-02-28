@@ -9,7 +9,7 @@ const Route: RouteRecordRaw[] = [
     meta: { title: '导航管理' },
     children: [
       {
-        path: 'resource',
+        path: 'navigationList',
         component: () => import('@/pages/navigation/index.vue'),
         meta: { title: '导航列表', hidden: false },
       },

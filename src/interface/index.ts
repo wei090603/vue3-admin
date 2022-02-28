@@ -71,4 +71,19 @@ declare namespace API {
       formVisible: boolean;
     };
   }
+  namespace Menu {
+    type MenuItem = {
+      id: string;
+      title: string;
+      link: string;
+      sort: number | string;
+    };
+    type Search = {
+      [propName: string]: any;
+    };
+    type MenuState = {
+      formVisible: boolean;
+      searchForm: Search;
+    };
+  }
 }
