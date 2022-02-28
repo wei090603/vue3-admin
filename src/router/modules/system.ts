@@ -18,7 +18,7 @@ const Route: RouteRecordRaw[] = [
         path: 'notice',
         name: 'notice',
         component: () => import('@/pages/system/notice/index.vue'),
-        meta: { title: '通告列表', hidden: false },
+        meta: { title: '通知公告', hidden: false },
       },
       {
         path: 'loginLogger',

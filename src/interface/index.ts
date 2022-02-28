@@ -87,4 +87,12 @@ declare namespace API {
       searchForm: Search;
     };
   }
+  namespace LoginLogger {
+    type LoginLoggerItem = {
+      id: string;
+      account: string;
+      loginAddress: string;
+      loginIp: string;
+    };
+  }
 }
