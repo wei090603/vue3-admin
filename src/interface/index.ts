@@ -101,6 +101,13 @@ declare namespace API {
       title: string;
       type: number;
       status: boolean;
+    };
+
+    type NoticeFormItem = NoticeItem & {
+      content: string;
+    };
+
+    type NoticeTableItem = NoticeItem & {
       createBy: string;
     };
 

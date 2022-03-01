@@ -17,10 +17,10 @@ export const noticePost = (data: object) =>
   });
 
 // 修改通知公告信息
-export const noticePatch = (id: string, data: object) =>
+export const noticePut = (id: string, data: object) =>
   request({
     url: `notice/${id}`,
-    method: 'patch',
+    method: 'put',
     data,
   });
 

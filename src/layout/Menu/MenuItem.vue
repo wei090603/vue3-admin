@@ -5,7 +5,11 @@
     popper-append-to-body
   >
     <template #title>
-      <item v-if="item.meta" :icon="item.meta.icon" :title="item.meta.title" />
+      <item
+        v-if="item.meta && !item.meta.hidden"
+        :icon="item.meta.icon"
+        :title="item.meta.title"
+      />
     </template>
     <template v-for="child in item.children">
       <menu-item

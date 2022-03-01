@@ -12,10 +12,10 @@
       :unique-opened="expandOneMenu"
     >
       <menu-item
-        v-for="(item, key) in allRoutes"
+        v-for="(item, key) in sidebarMenus"
         :key="key"
         :item="item"
-        :base-path="item.path"
+        :base-path="item?.path"
       />
     </el-menu>
   </el-scrollbar>
@@ -39,6 +39,7 @@ const allRoutes = useRouter()
     }
     return item;
   });
+
 const route = useRoute();
 const activeMenu = computed(() => {
   const { meta, path } = route;
@@ -46,6 +47,21 @@ const activeMenu = computed(() => {
     return meta.activeMenu;
   }
   return path;
+});
+
+const isRouteShow = (route: any) => {
+  return !route.meta?.hidden;
+};
+
+const sidebarMenus = computed(() => {
+  const result = allRoutes.map((item) => {
+    if (!isRouteShow(item)) return;
+    return {
+      ...item,
+      children: item.children ? item.children.filter(isRouteShow) : null,
+    };
+  });
+  return result;
 });
 </script>
 

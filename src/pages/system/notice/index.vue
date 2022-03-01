@@ -35,13 +35,6 @@ const state = reactive<API.Notice.NoticeState>({
   searchForm: { limit: 10, page: 1 },
 });
 
-// const formData = reactive<API.Notice.NoticeItem>({
-//   id: '',
-//   title: '',
-//   type: 1,
-//   status: true,
-//   createBy: '',
-// });
 
 const handleFilterChange = (filters: any) => {
   // 搜索后要回到第一页
