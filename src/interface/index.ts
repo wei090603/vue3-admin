@@ -95,4 +95,15 @@ declare namespace API {
       loginIp: string;
     };
   }
+  namespace Notice {
+    type NoticeItem = {
+      id: string;
+      title: string;
+      type: number;
+      status: boolean;
+      createBy: string;
+    };
+
+    type NoticeState = CommonState & {};
+  }
 }

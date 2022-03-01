@@ -43,6 +43,7 @@
           :class-name="item.className || ''"
           :width="item.width || ''"
           :min-width="item.minWidth || ''"
+          align="center"
         >
           <template #header="scope">
             <template v-if="item.useHeaderSlot">

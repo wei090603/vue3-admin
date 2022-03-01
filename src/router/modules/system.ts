@@ -21,6 +21,16 @@ const Route: RouteRecordRaw[] = [
         meta: { title: '通知公告', hidden: false },
       },
       {
+        path: 'noticeDetil/:id',
+        name: 'noticeDetil',
+        component: () => import('@/pages/system/notice/detail.vue'),
+        meta: {
+          title: '通知公告详情',
+          activeMenu: '/system/notice',
+          hidden: true,
+        },
+      },
+      {
         path: 'loginLogger',
         name: 'loginLogger',
         component: () => import('@/pages/system/loginLogger/index.vue'),
