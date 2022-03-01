@@ -2,7 +2,9 @@
   <FilterGroup v-bind="filterGroup"></FilterGroup>
   <div class="operate-wrapper">
     <div class="operate-left-btn">
-      <el-button plain>新增</el-button>
+      <router-link to="/system/noticeDetil"
+        ><el-button plain>新增</el-button></router-link
+      >
       <el-button plain type="danger">删除</el-button>
     </div>
     <div class="operate-right-btn">
@@ -34,7 +36,6 @@ import router from '@/router';
 const state = reactive<API.Notice.NoticeState>({
   searchForm: { limit: 10, page: 1 },
 });
-
 
 const handleFilterChange = (filters: any) => {
   // 搜索后要回到第一页
