@@ -20,6 +20,7 @@
       <ImagePreview :url="props.value" :size="64"></ImagePreview>
     </template>
     <template #status="props">
+      {{ props.value ? '启用' : '禁用' }}
       <el-switch
         active-color="#409eff"
         v-model="props.value"
