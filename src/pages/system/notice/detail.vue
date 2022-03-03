@@ -32,28 +32,31 @@
 import { ElForm, ElMessage } from 'element-plus';
 import { noticePut, noticePost } from '@/api/notice';
 import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 
-const state = reactive({});
+const state = reactive({
+  isAdd: route.name === 'noticeAdd', // 新增
+  isEdit: route.name === 'noticeEdit', // 编辑
+});
 
 // 表单提交
 const handleSubmit = async () => {
   await formEle.value!.validate();
-  formData.id
-    ? await noticePut(formData.id, formData)
+  state.isEdit
+    ? await noticePut(route.params.id as string, formData)
     : await noticePost(formData);
   ElMessage({
     type: 'success',
-    message: formData.id ? '修改成功' : '新增成功',
+    message: state.isEdit ? '修改成功' : '新增成功',
   });
   resetForm();
   router.back();
 };
 
 const formData = reactive<API.Notice.NoticeFormItem>({
-  id: '',
   title: '',
   type: 1,
   status: true,
@@ -68,7 +71,6 @@ const rules = {
 const formEle = ref<typeof ElForm>();
 const resetForm = () => {
   formEle.value!.resetFields();
-  formData.id = '';
 };
 </script>
 

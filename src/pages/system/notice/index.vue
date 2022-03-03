@@ -2,7 +2,7 @@
   <FilterGroup v-bind="filterGroup"></FilterGroup>
   <div class="operate-wrapper">
     <div class="operate-left-btn">
-      <router-link to="/system/noticeDetil"
+      <router-link to="/system/notice/add"
         ><el-button plain>新增</el-button></router-link
       >
       <el-button plain type="danger">删除</el-button>
@@ -31,7 +31,9 @@ import FilterGroup from '@/components/FilterGroup/index.vue';
 import { GroupFilterType } from '@/constants';
 import { noticeDel, noticeGet } from '@/api/notice';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import router from '@/router';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const state = reactive<API.Notice.NoticeState>({
   searchForm: { limit: 10, page: 1 },
@@ -52,11 +54,11 @@ const getTableData = async () => {
   tableData.total = total;
 };
 
-const handleEdit = (item: API.Notice.NoticeItem) => {
-  router.push({ name: 'noticeDetil', params: { id: item.id } });
+const handleEdit = (item: { id: string }) => {
+  router.push({ name: 'noticeEdit', params: { id: item.id } });
 };
 
-const handleDel = ({ id }: API.Notice.NoticeItem) => {
+const handleDel = ({ id }: { id: string }) => {
   ElMessageBox.confirm('确定删除该标签, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

@@ -97,7 +97,6 @@ declare namespace API {
   }
   namespace Notice {
     type NoticeItem = {
-      id: string;
       title: string;
       type: number;
       status: boolean;
@@ -108,6 +107,7 @@ declare namespace API {
     };
 
     type NoticeTableItem = NoticeItem & {
+      id: string;
       createBy: string;
     };
 

@@ -21,11 +21,31 @@ const Route: RouteRecordRaw[] = [
         meta: { title: '通知公告', hidden: false },
       },
       {
-        path: 'noticeDetil/:id',
-        name: 'noticeDetil',
+        path: 'notice/add',
+        name: 'noticeAdd',
         component: () => import('@/pages/system/notice/detail.vue'),
         meta: {
-          title: '通知公告详情',
+          title: '新增通知公告',
+          activeMenu: '/system/notice',
+          hidden: true,
+        },
+      },
+      {
+        path: 'notice/edit/:id',
+        name: 'noticeEdit',
+        component: () => import('@/pages/system/notice/detail.vue'),
+        meta: {
+          title: '编辑通知公告',
+          activeMenu: '/system/notice',
+          hidden: true,
+        },
+      },
+      {
+        path: 'notice/check/:id',
+        name: 'noticeCheck',
+        component: () => import('@/pages/system/notice/detail.vue'),
+        meta: {
+          title: '查看通知公告',
           activeMenu: '/system/notice',
           hidden: true,
         },
