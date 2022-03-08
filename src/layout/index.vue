@@ -21,13 +21,11 @@
       <el-main>
         <router-view v-slot="{ Component, route }">
           <transition appear name="fade-transform" mode="out-in">
-            <keep-alive v-if="route.meta.keepAlive" include="">
-              <div class="el-main-box">
+            <div class="el-main-box">
+              <keep-alive v-if="route.meta.keepAlive" include="">
                 <component :is="Component" :key="route.fullPath" />
-              </div>
-            </keep-alive>
-            <div v-else class="el-main-box">
-              <component :is="Component" :key="route.fullPath" />
+              </keep-alive>
+              <component v-else :is="Component" :key="route.fullPath" />
             </div>
           </transition>
         </router-view>
