@@ -71,6 +71,10 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:imageUrl']);
+const loading = ref<any>();
+const fileBaseUrl: Ref<string> = ref(
+  (import.meta.env.VITE_BASE_URL + '/') as string
+);
 
 interface State {
   [proppName: string]: any;
@@ -83,16 +87,16 @@ const state = reactive<State>({
   file: null,
 });
 
-const loading = ref<any>();
-const fileBaseUrl: Ref<string> = ref(
-  (import.meta.env.VITE_BASE_URL + '/') as string
-);
-
 watch(
   () => props.imageUrl,
   (newVal, oldVal) => {
+    console.log(newVal, 'newVal');
     if (newVal) {
-      const file = { name: props.imageUrl, url: props.imageUrl };
+      const file = {
+        name: props.imageUrl,
+        url: `${fileBaseUrl.value}${props.imageUrl}`,
+      };
+      console.log(file, 'file');
       console.log(file, 'file');
       state.fileList = [file];
       state.hideUpload = true;

@@ -21,6 +21,7 @@
         <el-radio :label="false">隐藏</el-radio>
       </el-radio-group>
     </el-form-item>
+    <Tinymce ref="editorRef" :value="state.content" />
     <el-form-item>
       <el-button type="primary" @click="handleSubmit">保存</el-button>
       <el-button @click="resetForm()">重置</el-button>
@@ -33,13 +34,16 @@ import { ElForm, ElMessage } from 'element-plus';
 import { noticePut, noticePost } from '@/api/notice';
 import { reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import Tinymce from '@/components/Tinymce/index.vue';
 
 const router = useRouter();
 const route = useRoute();
 
+const editorRef = ref<HTMLElement>();
 const state = reactive({
   isAdd: route.name === 'noticeAdd', // 新增
   isEdit: route.name === 'noticeEdit', // 编辑
+  content: '',
 });
 
 // 表单提交

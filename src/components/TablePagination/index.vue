@@ -68,6 +68,9 @@
             <template v-else-if="item.render">
               {{ item.render(scope.row[item.prop], scope.$index, scope.row) }}
             </template>
+            <span v-else-if="item.filterParams">{{
+              commonFilter.filterFun(scope.row[item.prop], item.filterParams)
+            }}</span>
             <template
               v-else-if="
                 item.showPopover &&
@@ -87,11 +90,7 @@
               </el-popover>
             </template>
             <span v-else>
-              {{
-                item.date
-                  ? dayjs(scope.row[item.prop]).format('YYYY-MM-DD HH:MM:ss')
-                  : scope.row[item.prop]
-              }}
+              {{ scope.row[item.prop] }}
             </span>
           </template>
         </el-table-column>
@@ -143,7 +142,7 @@
 
 <script lang="ts" setup>
 import { ref, onActivated } from 'vue';
-import dayjs from 'dayjs';
+import commonFilter from '@/utils/filters';
 
 const props = defineProps({
   tableOpts: {

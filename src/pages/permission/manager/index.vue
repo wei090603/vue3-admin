@@ -108,7 +108,7 @@ import { rolesGetList } from '@/api/roles';
 
 const state = reactive<API.Manager.ManagerState>({
   rolesData: [],
-  searchForm: { limit: 10, page: 1 },
+  searchForm: { limit: 10, page: 1, name: '', account: '', phone: '' },
   formVisible: false,
 });
 
@@ -183,13 +183,13 @@ const tableData = reactive({
     {
       label: '创建日期',
       prop: 'createdAt',
+      filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
       minWidth: '100',
-      date: true,
     },
   ],
   operation: {
     label: '操作', // 操作
-    width: '300',
+    width: '260',
     data: [
       {
         label: '编辑',

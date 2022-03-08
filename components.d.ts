@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Base: typeof import('./src/components/FileUploader/base.vue')['default']
+    EditorImage: typeof import('./src/components/Tinymce/components/EditorImage.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -41,8 +42,10 @@ declare module 'vue' {
     FilterGroup: typeof import('./src/components/FilterGroup/index.vue')['default']
     ImagePreview: typeof import('./src/components/ImagePreview/index.vue')['default']
     ImageUploader: typeof import('./src/components/FileUploader/ImageUploader.vue')['default']
+    Index: typeof import('./src/components/tinymce/Index.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TablePagination: typeof import('./src/components/TablePagination/index.vue')['default']
+    Tinymce: typeof import('./src/components/Tinymce/index.vue')['default']
     VideoUploader: typeof import('./src/components/FileUploader/VideoUploader.vue')['default']
   }
 }

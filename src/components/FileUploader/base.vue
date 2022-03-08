@@ -5,7 +5,7 @@
     :accept="accept"
     :class="[{ 'hide-upload': hideUpload, 'disabled-upload': disabled }]"
     :disabled="disabled"
-    :data="{ sensitive: state.uploadSensitiveStatus }"
+    :data="{}"
     :action="action"
     :headers="state.uploadHeaders"
     :on-preview="onPreview"
@@ -77,7 +77,6 @@ const state = reactive({
   uploadHeaders: {
     Authorization: `Bearer ` + getToken(),
   },
-  uploadSensitiveStatus: 0,
   file: null,
 });
 

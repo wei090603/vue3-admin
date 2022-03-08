@@ -11,17 +11,17 @@ const Route: RouteRecordRaw[] = [
       {
         path: 'resource',
         component: () => import('@/pages/permission/resource/index.vue'),
-        meta: { title: '菜单列表', hidden: false },
+        meta: { title: '菜单列表', keepAlive: true, hidden: false },
       },
       {
         path: 'roles',
         component: () => import('@/pages/permission/roles/index.vue'),
-        meta: { title: '角色列表', hidden: false },
+        meta: { title: '角色列表', keepAlive: true, hidden: false },
       },
       {
         path: 'manager',
         component: () => import('@/pages/permission/manager/index.vue'),
-        meta: { title: '管理员列表', hidden: false },
+        meta: { title: '管理员列表', keepAlive: true, hidden: false },
       },
     ],
   },

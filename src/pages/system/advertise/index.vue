@@ -68,7 +68,7 @@
             >隐藏</el-radio
           >
         </el-form-item>
-        <el-form-item label="描述：" prop="desc">
+        <el-form-item label="描述：" prop="describe">
           <el-input v-model="formData.describe" type="textarea"></el-input>
         </el-form-item>
         <el-form-item>
@@ -133,6 +133,8 @@ const formEle = ref<typeof ElForm>();
 const resetForm = () => {
   formEle.value!.resetFields();
   formData.id = '';
+
+  console.log(formData, 'formData');
 };
 
 const fromClose = () => {
