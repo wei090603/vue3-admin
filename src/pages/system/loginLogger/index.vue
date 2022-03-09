@@ -112,7 +112,7 @@ const tableData = reactive({
     {
       label: '登录时间',
       prop: 'createdAt',
-      date: true,
+      filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
     },
   ],
   operation: {

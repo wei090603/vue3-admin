@@ -257,7 +257,7 @@ const tableData = reactive({
       label: '创建日期',
       prop: 'createdAt',
       minWidth: '80',
-      date: true,
+      filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
     },
   ],
   operation: {

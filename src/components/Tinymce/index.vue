@@ -92,11 +92,11 @@ export default defineComponent({
       contentValue: props.value,
     });
     const initOptions = ref({
-      emoticons_database_url: '/tinymce/emoticons/js/emojis.js', //更改表情插件路径
-      language_url: '/tinymce/langs/zh_CN.js', //引入语言包文件
+      emoticons_database_url: '/public/tinymce/emoticons/js/emojis.js', //更改表情插件路径
+      language_url: '/public/tinymce/langs/zh_CN.js', //引入语言包文件
       language: 'zh_CN', //语言类型
 
-      skin_url: '/tinymce/skins/ui/oxide', //皮肤：浅色
+      skin_url: '/public/tinymce/skins/ui/oxide', //皮肤：浅色
       // skin_url: '/tinymce/skins/ui/oxide-dark',//皮肤：暗色
 
       plugins: props.plugins, //插件配置

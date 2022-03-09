@@ -11,7 +11,7 @@ const Route: RouteRecordRaw[] = [
       {
         path: 'navigationList',
         component: () => import('@/pages/navigation/index.vue'),
-        meta: { title: '导航列表', hidden: false },
+        meta: { title: '导航列表', keepAlive: true, hidden: false },
       },
     ],
   },
