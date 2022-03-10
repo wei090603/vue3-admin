@@ -1,24 +1,31 @@
 <template>
   <div class="tinymce-boxz">
-    <Editor v-model="content" :api-key="apiKey" :init="init" />
+    <Editor v-model="editorValue" :api-key="apiKey" :init="init" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import Editor from '@tinymce/tinymce-vue';
-import { reactive, ref, toRefs, watchEffect } from 'vue';
+import { reactive, ref, toRefs, watchEffect, watch } from 'vue';
 
 const props = defineProps({
   //默认值
-  value: {
+  content: {
     type: String,
     default: '',
   },
 });
 
-const emit = defineEmits(['update:value']);
-const content = ref(props.value);
-const tiny = reactive({
+watch(
+  () => props.content,
+  (newval) => {
+    state.editorValue = newval;
+  }
+);
+
+const emit = defineEmits(['update:content']);
+const state = reactive({
+  editorValue: props.content,
   apiKey: 'qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc', //https://github.com/tinymce/tinymce-vue/blob/main/src/demo/views/Iframe.vue
   init: {
     language: 'zh_CN', //语言类型
@@ -99,10 +106,10 @@ const tiny = reactive({
 
 //内容有变化，就更新内容，将值返回给父组件
 watchEffect(() => {
-  emit('update:value', content.value);
+  emit('update:content', state.editorValue);
 });
 
-const { init, apiKey } = toRefs(tiny);
+const { init, apiKey, editorValue } = toRefs(state);
 </script>
 
 <style scoped>

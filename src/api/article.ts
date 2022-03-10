@@ -61,3 +61,11 @@ export const categoryDel = (id: string) =>
     url: `category/${id}`,
     method: 'delete',
   });
+
+// 文章列表
+export const articleGet = (params: object) =>
+  request({
+    url: 'article',
+    method: 'get',
+    params,
+  });

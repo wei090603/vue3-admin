@@ -21,8 +21,8 @@
         <el-radio :label="false">隐藏</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="状态：" prop="content">
-      <Tinymce ref="editorRef" v-model:value="content" />
+    <el-form-item label="内容：" prop="content">
+      <Tinymce ref="editorRef" v-model:content="formData.content" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="handleSubmit">保存</el-button>
@@ -32,9 +32,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 import { ElForm, ElMessage } from 'element-plus';
-import { noticePut, noticePost } from '@/api/notice';
+import { noticePut, noticePost, noticeGetDetail } from '@/api/notice';
 import { useRouter, useRoute } from 'vue-router';
 import Tinymce from '@/components/Tinymce/index.vue';
 
@@ -45,8 +45,17 @@ const editorRef = ref<HTMLElement>();
 const state = reactive({
   isAdd: route.name === 'noticeAdd', // 新增
   isEdit: route.name === 'noticeEdit', // 编辑
-  content: '',
 });
+
+const handleGetDetail = async (id: number) => {
+  const data = await noticeGetDetail(id);
+  formData.id = data.id;
+  formData.title = data.title;
+  formData.type = data.type;
+  formData.status = data.status;
+  formData.content = data.content;
+  console.log(data, 'data');
+};
 
 // 表单提交
 const handleSubmit = async () => {
@@ -63,6 +72,7 @@ const handleSubmit = async () => {
 };
 
 const formData = reactive<API.Notice.NoticeFormItem>({
+  id: '',
   title: '',
   type: 1,
   status: true,
@@ -70,23 +80,29 @@ const formData = reactive<API.Notice.NoticeFormItem>({
 });
 
 const rules = {
-  title: [{ required: true, message: '请输入广告标题', trigger: 'blur' }],
+  title: [{ required: true, message: '请输入通告标题', trigger: 'blur' }],
   type: [{ required: true, message: '请选择类型', trigger: 'change' }],
   status: [{ required: true, message: '请选择状态', trigger: 'change' }],
 };
 
 const formEle = ref<typeof ElForm>();
 const resetForm = () => {
+  formData.content = '';
   formEle.value!.resetFields();
 };
 
-const { content } = toRefs(state);
+onMounted(() => {
+  if (route.params.id) handleGetDetail(+route.params.id);
+});
 </script>
 
 <style lang="scss" scoped>
 .demo-form {
+  :deep(.el-input) {
+    width: 400px;
+  }
   .el-select {
-    width: 100%;
+    width: 400px;
   }
 }
 </style>

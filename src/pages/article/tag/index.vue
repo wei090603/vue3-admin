@@ -165,12 +165,12 @@ const tableData = reactive({
     {
       label: '创建日期',
       prop: 'createdAt',
-      date: true,
+      filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
     },
     {
       label: '更新日期',
       prop: 'updateAt',
-      date: true,
+      filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
     },
   ],
   operation: {

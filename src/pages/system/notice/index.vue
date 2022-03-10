@@ -146,7 +146,7 @@ const tableData = reactive({
     },
     {
       label: '更新日期',
-      prop: 'updateAt',
+      prop: 'updatedAt',
       filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
     },
   ],

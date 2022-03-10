@@ -30,3 +30,10 @@ export const noticeDel = (id: string) =>
     url: `notice/${id}`,
     method: 'delete',
   });
+
+// 获取通告详情
+export const noticeGetDetail = (id: number) =>
+  request({
+    url: `notice/${id}`,
+    method: `get`,
+  });
