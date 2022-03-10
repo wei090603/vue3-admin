@@ -131,8 +131,8 @@ const filterGroup = reactive({
   filters: [
     {
       type: GroupFilterType.input,
-      key: 'name',
-      label: '标签名：',
+      key: 'title',
+      label: '标题：',
       initialValue: '',
       validator: [
         {
