@@ -12,11 +12,12 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.7",
-    "@tinymce/tinymce-vue": "^4.0.6",
+    "@tinymce/tinymce-vue": "^4.0.7",
     "@types/axios": "^0.14.0",
     "@types/js-cookie": "^3.0.1",
     "@types/nprogress": "^0.2.0",
     "@types/path-browserify": "^1.0.0",
+    "@types/tinymce": "^4.6.5",
     "@types/vue-router": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "axios": "^0.26.0",
@@ -28,7 +29,7 @@
     "nprogress": "^0.2.0",
     "path-browserify": "^1.0.1",
     "pinia": "^2.0.11",
-    "tinymce": "^6.0.0",
+    "tinymce": "5.10.3",
     "vue": "^3.2.25"
   },
   "devDependencies": {

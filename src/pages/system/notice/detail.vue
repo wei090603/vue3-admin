@@ -21,7 +21,9 @@
         <el-radio :label="false">隐藏</el-radio>
       </el-radio-group>
     </el-form-item>
-    <Tinymce ref="editorRef" :value="state.content" />
+    <el-form-item label="状态：" prop="content">
+      <Tinymce ref="editorRef" v-model:value="content" />
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="handleSubmit">保存</el-button>
       <el-button @click="resetForm()">重置</el-button>
@@ -30,9 +32,9 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive, ref, toRefs } from 'vue';
 import { ElForm, ElMessage } from 'element-plus';
 import { noticePut, noticePost } from '@/api/notice';
-import { reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Tinymce from '@/components/Tinymce/index.vue';
 
@@ -70,17 +72,19 @@ const formData = reactive<API.Notice.NoticeFormItem>({
 const rules = {
   title: [{ required: true, message: '请输入广告标题', trigger: 'blur' }],
   type: [{ required: true, message: '请选择类型', trigger: 'change' }],
+  status: [{ required: true, message: '请选择状态', trigger: 'change' }],
 };
 
 const formEle = ref<typeof ElForm>();
 const resetForm = () => {
   formEle.value!.resetFields();
 };
+
+const { content } = toRefs(state);
 </script>
 
 <style lang="scss" scoped>
 .demo-form {
-  width: 500px;
   .el-select {
     width: 100%;
   }

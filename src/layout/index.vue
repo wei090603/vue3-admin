@@ -21,12 +21,12 @@
       <el-main>
         <router-view v-slot="{ Component, route }">
           <transition appear name="fade-transform" mode="out-in">
-            <div class="el-main-box">
+            <el-scrollbar max-height="100%" wrap-class="el-main-box">
               <keep-alive v-if="route.meta.keepAlive" include="">
                 <component :is="Component" :key="route.fullPath" />
               </keep-alive>
               <component v-else :is="Component" :key="route.fullPath" />
-            </div>
+            </el-scrollbar>
           </transition>
         </router-view>
       </el-main>
@@ -94,28 +94,8 @@ const hideMenu = (status = true) => {
   padding: 0;
   overflow-x: hidden;
   box-shadow: 0 4px 4px 0 rgb(26 38 70 / 10%);
-  ::-webkit-scrollbar-track-piece {
-    background: rgba(238, 238, 238, 0.5);
-    border-radius: 20px;
-  }
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(136, 136, 136, 0.3);
-    border-radius: 20px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(136, 136, 136, 0.5);
-  }
-  .el-main-box {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+  :deep(.el-main-box) {
     padding: 15px;
-    box-sizing: border-box;
     background: #fff;
   }
 }
