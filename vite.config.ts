@@ -38,6 +38,18 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    terserOptions: {
+      // 删除打印
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+  },
   server: {
     port: 8080,
     cors: true,

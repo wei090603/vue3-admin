@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', {
     },
     async getInfo() {
       try {
-        const { info, roles } = await userInfo();
+        const { roles, ...info } = await userInfo();
         this.info = info;
         this.roles = roles;
       } catch (error) {
@@ -35,7 +35,7 @@ export const useUserStore = defineStore('user', {
     async loginOut() {
       await loginOut();
       this.roles = [];
-      this.info = '';
+      this.info = {};
       removeToken();
       location.reload();
     },

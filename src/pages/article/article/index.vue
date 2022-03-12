@@ -2,7 +2,9 @@
   <FilterGroup v-bind="filterGroup"></FilterGroup>
   <div class="operate-wrapper">
     <div class="operate-left-btn">
-      <el-button plain @click="formVisible = true">新增</el-button>
+      <router-link to="/article/article/add"
+        ><el-button plain>新增</el-button></router-link
+      >
       <el-button plain type="danger">删除</el-button>
     </div>
     <div class="operate-right-btn">
@@ -16,49 +18,25 @@
     @handleEdit="handleEdit"
     @handleDel="handleDel"
   >
+    <template #type="props">
+      <el-tag class="ml-2" type="success" v-if="props.value === 1">通知</el-tag>
+      <el-tag class="ml-2" type="success" v-if="props.value === 2">公告</el-tag>
+    </template>
   </table-pagination>
-
-  <el-dialog
-    :title="`${formData.id ? '编辑' : '新增'}标签`"
-    v-model="formVisible"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    width="40%"
-    :before-close="fromClose"
-  >
-    <el-form
-      :model="formData"
-      status-icon
-      :rules="rules"
-      ref="formEle"
-      label-width="100px"
-    >
-      <el-form-item label="标签名：" prop="name">
-        <el-input v-model="formData.name"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="handleSubmit">保存</el-button>
-        <el-button @click="resetForm()">重置</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, reactive, ref, toRefs } from 'vue';
+import { onMounted, reactive } from 'vue';
 import FilterGroup from '@/components/FilterGroup/index.vue';
 import { GroupFilterType } from '@/constants';
-import { tagDel, tagGet, tagPatch, tagPost } from '@/api/article';
-import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
+import { noticeDel, noticeGet } from '@/api/notice';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { useRouter } from 'vue-router';
 
-const state = reactive<API.Tag.TagState>({
+const router = useRouter();
+
+const state = reactive<API.Notice.NoticeState>({
   searchForm: { limit: 10, page: 1 },
-  formVisible: false,
-});
-
-const formData = reactive<API.Tag.TagItem>({
-  id: '',
-  name: '',
 });
 
 const handleFilterChange = (filters: any) => {
@@ -71,51 +49,23 @@ const handleFilterChange = (filters: any) => {
 const getTableData = async () => {
   state.searchForm.page = tableData.currentPage;
   state.searchForm.limit = tableData.pageSize;
-  const { list, total } = await tagGet(state.searchForm);
+  const { list, total } = await noticeGet(state.searchForm);
   tableData.data = list;
   tableData.total = total;
 };
 
-const formEle = ref<typeof ElForm>();
-const resetForm = () => {
-  formEle.value!.resetFields();
-  formData.id = '';
+const handleEdit = (item: { id: string }) => {
+  router.push({ name: 'noticeEdit', params: { id: item.id } });
 };
 
-const fromClose = () => {
-  resetForm();
-  state.formVisible = false;
-};
-
-// 表单提交
-const handleSubmit = async () => {
-  await formEle.value!.validate();
-  formData.id ? await tagPatch(formData.id, formData) : await tagPost(formData);
-  getTableData();
-  ElMessage({
-    type: 'success',
-    message: formData.id ? '修改成功' : '新增成功',
-  });
-  fromClose();
-};
-
-// 点击编辑还原表单数据
-const handleEdit = (item: API.Tag.TagItem) => {
-  state.formVisible = true;
-  nextTick(() => {
-    formData.id = item.id;
-    formData.name = item.name;
-  });
-};
-
-const handleDel = ({ id }: API.Tag.TagItem) => {
+const handleDel = ({ id }: { id: string }) => {
   ElMessageBox.confirm('确定删除该标签, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   })
     .then(async () => {
-      await tagDel(id);
+      await noticeDel(id);
       getTableData();
       ElMessage({
         type: 'success',
@@ -142,6 +92,19 @@ const filterGroup = reactive({
         },
       ],
     },
+    {
+      type: GroupFilterType.input,
+      key: 'title',
+      label: '创建人：',
+      initialValue: '',
+      validator: [
+        {
+          max: 50,
+          message: '请输入 50 个以内字符',
+          trigger: ['blur', 'change'],
+        },
+      ],
+    },
   ],
 });
 
@@ -159,23 +122,37 @@ const tableData = reactive({
   pageHandleFunc: 'getTableData',
   column: [
     {
-      label: '标签名',
-      prop: 'name',
+      label: '标题',
+      prop: 'title',
+    },
+    {
+      label: '类型',
+      prop: 'type',
+      useSlot: true,
+    },
+    {
+      label: '状态',
+      prop: 'status',
+      render: (value: boolean) => (value ? '正常' : '关闭'),
+    },
+    {
+      label: '创建人',
+      prop: 'createBy',
     },
     {
       label: '创建日期',
       prop: 'createdAt',
-      date: true,
+      filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
     },
     {
       label: '更新日期',
-      prop: 'updateAt',
-      date: true,
+      prop: 'updatedAt',
+      filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
     },
   ],
   operation: {
     label: '操作', // 操作
-    width: '300',
+    width: '200',
     data: [
       {
         label: '编辑',
@@ -192,15 +169,6 @@ const tableData = reactive({
     ],
   },
 });
-
-const rules = reactive({
-  name: [
-    { required: true, message: '请输入标签名', trigger: 'blur' },
-    { min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur' },
-  ],
-});
-
-const { formVisible } = toRefs(state);
 
 onMounted(() => {
   getTableData();

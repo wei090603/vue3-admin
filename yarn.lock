@@ -3114,7 +3114,7 @@ through@^2.3.8:
   resolved "https://registry.npmmirror.com/through/-/through-2.3.8.tgz"
   integrity sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==
 
-tinymce@5.10.3, tinymce@^5.5.0:
+tinymce@^5.10.3, tinymce@^5.5.0:
   version "5.10.3"
   resolved "https://registry.npmmirror.com/tinymce/-/tinymce-5.10.3.tgz#9485cf00159fd70c4948cb5e9dd49bce2a775899"
   integrity sha512-O59ssHNnujWvSk5Gt8hIGrdNCMKVWVQv9F8siAgLTRgTh0t3NDHrP1UlLtCxArUi9DPWZvlBeUz8D5fJTu7vnA==

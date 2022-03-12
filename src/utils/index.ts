@@ -2,7 +2,7 @@ export function isExternal(path: string) {
   return /^(https?:|mailto:|tel:)/.test(path);
 }
 
-export function deepClone(obj: any) {
+export function deepClone<T>(obj: any): T {
   if (!obj) return obj;
   if (typeof obj !== 'object') return obj;
   // 获取到原本类型 Object Array

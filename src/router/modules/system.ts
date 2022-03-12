@@ -26,7 +26,6 @@ const Route: RouteRecordRaw[] = [
         component: () => import('@/pages/system/notice/detail.vue'),
         meta: {
           title: '新增通知公告',
-          keepAlive: true,
           activeMenu: '/system/notice',
           hidden: true,
         },
@@ -47,7 +46,6 @@ const Route: RouteRecordRaw[] = [
         component: () => import('@/pages/system/notice/detail.vue'),
         meta: {
           title: '查看通知公告',
-          keepAlive: true,
           activeMenu: '/system/notice',
           hidden: true,
         },
