@@ -52,7 +52,7 @@ import { tagDel, tagGet, tagPatch, tagPost } from '@/api/article';
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
 
 const state = reactive<API.Tag.TagState>({
-  searchForm: { limit: 10, page: 1 },
+  searchForm: { limit: 10, page: 1, name: '' },
   formVisible: false,
 });
 
