@@ -73,7 +73,7 @@ const props = defineProps({
 const emit = defineEmits(['update:imageUrl']);
 const loading = ref<any>();
 const fileBaseUrl: Ref<string> = ref(
-  (import.meta.env.VITE_BASE_URL + '/') as string
+  import.meta.env.VITE_FILE_BASE_URL as string
 );
 
 interface State {

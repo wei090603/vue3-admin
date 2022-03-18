@@ -42,9 +42,18 @@ declare namespace API {
     type CategoryItem = {
       id: string;
       title: string;
+      grade: number;
+      children: CategoryItem[];
+    };
+    type CategoryAdd = {
+      id: string;
+      parentId: number;
+      title: string;
+      grade: number;
     };
     type CategoryState = CommonState & {
       formVisible: boolean;
+      parentName: string;
     };
   }
   namespace Tag {

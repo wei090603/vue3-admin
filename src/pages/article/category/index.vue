@@ -13,6 +13,7 @@
   <table-pagination
     v-model:tableOpts="tableData"
     @getTableData="getTableData"
+    @handleCreate="handleCreate"
     @handleEdit="handleEdit"
     @handleDel="handleDel"
   >
@@ -33,6 +34,9 @@
       ref="formEle"
       label-width="100px"
     >
+      <el-form-item label="父级分类" prop="parentId" v-if="formData.parentId">
+        <el-input disabled v-model="parentName"></el-input>
+      </el-form-item>
       <el-form-item label="分类名：" prop="title">
         <el-input v-model="formData.title"></el-input>
       </el-form-item>
@@ -57,13 +61,16 @@ import {
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
 
 const state = reactive<API.Category.CategoryState>({
-  searchForm: { limit: 10, page: 1 },
+  searchForm: { limit: 10, page: 1, title: '' },
   formVisible: false,
+  parentName: '',
 });
 
-const formData = reactive<API.Category.CategoryItem>({
+const formData = reactive<API.Category.CategoryAdd>({
   id: '',
   title: '',
+  parentId: 0,
+  grade: 0,
 });
 
 const handleFilterChange = (filters: any) => {
@@ -84,12 +91,25 @@ const getTableData = async () => {
 const formEle = ref<typeof ElForm>();
 const resetForm = () => {
   formEle.value!.resetFields();
-  formData.id = '';
 };
 
 const fromClose = () => {
   resetForm();
+  formData.id = '';
+  formData.parentId = 0;
+  formData.grade = 0;
+  state.parentName = '';
   state.formVisible = false;
+};
+
+// 添加子级分类
+const handleCreate = (item: API.Category.CategoryItem) => {
+  formVisible.value = true;
+  nextTick(() => {
+    state.parentName = item.title;
+    formData.parentId = Number(item.id);
+    formData.grade = 1;
+  });
 };
 
 // 表单提交
@@ -138,7 +158,7 @@ const filterGroup = reactive({
   filters: [
     {
       type: GroupFilterType.input,
-      key: 'name',
+      key: 'title',
       label: '分类名：',
       initialValue: '',
       validator: [
@@ -185,6 +205,13 @@ const tableData = reactive({
     width: '300',
     data: [
       {
+        label: '添加子分类',
+        type: 'primary',
+        icon: 'el-icon-edit',
+        handleFunc: 'handleCreate',
+        isShow: (item: API.Category.CategoryItem) => item.grade === 0,
+      },
+      {
         label: '编辑',
         type: 'primary',
         icon: 'el-icon-edit',
@@ -201,13 +228,14 @@ const tableData = reactive({
 });
 
 const rules = reactive({
+  parentId: [{ required: true }],
   title: [
     { required: true, message: '请输入分类名', trigger: 'blur' },
     { min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur' },
   ],
 });
 
-const { formVisible } = toRefs(state);
+const { formVisible, parentName } = toRefs(state);
 
 onMounted(() => {
   getTableData();

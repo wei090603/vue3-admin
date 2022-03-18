@@ -150,7 +150,7 @@ const handleBeforeUpload = (file: any) => {
 const handleUploadSuccess = (res: any, file: UploadFile) => {
   if (res.code === 200) {
     const { data } = res;
-    props.onUploadSuccess?.(data.path);
+    props.onUploadSuccess?.(data.filename);
   } else {
     ElMessage.error(res.message || '上传文件失败');
     props.onUploadFail?.(res.message, state.file);
