@@ -97,7 +97,7 @@ import { ElMessage, ElMessageBox, ElForm } from 'element-plus';
 
 const fileBaseUrl = import.meta.env.VITE_FILE_BASE_URL;
 const state = reactive<API.Advertise.AdvertiseState>({
-  searchForm: { limit: 10, page: 1 },
+  searchForm: { limit: 10, page: 1, title: '', type: '' },
   formVisible: false,
 });
 
@@ -113,6 +113,10 @@ const formData = reactive<API.Advertise.AdvertiseItem>({
   status: true,
   describe: '',
 });
+
+const type = {
+  home: '首页',
+};
 
 const handleFilterChange = (filters: any) => {
   // 搜索后要回到第一页
@@ -132,13 +136,11 @@ const getTableData = async () => {
 const formEle = ref<typeof ElForm>();
 const resetForm = () => {
   formEle.value!.resetFields();
-  formData.id = '';
-
-  console.log(formData, 'formData');
 };
 
 const fromClose = () => {
   resetForm();
+  formData.id = '';
   state.formVisible = false;
 };
 
@@ -202,10 +204,16 @@ const filterGroup = reactive({
       ],
     },
     {
-      type: GroupFilterType.input,
-      key: 'position',
+      type: GroupFilterType.select,
+      key: 'type',
       label: '广告位置',
       initialValue: '',
+      options: [
+        {
+          label: '首页',
+          value: 'home',
+        },
+      ],
       validator: [
         {
           max: 20,
@@ -237,6 +245,7 @@ const tableData = reactive({
     {
       label: '广告位置',
       prop: 'type',
+      render: (value: Type) => type[value],
     },
     {
       label: '广告图',
