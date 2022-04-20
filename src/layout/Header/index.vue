@@ -49,9 +49,11 @@ import Theme from './components/theme.vue';
 import Breadcrumb from './Breadcrumb.vue';
 // import PasswordLayer from './passwordLayer.vue';
 import { useAppStore } from '@/store/app';
+import { useUserStore } from '@/store/user';
 import { storeToRefs } from 'pinia';
 
 const store = useAppStore();
+const userStore = useUserStore();
 
 const layer = reactive({
   show: false,
@@ -66,7 +68,7 @@ const opendStateChange = () => {
 
 // login out the system
 const loginOut = () => {
-  console.log('退出');
+  userStore.loginOut();
 };
 
 const showPasswordLayer = () => {

@@ -12,39 +12,36 @@
       </div>
 
       <el-form-item prop="account">
-        <span class="svg-container">
+        <!-- <span class="svg-container">
           <svg-icon name="user" />
-        </span>
+        </span> -->
         <el-input
           v-model="form.account"
           placeholder="请输入用户名"
           name="username"
           type="text"
+          :prefix-icon="Calendar"
           @keyup.enter="handleLogin"
         />
       </el-form-item>
 
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon name="password" />
-        </span>
         <el-input
           v-model="form.password"
           :type="state.passwordType == 'password' ? 'password' : 'text'"
           placeholder="请输入密码"
           name="password"
+          :suffix-icon="Calendar"
+          :prefix-icon="Search"
           @keyup.enter="handleLogin"
         />
-        <span class="show-pwd" @click="showPwd">
+        <!-- <span class="show-pwd" @click="showPwd">
           <svg-icon
             :name="state.passwordType === 'password' ? 'eye' : 'eye-open'"
           />
-        </span>
+        </span> -->
       </el-form-item>
-      <el-button
-        type="primary"
-        style="width: 100%; margin-bottom: 30px"
-        @click.prevent="handleLogin"
+      <el-button type="primary" style="width: 100%" @click.prevent="handleLogin"
         >登录</el-button
       >
     </el-form>
@@ -56,6 +53,7 @@ import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElForm } from 'element-plus';
 import { useUserStore } from '@/store/user';
+import { Calendar, Search } from '@element-plus/icons-vue';
 
 const router = useRouter();
 const store = useUserStore();
@@ -78,9 +76,9 @@ const form = reactive<LoginForm>({
 });
 
 const rules = ref({
-  account: [{ required: true, trigger: 'blur', message: '不能为空' }],
+  account: [{ required: true, trigger: 'blur', message: '用户名不能为空' }],
   password: [
-    { required: true, trigger: 'blur', message: '不能为空' },
+    { required: true, trigger: 'blur', message: '密码不能为空' },
     { min: 6, max: 30, trigger: 'blur', message: '密码长度不正确' },
   ],
 });
@@ -129,12 +127,13 @@ $cursor: #fff;
     padding: 0 35px;
     overflow: hidden;
     .el-input {
-      display: inline-block;
+      width: 100%;
       height: 47px;
-      width: 85%;
-
-      input {
+      .el-input__wrapper {
         background: transparent;
+        box-shadow: none;
+      }
+      input {
         border: 0px;
         -webkit-appearance: none;
         border-radius: 0px;
@@ -142,7 +141,7 @@ $cursor: #fff;
         color: $light_gray;
         height: 47px;
         caret-color: $cursor;
-
+        background: transparent;
         &:-webkit-autofill {
           box-shadow: 0 0 0px 1000px $bg inset !important;
           -webkit-text-fill-color: $cursor !important;
@@ -161,9 +160,6 @@ $cursor: #fff;
       background: none;
       border-radius: 0;
     }
-    .el-form-item-none .el-form-item__label {
-      width: 94%;
-    }
   }
 
   .tips {
@@ -176,14 +172,6 @@ $cursor: #fff;
         margin-right: 16px;
       }
     }
-  }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
   }
 
   .title-container {

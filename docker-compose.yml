@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  vite-admin:
+    container_name: vite-admin
+    build:
+      context: .
+      dockerfile: ./Prod_Dockerfile
+    volumes:
+      - '.:/app'
+    ports:
+      - 8081:80
