@@ -4,7 +4,7 @@ services:
     container_name: vite-admin
     build:
       context: .
-      dockerfile: ./Prod_Dockerfile
+      dockerfile: ./Dockerfile
     volumes:
       - '.:/app'
     ports:
