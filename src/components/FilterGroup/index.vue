@@ -231,7 +231,7 @@ const handleClickClear = () => {
 
 <style lang="scss" scoped>
 .search-wrapper {
-  border-bottom: 1px solid var(--el-border-color-base);
+  border-bottom: 1px solid #f1f1f1;
 }
 // 查询表单
 .search-form {
