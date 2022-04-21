@@ -1,1 +1,0 @@
-import{s as t}from"./index.83fac2ba.js";const e=e=>t({url:"notice",method:"get",params:e}),a=e=>t({url:"notice",method:"post",data:e}),o=(e,a)=>t({url:`notice/${e}`,method:"put",data:a}),s=e=>t({url:`notice/${e}`,method:"delete"}),d=e=>t({url:`notice/${e}`,method:"get"});export{s as a,d as b,o as c,a as d,e as n};
