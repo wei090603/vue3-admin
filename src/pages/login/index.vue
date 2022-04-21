@@ -20,7 +20,7 @@
           placeholder="请输入用户名"
           name="username"
           type="text"
-          :prefix-icon="Calendar"
+          :prefix-icon="Avatar"
           @keyup.enter="handleLogin"
         />
       </el-form-item>
@@ -31,15 +31,17 @@
           :type="state.passwordType == 'password' ? 'password' : 'text'"
           placeholder="请输入密码"
           name="password"
-          :suffix-icon="Calendar"
-          :prefix-icon="Search"
+          :prefix-icon="Lock"
           @keyup.enter="handleLogin"
-        />
-        <!-- <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :name="state.passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
-        </span> -->
+        >
+          <template #suffix>
+            <svg-icon
+              class="show-pwd"
+              @click="showPwd"
+              :name="state.passwordType === 'password' ? 'eye' : 'eye-open'"
+            />
+          </template>
+        </el-input>
       </el-form-item>
       <el-button type="primary" style="width: 100%" @click.prevent="handleLogin"
         >登录</el-button
@@ -53,7 +55,7 @@ import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElForm } from 'element-plus';
 import { useUserStore } from '@/store/user';
-import { Calendar, Search } from '@element-plus/icons-vue';
+import { View, Lock, Avatar } from '@element-plus/icons-vue';
 
 const router = useRouter();
 const store = useUserStore();
@@ -137,7 +139,6 @@ $cursor: #fff;
         border: 0px;
         -webkit-appearance: none;
         border-radius: 0px;
-        padding: 12px 5px 12px 15px;
         color: $light_gray;
         height: 47px;
         caret-color: $cursor;
@@ -187,13 +188,7 @@ $cursor: #fff;
   }
 
   .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
     cursor: pointer;
-    user-select: none;
   }
 }
 </style>

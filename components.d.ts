@@ -5,8 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Base: typeof import('./src/components/FileUploader/base.vue')['default']
-    EditorImage: typeof import('./src/components/Tinymce/components/EditorImage.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -29,8 +27,6 @@ declare module '@vue/runtime-core' {
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElPopover: typeof import('element-plus/es')['ElPopover']
-    ElRadio: typeof import('element-plus/es')['ElRadio']
-    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
@@ -40,17 +36,17 @@ declare module '@vue/runtime-core' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
-    ElUpload: typeof import('element-plus/es')['ElUpload']
+    FileUploaderBase: typeof import('./src/components/FileUploader/base.vue')['default']
+    FileUploaderImageUploader: typeof import('./src/components/FileUploader/ImageUploader.vue')['default']
+    FileUploaderVideoUploader: typeof import('./src/components/FileUploader/VideoUploader.vue')['default']
     FilterGroup: typeof import('./src/components/FilterGroup/index.vue')['default']
     ImagePreview: typeof import('./src/components/ImagePreview/index.vue')['default']
-    ImageUploader: typeof import('./src/components/FileUploader/ImageUploader.vue')['default']
-    Index: typeof import('./src/components/tinymce/Index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TablePagination: typeof import('./src/components/TablePagination/index.vue')['default']
+    TablePaginationTablePagination: typeof import('./src/components/TablePagination/tablePagination.vue')['default']
     Tinymce: typeof import('./src/components/Tinymce/index.vue')['default']
-    VideoUploader: typeof import('./src/components/FileUploader/VideoUploader.vue')['default']
   }
 }
 

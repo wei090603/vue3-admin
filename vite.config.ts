@@ -17,6 +17,11 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()],
+      dirs: ['src/components'],
+      // 组件名称包含目录 防止同名组件冲突
+      directoryAsNamespace: true,
+      // 指定类型声明，为true时 在根目录创建
+      dts: 'components.d.ts',
     }),
     ElementPlus(),
     createSvgIconsPlugin({

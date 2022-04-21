@@ -13,7 +13,7 @@
       :border="!tableOpts.hideBorder"
       :span-method="tableOpts.spanMethod"
       row-key="id"
-      :aa="tableOpts.rowKey"
+      :child-key="tableOpts.rowKey"
       default-expand-all
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       style="width: 100%"

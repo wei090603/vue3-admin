@@ -49,7 +49,9 @@ const reload = () => {
 
 <style lang="scss" scoped>
 .tags-view-item {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
   cursor: pointer;
   height: 24px;
@@ -60,22 +62,16 @@ const reload = () => {
   padding: 0 8px;
   font-size: 12px;
   margin-left: 5px;
-  margin-top: 4px;
   border-radius: 2px;
   a {
-    color: var(--system-header-text-color);
-    height: 26px;
     display: inline-block;
+    color: var(--system-header-text-color);
     padding-left: 8px;
     padding-right: 8px;
   }
   .el-icon-refresh-right {
     display: inline-block;
     margin-right: 5px;
-  }
-  .el-icon-close {
-    display: inline-block;
-    height: 26px;
   }
   &:first-of-type {
     margin-left: 15px;

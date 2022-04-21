@@ -25,16 +25,9 @@
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
           <span>
-            <el-button type="text" @click="handleAppend(data)"
-              >添加资源</el-button
-            >
-            <el-button type="text" @click="handleUpdate(data)"
-              >编辑资源</el-button
-            >
-            <el-button
-              class="notice-text-color"
-              type="text"
-              @click="handleDelete(data)"
+            <el-button type="text">添加资源</el-button>
+            <el-button type="text">编辑资源</el-button>
+            <el-button class="notice-text-color" type="text"
               >删除资源</el-button
             >
           </span>
@@ -56,13 +49,13 @@
         label-width="100px"
         class="demo-resourceForm"
       >
-        <el-form-item
+        <!-- <el-form-item
           label="父对象"
           prop="parentLable"
           v-if="resourcesForm.parent"
         >
           <el-input v-model="parentName" disabled></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="资源名称" prop="title">
           <el-input v-model="resourcesForm.title"></el-input>
         </el-form-item>
@@ -79,7 +72,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSubmit">保存</el-button>
+          <el-button type="primary">保存</el-button>
           <el-button @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
@@ -95,16 +88,14 @@ onMounted(() => {
   getTableData();
 });
 
+const resourcesId = ref('');
 const resourcesData = ref([]);
 const getTableData = async () => {
-  resourcesData.value = await resourcesList();
+  // resourcesData.value = await resourcesList();
 };
 
 const formEle = ref(null);
-const resetForm = () => {
-  formEle.value.resetFields();
-  resourcesId.value = '';
-};
+const resetForm = () => {};
 
 const resourcesFormClose = () => {
   resetForm();
@@ -124,65 +115,6 @@ const rules = reactive({
   title: [{ required: true, message: '请输入资源名称', trigger: 'blur' }],
   path: [{ required: true, message: '请输入资源路径', trigger: 'blur' }],
 });
-
-const parentName = ref('');
-const handleAppend = (parent) => {
-  parentName.value = parent.title;
-  resourcesForm.parent = parent.id;
-  resourcesVisible.value = true;
-};
-
-const resourcesId = ref('');
-const handleUpdate = (item) => {
-  console.log(item, 'item');
-  resourcesVisible.value = true;
-  resourcesId.value = item.id;
-  nextTick(() => {
-    for (let key in resourcesForm) {
-      resourcesForm[key] = item[key];
-    }
-  });
-};
-
-const handleSubmit = async () => {
-  const valid = await formEle.value?.validate();
-  if (valid === true) {
-    if (resourcesId.value) {
-      await resourcesPatch(resourcesId.value, resourcesForm);
-      getTableData();
-      resourcesVisible.value = false;
-      ElMessage({
-        type: 'success',
-        message: '修改成功',
-      });
-    } else {
-      await resourcesCreate(resourcesForm);
-      getTableData();
-      resourcesVisible.value = false;
-      resetForm();
-      ElMessage({
-        type: 'success',
-        message: '新增成功',
-      });
-    }
-  }
-};
-
-const handleDelete = async ({ id }) => {
-  ElMessageBox.confirm('确定删除该资源, 是否继续?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning',
-  })
-    .then(async () => {
-      await resourcesDelete(id);
-      ElMessage({
-        type: 'success',
-        message: '删除成功!',
-      });
-    })
-    .catch(() => {});
-};
 </script>
 
 <style lang="scss" scoped>

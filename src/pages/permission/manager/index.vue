@@ -258,11 +258,11 @@ const getTableData = async () => {
 const managerFormEle = ref<typeof ElForm>();
 const resetForm = () => {
   managerFormEle.value!.resetFields();
-  formData.id = '';
 };
 
 const managerFromClose = () => {
   resetForm();
+  formData.id = '';
   state.formVisible = false;
 };
 

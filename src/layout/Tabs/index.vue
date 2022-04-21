@@ -1,9 +1,6 @@
 <template>
   <div class="tabs">
-    <el-scrollbar
-      ref="scrollbarDom"
-      class="scroll-container tags-view-container"
-    >
+    <div class="item-main">
       <Item
         v-for="menu in menuList"
         :key="menu.meta.title"
@@ -12,7 +9,7 @@
         @close="delMenu(menu)"
         @reload="pageReload"
       />
-    </el-scrollbar>
+    </div>
     <div class="handle">
       <el-dropdown placement="bottom">
         <div class="el-dropdown-link">
@@ -75,7 +72,6 @@ import { FullScreen, ArrowDown } from '@element-plus/icons-vue';
 const store = useAppStore();
 const route = useRoute();
 const router = useRouter();
-const scrollbarDom: any = ref(null);
 const defaultMenu: any = {
   path: '/dashboard',
   meta: { title: '首页', hideClose: true },
@@ -182,6 +178,9 @@ initMenu(route);
   border-bottom: 1px solid var(--system-header-border-color);
   border-top: 1px solid var(--system-header-border-color);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  .item-main {
+    flex: 1;
+  }
   .handle {
     min-width: 95px;
     height: 100%;
@@ -200,23 +199,6 @@ initMenu(route);
       color: var(--system-header-text-color);
     }
   }
-}
-:deep(.scroll-container) {
-  white-space: nowrap;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  .el-scrollbar__bar {
-    .el-scrollbar__wrap {
-      height: 49px;
-    }
-  }
-}
-.tags-view-container {
-  height: 34px;
-  flex: 1;
-  width: 100%;
-  display: flex;
 }
 .el-icon-full-screen {
   cursor: pointer;
