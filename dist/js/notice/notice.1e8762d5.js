@@ -1,0 +1,1 @@
+import{s as t}from"../../assets/index.755b2133.js";const e=e=>t({url:"notice",method:"get",params:e}),o=e=>t({url:"notice",method:"post",data:e}),a=(e,o)=>t({url:`notice/${e}`,method:"put",data:o}),s=e=>t({url:`notice/${e}`,method:"delete"}),d=e=>t({url:`notice/${e}`,method:"get"});export{s as a,d as b,a as c,o as d,e as n};

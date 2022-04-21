@@ -104,7 +104,7 @@ a.udl-h:hover {
   text-decoration: underline;
 }
 
-@for $i from 1 through 200 {
+@for $i from 1 through 100 {
   .m#{$i} {
     margin: ($i) + px;
   }
@@ -138,10 +138,6 @@ a.udl-h:hover {
   }
 
   .fz#{$i} {
-    font-size: ($i) + px;
-  }
-
-  .lh#{$i} {
     font-size: ($i) + px;
   }
 }

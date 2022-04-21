@@ -1,0 +1,1 @@
+import{s}from"../../assets/index.755b2133.js";const t=t=>s({url:"roles",method:"get",data:t}),e=()=>s({url:"roles/list",method:"get"}),o=t=>s({url:"roles",method:"post",data:t});export{o as a,e as b,t as r};
