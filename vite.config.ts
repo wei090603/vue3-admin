@@ -62,6 +62,7 @@ export default defineConfig({
     minify: 'terser',
     outDir: 'dist',
     assetsDir: 'assets',
+    cssCodeSplit: true,
     chunkSizeWarningLimit: 1500,
     terserOptions: {
       compress: {
