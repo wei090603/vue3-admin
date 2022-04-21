@@ -4,14 +4,8 @@ FROM node:15-alpine as builder
 # 准备工作目录
 WORKDIR /app
 
-# 复制 package.json
+# 复制项目
 COPY . .
-
-# 安装目录
-RUN npm install --no-progress
-
-# 构建
-RUN npm run build:prod
 
 # 准备 nginx
 FROM nginx
