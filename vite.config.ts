@@ -6,6 +6,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import ElementPlus from 'unplugin-element-plus/vite';
+import viteCompression from 'vite-plugin-compression';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -30,6 +31,14 @@ export default defineConfig({
       // 执行icon name的格式
       symbolId: 'icon-[dir]-[name]',
     }),
+    viteCompression({
+      //gzip压缩
+      verbose: true,
+      disable: false,
+      threshold: 10240,
+      algorithm: 'gzip',
+      ext: '.gz',
+    }),
   ],
   resolve: {
     alias: {
@@ -43,20 +52,6 @@ export default defineConfig({
       },
     },
   },
-  // build: {
-  //   minify: 'terser',
-  //   outDir: 'dist',
-  //   assetsDir: 'assets',
-  //   sourcemap: false,
-  //   terserOptions: {
-  //     // 删除打印
-  //     compress: {
-  //       drop_console: true,
-  //       drop_debugger: true,
-  //     },
-  //   },
-  // },
-
   build: {
     sourcemap: false,
     minify: 'terser',
@@ -72,7 +67,12 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
+        //静态资源分类打包
+        chunkFileNames: 'static/js/[name]-[hash].js',
+        entryFileNames: 'static/js/[name]-[hash].js',
+        assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
         manualChunks(id) {
+          //静态资源分拆打包
           if (id.includes('node_modules')) {
             return id
               .toString()
@@ -80,14 +80,6 @@ export default defineConfig({
               .split('/')[0]
               .toString();
           }
-        },
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId
-            ? chunkInfo.facadeModuleId.split('/')
-            : [];
-          const fileName =
-            facadeModuleId[facadeModuleId.length - 2] || '[name]';
-          return `js/${fileName}/[name].[hash].js`;
         },
       },
     },
