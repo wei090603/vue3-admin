@@ -44,7 +44,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TablePagination: typeof import('./src/components/TablePagination/index.vue')['default']
-    TablePaginationTablePagination: typeof import('./src/components/TablePagination/tablePagination.vue')['default']
     Tinymce: typeof import('./src/components/Tinymce/index.vue')['default']
   }
 }
