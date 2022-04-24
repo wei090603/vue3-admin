@@ -9,13 +9,16 @@ declare namespace API {
   };
   namespace Role {
     type RoleItem = {
-      id?: number;
+      id: number | string;
       roleName: string;
       remark: string;
+      mark: string;
     };
     type RoleState = CommonState & {
       formVisible: boolean;
       rolesData: RoleItem[];
+      resourcesData: Resources.ResourcesItem[];
+      resourcesVisible: boolean;
     };
   }
   namespace Manager {
@@ -121,5 +124,22 @@ declare namespace API {
     };
 
     type NoticeState = CommonState & {};
+  }
+
+  namespace Resources {
+    type ResourcesItem = {
+      title: string;
+      id: number | string;
+      parentId: number | string;
+      path: string;
+      icon: string;
+      type: string;
+    };
+
+    type State = {
+      formVisible: boolean;
+      resourcesData: ResourcesItem[];
+      parentName: string;
+    };
   }
 }

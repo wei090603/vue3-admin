@@ -13,7 +13,13 @@
   </div>
 
   <div class="table-container">
-    <table-pagination :tableOpts.sync="tableData" @getTableData="getTableData">
+    <table-pagination
+      :tableOpts.sync="tableData"
+      @getTableData="getTableData"
+      @handleEdit="handleEdit"
+      @handleDelete="handleDelete"
+      @handlePermission="handlePermission"
+    >
     </table-pagination>
   </div>
 
@@ -49,31 +55,31 @@
     </el-form>
   </el-dialog>
 
-  <!-- <el-dialog
-      title="分配菜单"
-      v-model="resourcesVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      width="40%"
-      :before-close="resourcesClose"
-    >
-      <el-tree
-        ref="tree"
-        :data="resourcesData"
-        show-checkbox
-        default-expand-all
-        :default-checked-keys="rolesResources"
-        node-key="id"
-        highlight-current
-        :props="{ label: 'title' }"
-      />
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button type="primary" @click="handleRolesMenu">保存</el-button>
-          <el-button @click="resourcesClose">取消</el-button>
-        </span>
-      </template>
-    </el-dialog> -->
+  <el-dialog
+    title="分配菜单"
+    v-model="resourcesVisible"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    width="40%"
+    :before-close="resourcesClose"
+  >
+    <el-tree
+      ref="tree"
+      :data="resourcesData"
+      show-checkbox
+      default-expand-all
+      :default-checked-keys="resourcesForm.rolesResources"
+      node-key="id"
+      highlight-current
+      :props="{ label: 'title' }"
+    />
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="handleRolesMenu">保存</el-button>
+        <el-button @click="resourcesClose">取消</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -81,14 +87,24 @@ import { reactive, ref, onMounted, nextTick, toRefs } from 'vue';
 import FilterGroup from '@/components/FilterGroup/index.vue';
 import { GroupFilterType } from '@/constants';
 import TablePagination from '@/components/TablePagination/index.vue';
-import { rolesGet, rolesPost } from '@/api/roles';
+import {
+  rolesDel,
+  rolesGet,
+  rolesPost,
+  rolesPatch,
+  rolesMenuList,
+  rolesResourcesPatch,
+} from '@/api/roles';
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
+import { resourcesGet } from '@/api/resources';
 
 const formEle = ref<typeof ElForm>();
 const state = reactive<API.Role.RoleState>({
   rolesData: [],
   searchForm: { limit: 10, page: 1 },
   formVisible: false,
+  resourcesData: [],
+  resourcesVisible: false,
 });
 
 const getTableData = async () => {
@@ -99,10 +115,9 @@ const getTableData = async () => {
   tableData.total = total;
 };
 
-// const resourcesData = ref([]);
-// const getResourcesList = async () => {
-//   resourcesData.value = await resourcesList();
-// };
+const getResourcesList = async () => {
+  state.resourcesData = await resourcesGet({});
+};
 
 const resetForm = () => {
   formEle.value!.resetFields();
@@ -110,6 +125,7 @@ const resetForm = () => {
 
 const formClose = () => {
   resetForm();
+  formData.id = '';
   state.formVisible = false;
 };
 
@@ -118,94 +134,86 @@ const handleFilterChange = (filters: any) => {
   console.log(filters, 'filters');
 };
 
-const formData = reactive({
+const formData = reactive<API.Role.RoleItem>({
   id: '',
   mark: '',
   roleName: '',
   remark: '',
 });
+
+const resourcesForm = reactive({
+  id: '',
+  rolesResources: [],
+});
+
 const rules = reactive({
   roleName: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
   mark: [{ required: true, message: '请输入角色标识', trigger: 'blur' }],
 });
 
 const handleSubmit = async () => {
-  await formEle.value?.validate();
-  const valid = await formEle.value?.validate();
-  if (valid === true) {
-    if (formData.id) {
-      // await rolesPatch(formData.id, formData);
-      getTableData();
-      formVisible.value = false;
-      ElMessage({
-        type: 'success',
-        message: '修改成功',
-      });
-    } else {
-      await rolesPost(formData);
-      getTableData();
-      formVisible.value = false;
-      resetForm();
-      ElMessage({
-        type: 'success',
-        message: '新增成功',
-      });
-    }
-  }
+  await formEle.value!.validate();
+  formData.id
+    ? await rolesPatch(+formData.id, formData)
+    : await rolesPost(formData);
+  getTableData();
+  ElMessage({
+    type: 'success',
+    message: formData.id ? '修改成功' : '新增成功',
+  });
+  formClose();
 };
 
-// const handleEdit = (item) => {
-//   formVisible.value = true;
-//   rolesId.value = item.id;
-//   nextTick(() => {
-//     for (let key in formData) {
-//       formData[key] = item[key];
-//     }
-//   });
-// };
+const handleEdit = (item: API.Role.RoleItem) => {
+  formVisible.value = true;
+  formData.id = item.id;
+  nextTick(() => {
+    formData.mark = item.mark;
+    formData.remark = item.remark;
+    formData.roleName = item.roleName;
+  });
+};
 
-// const tree = ref(null);
-// const resourcesVisible = ref(false);
-// const rolesResources = ref([]);
-// const handlePermission = async ({ id }) => {
-//   resourcesVisible.value = true;
-//   rolesId.value = id;
-//   const { resources } = await rolesMenuList(id);
-//   rolesResources.value = resources;
-// };
+const tree: any = ref(null);
+const handlePermission = async ({ id }: API.Role.RoleItem) => {
+  state.resourcesVisible = true;
+  resourcesForm.id = id as string;
+  resourcesForm.rolesResources = await rolesMenuList(+id);
+};
 
-// const handleRolesMenu = async () => {
-//   await rolesResourcesPatch(rolesId.value, {
-//     resources: tree.value.getCheckedKeys(),
-//   });
-//   resourcesClose();
-//   rolesId.value = '';
-//   ElMessage({
-//     type: 'success',
-//     message: '修改成功',
-//   });
-// };
+const handleRolesMenu = async () => {
+  await rolesResourcesPatch(+resourcesForm.id, {
+    resourcesId: tree.value.getCheckedKeys(),
+  });
+  resourcesClose();
+  ElMessage({
+    type: 'success',
+    message: '修改成功',
+  });
+};
 
-// const resourcesClose = () => {
-//   tree.value.setCheckedKeys([]);
-//   resourcesVisible.value = false;
-// };
+const resourcesClose = () => {
+  tree.value!.setCheckedKeys([]);
+  resourcesForm.rolesResources = [];
+  resourcesForm.id = '';
+  resourcesVisible.value = false;
+};
 
-// const handleDelete = async ({ id }) => {
-//   ElMessageBox.confirm('确定删除该角色, 是否继续?', '提示', {
-//     confirmButtonText: '确定',
-//     cancelButtonText: '取消',
-//     type: 'warning',
-//   })
-//     .then(async () => {
-//       await rolesDelete(id);
-//       ElMessage({
-//         type: 'success',
-//         message: '删除成功!',
-//       });
-//     })
-//     .catch(() => {});
-// };
+const handleDelete = async ({ id }: API.Role.RoleItem) => {
+  ElMessageBox.confirm('确定删除该角色, 是否继续?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(async () => {
+      await rolesDel(+id);
+      ElMessage({
+        type: 'success',
+        message: '删除成功!',
+      });
+    })
+    .catch(() => {});
+};
 
 const filterGroup = reactive({
   onClickSearch: handleFilterChange,
@@ -297,7 +305,8 @@ const tableData = reactive({
 
 onMounted(() => {
   getTableData();
+  getResourcesList();
 });
 
-const { formVisible } = toRefs(state);
+const { formVisible, resourcesVisible, resourcesData } = toRefs(state);
 </script>

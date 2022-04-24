@@ -11,7 +11,7 @@ const Route: RouteRecordRaw[] = [
       {
         path: 'resource',
         component: () => import('@/pages/permission/resource/index.vue'),
-        meta: { title: '菜单列表', keepAlive: true, hidden: false },
+        meta: { title: '资源列表', keepAlive: true, hidden: false },
       },
       {
         path: 'roles',

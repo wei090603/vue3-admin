@@ -1,16 +1,13 @@
 <template>
   <div class="warpper">
-    <div class="operate clearfix">
-      <div class="operate-btn-list">
-        <el-button
-          type="primary"
-          class="btn-plain"
-          @click="resourcesVisible = true"
-          >新增资源</el-button
-        >
-        <el-button type="primary" class="btn-plain">删除选中</el-button>
-        <el-button type="primary" class="btn-plain r">导入</el-button>
-        <el-button type="primary" class="btn-plain r">导出</el-button>
+    <div class="operate-wrapper">
+      <div class="operate-left-btn">
+        <el-button plain @click="formVisible = true">新增</el-button>
+        <el-button plain type="danger">删除</el-button>
+      </div>
+      <div class="operate-right-btn">
+        <el-button type="primary">导入</el-button>
+        <el-button type="primary" @click="">导出</el-button>
       </div>
     </div>
     <el-tree
@@ -25,9 +22,16 @@
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
           <span>
-            <el-button type="text">添加资源</el-button>
-            <el-button type="text">编辑资源</el-button>
-            <el-button class="notice-text-color" type="text"
+            <el-button type="text" @click="handleAppend(data)"
+              >添加资源</el-button
+            >
+            <el-button type="text" @click="handleUpdate(data)"
+              >编辑资源</el-button
+            >
+            <el-button
+              class="notice-text-color"
+              type="text"
+              @click="handleDelete(data.id)"
               >删除资源</el-button
             >
           </span>
@@ -35,8 +39,8 @@
       </template>
     </el-tree>
     <el-dialog
-      :title="`${resourcesId ? '编辑' : '新增'}资源`"
-      v-model="resourcesVisible"
+      :title="`${resourcesForm.id ? '编辑' : '新增'}资源`"
+      v-model="formVisible"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       width="40%"
@@ -49,13 +53,13 @@
         label-width="100px"
         class="demo-resourceForm"
       >
-        <!-- <el-form-item
+        <el-form-item
           label="父对象"
           prop="parentLable"
-          v-if="resourcesForm.parent"
+          v-if="resourcesForm.parentId"
         >
           <el-input v-model="parentName" disabled></el-input>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="资源名称" prop="title">
           <el-input v-model="resourcesForm.title"></el-input>
         </el-form-item>
@@ -72,7 +76,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">保存</el-button>
+          <el-button type="primary" @click="handleSubmit">保存</el-button>
           <el-button @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
@@ -81,40 +85,104 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, nextTick } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { onMounted, reactive, ref, toRefs, nextTick } from 'vue';
+import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
+import {
+  resourcesGet,
+  resourcesPost,
+  resourcesPatch,
+  resourcesDelete,
+} from '@/api/resources';
 
-onMounted(() => {
-  getTableData();
+const formEle = ref<typeof ElForm>();
+const state = reactive<API.Resources.State>({
+  formVisible: false,
+  resourcesData: [],
+  parentName: '',
 });
 
-const resourcesId = ref('');
-const resourcesData = ref([]);
 const getTableData = async () => {
-  // resourcesData.value = await resourcesList();
+  state.resourcesData = await resourcesGet({});
 };
 
-const formEle = ref(null);
-const resetForm = () => {};
+const resetForm = () => {
+  formEle.value!.resetFields();
+};
 
 const resourcesFormClose = () => {
   resetForm();
-  resourcesVisible.value = false;
+  resourcesForm.id = '';
+  state.parentName = '';
+  resourcesForm.parentId = '';
+  state.formVisible = false;
 };
 
-const resourcesVisible = ref(false);
-const resourcesForm = reactive({
-  parent: '',
+const resourcesForm = reactive<API.Resources.ResourcesItem>({
+  id: '',
+  parentId: '',
   title: '',
   path: '',
   icon: '',
   type: 'menu',
 });
 
+const handleAppend = (item: API.Resources.ResourcesItem) => {
+  state.parentName = item.title;
+  resourcesForm.parentId = item.id;
+  state.formVisible = true;
+};
+
+const handleUpdate = (item: API.Resources.ResourcesItem) => {
+  resourcesForm.id = item.id;
+  state.formVisible = true;
+  nextTick(() => {
+    resourcesForm.title = item.title;
+    resourcesForm.path = item.path;
+    resourcesForm.icon = item.icon;
+    resourcesForm.type = item.type;
+  });
+};
+
+const handleDelete = async (id: number) => {
+  ElMessageBox.confirm('确定删除该资源, 是否继续?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(async () => {
+      await resourcesDelete(id);
+      getTableData();
+      ElMessage({
+        type: 'success',
+        message: '删除成功!',
+      });
+    })
+    .catch(() => {});
+};
+
 const rules = reactive({
   title: [{ required: true, message: '请输入资源名称', trigger: 'blur' }],
   path: [{ required: true, message: '请输入资源路径', trigger: 'blur' }],
 });
+
+const handleSubmit = async () => {
+  await formEle.value!.validate();
+  resourcesForm.id
+    ? await resourcesPatch(+resourcesForm.id, resourcesForm)
+    : await resourcesPost(resourcesForm);
+  getTableData();
+  ElMessage({
+    type: 'success',
+    message: resourcesForm.id ? '修改成功' : '新增成功',
+  });
+  resourcesFormClose();
+};
+
+onMounted(() => {
+  getTableData();
+});
+
+const { formVisible, resourcesData, parentName } = toRefs(state);
 </script>
 
 <style lang="scss" scoped>
