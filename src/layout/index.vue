@@ -19,14 +19,17 @@
       </el-header>
       <Tabs v-show="showTabs" />
       <el-main>
-        <router-view v-slot="{ Component, route }">
+        <router-view #default="{ Component, route }">
           <transition appear name="fade-transform" mode="out-in">
-            <el-scrollbar max-height="100%" wrap-class="el-main-box">
-              <keep-alive v-if="route.meta.keepAlive" include="">
-                <component :is="Component" :key="route.fullPath" />
-              </keep-alive>
-              <component v-else :is="Component" :key="route.fullPath" />
-            </el-scrollbar>
+            <keep-alive :include="route.meta.keepAlive ? route.name : ''">
+              <el-scrollbar
+                max-height="100%"
+                wrap-class="el-main-box"
+                :key="route.path"
+              >
+                <component :is="Component" :key="route.path" />
+              </el-scrollbar>
+            </keep-alive>
           </transition>
         </router-view>
       </el-main>
