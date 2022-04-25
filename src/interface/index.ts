@@ -142,4 +142,8 @@ declare namespace API {
       parentName: string;
     };
   }
+
+  namespace Article {
+    type State = CommonState & {};
+  }
 }

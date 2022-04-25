@@ -46,6 +46,11 @@ import { useAppStore } from '@/store/app';
 
 const store = useAppStore();
 
+// 隐藏菜单
+const hideMenu = (status = true) => {
+  store.isCollapse = status;
+};
+
 // computed
 const { isCollapse, contentFullScreen, showLogo, showTabs } =
   storeToRefs(store);
@@ -64,10 +69,6 @@ onBeforeMount(() => {
   // 监听页面变化
   useEventListener('resize', resizeHandler);
 });
-// 隐藏菜单
-const hideMenu = (status = true) => {
-  store.isCollapse = status;
-};
 </script>
 
 <style lang="scss" scoped>

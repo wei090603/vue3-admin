@@ -29,13 +29,13 @@
 import { onMounted, reactive } from 'vue';
 import FilterGroup from '@/components/FilterGroup/index.vue';
 import { GroupFilterType } from '@/constants';
-import { noticeDel, noticeGet } from '@/api/notice';
+import { articleDel, articleGet } from '@/api/article';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const state = reactive<API.Notice.NoticeState>({
+const state = reactive<API.Article.State>({
   searchForm: { limit: 10, page: 1 },
 });
 
@@ -49,7 +49,7 @@ const handleFilterChange = (filters: any) => {
 const getTableData = async () => {
   state.searchForm.page = tableData.currentPage;
   state.searchForm.limit = tableData.pageSize;
-  const { list, total } = await noticeGet(state.searchForm);
+  const { list, total } = await articleGet(state.searchForm);
   tableData.data = list;
   tableData.total = total;
 };
@@ -65,7 +65,7 @@ const handleDel = ({ id }: { id: string }) => {
     type: 'warning',
   })
     .then(async () => {
-      await noticeDel(id);
+      await articleDel(id);
       getTableData();
       ElMessage({
         type: 'success',
@@ -88,19 +88,6 @@ const filterGroup = reactive({
         {
           max: 20,
           message: '请输入 20 个以内字符',
-          trigger: ['blur', 'change'],
-        },
-      ],
-    },
-    {
-      type: GroupFilterType.input,
-      key: 'title',
-      label: '创建人：',
-      initialValue: '',
-      validator: [
-        {
-          max: 50,
-          message: '请输入 50 个以内字符',
           trigger: ['blur', 'change'],
         },
       ],

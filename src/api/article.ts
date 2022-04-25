@@ -69,3 +69,10 @@ export const articleGet = (params: object) =>
     method: 'get',
     params,
   });
+
+// 删除分类
+export const articleDel = (id: string) =>
+  request({
+    url: `article/${id}`,
+    method: 'delete',
+  });
