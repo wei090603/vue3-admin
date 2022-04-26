@@ -8,6 +8,17 @@ import axios, {
 } from 'axios';
 import { ElMessageBox, ElMessage, ElLoading } from 'element-plus';
 
+const CancelToken = axios.CancelToken;
+
+const peding: any = {};
+
+const removePeding = (key: string, isRequest = false) => {
+  if (peding[key] && isRequest) {
+    peding[key]('取消重复请求');
+  }
+  delete peding[key];
+};
+
 // 自定属性 转换为可选
 interface AxiosRequestConfigCustomize extends AxiosRequestConfig {
   $config?: {
@@ -32,6 +43,11 @@ service.interceptors.request.use(
     if (getToken()) {
       config.headers!.Authorization = `Bearer ` + getToken() || '';
     }
+    const key = config.url + '&' + config.method;
+    removePeding(key, true);
+    config.cancelToken = new CancelToken((c) => {
+      peding[key] = c;
+    });
 
     // 默认加载loading,配置为true时不加载
     if (!config.$config?.loading) {
@@ -60,6 +76,9 @@ service.interceptors.request.use(
 // 添加响应拦截器
 service.interceptors.response.use(
   (response: AxiosResponse) => {
+    // 正常请求删除记录key 防止内存溢出
+    const key = response.config.url + '&' + response.config.method;
+    removePeding(key);
     const res = response.data;
     loadingFn?.close();
     if (res.code !== 200) {
