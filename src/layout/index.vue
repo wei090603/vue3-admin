@@ -16,25 +16,18 @@
       <div class="app-main">
         <router-view #default="{ Component, route }">
           <transition appear name="fade-transform" mode="out-in">
-            <div class="app-container" :key="route.path">
-              <component :is="Component" />
-            </div>
-          </transition>
-        </router-view>
-      </div>
-      <!-- <router-view #default="{ Component, route }">
-          <transition appear name="fade-transform" mode="out-in">
-            <keep-alive :include="route.meta.keepAlive ? route.name : ''">
+            <keep-alive>
               <el-scrollbar
                 max-height="100%"
-                wrap-class="el-main-box"
+                wrap-class="app-container"
                 :key="route.path"
               >
-                <component :is="Component" :key="route.path" />
+                <component :is="Component" />
               </el-scrollbar>
             </keep-alive>
           </transition>
-        </router-view> -->
+        </router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -116,32 +109,23 @@ onBeforeMount(() => {
   overflow-x: hidden;
   box-shadow: 0 4px 4px 0 rgb(26 38 70 / 10%);
   background-color: #f0f2f5;
-  .app-container {
+  :deep(.app-container) {
     min-height: 100%;
     padding: 15px;
     background: #fff;
   }
 }
 
-// @media screen and (max-width: 1000px) {
-//   .el-aside {
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     height: 100vh;
-//     z-index: 1000;
-//     &.hide-aside {
-//       left: -250px;
-//     }
-//   }
-//   .mask {
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     width: 100vw;
-//     height: 100vh;
-//     z-index: 999;
-//     background: rgba(0, 0, 0, 0.5);
-//   }
-// }
+@media screen and (max-width: 1000px) {
+  .el-aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    &.hide-aside {
+      left: -250px;
+    }
+  }
+}
 </style>
