@@ -71,6 +71,7 @@ const sidebarMenus = computed(() => {
 }
 :deep(.layout-menu) {
   width: 100%;
+  border-right: none;
   &.collapse {
     margin-left: 0px;
   }

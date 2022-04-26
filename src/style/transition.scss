@@ -17,9 +17,14 @@
   transition: all 0.5s;
 }
 
-.fade-transform-enter {
+.fade-transform-enter-active {
   opacity: 0;
   transform: translateX(-30px);
+}
+
+.fade-transform-enter-to {
+  opacity: 1;
+  transform: translateX(0px);
 }
 
 .fade-transform-leave-to {

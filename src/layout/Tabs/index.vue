@@ -174,6 +174,8 @@ initMenu(route);
   justify-content: space-between;
   align-items: center;
   height: 40px;
+  position: relative;
+  z-index: 99;
   background: var(--system-header-background);
   border-bottom: 1px solid var(--system-header-border-color);
   border-top: 1px solid var(--system-header-border-color);
