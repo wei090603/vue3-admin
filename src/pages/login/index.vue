@@ -73,7 +73,7 @@ const state = reactive<LoginState>({
 });
 
 const form = reactive<LoginForm>({
-  account: 'admin',
+  account: '',
   password: '123456',
 });
 

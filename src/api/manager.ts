@@ -37,3 +37,11 @@ export const managerPwdPatch = (id: string) =>
     url: `manager/restPassword/${id}`,
     method: 'patch',
   });
+
+// 获取当前用户菜单权限
+export const managerResourcest = (params: object) =>
+  request({
+    url: 'manager/resources',
+    method: 'get',
+    params,
+  });

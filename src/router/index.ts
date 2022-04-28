@@ -7,18 +7,18 @@ import Platform from './modules/platform';
 import Article from './modules/article';
 import Navigation from './modules/navigation';
 
-const routes: RouteRecordRaw[] = [
-  ...Dashboard,
+export const asyncRoutes: RouteRecordRaw[] = [
   ...Navigation,
   ...Permission,
   ...Article,
-  ...Platform,
   ...System,
 ];
 
+export const constantRoutes: RouteRecordRaw[] = [...Platform, ...Dashboard];
+
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: constantRoutes,
 });
 
 export default router;

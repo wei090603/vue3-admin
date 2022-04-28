@@ -1,11 +1,9 @@
-import Layout from '@/layout/index.vue';
-
 const Route = [
   {
     path: '/article',
     name: 'article',
     meta: { title: '文章管理', icon: 'el-icon-s-operation' },
-    component: Layout,
+    component: () => import('@/layout/index.vue'),
     redirect: '/article/articleList',
     children: [
       {

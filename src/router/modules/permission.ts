@@ -1,10 +1,9 @@
 import { RouteRecordRaw } from 'vue-router';
-import Layout from '@/layout/index.vue';
 
 const Route: RouteRecordRaw[] = [
   {
     path: '/permission',
-    component: Layout,
+    component: () => import('@/layout/index.vue'),
     redirect: '/permission/manager',
     meta: { title: '权限管理' },
     children: [

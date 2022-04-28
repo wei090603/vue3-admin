@@ -1,10 +1,9 @@
 import { RouteRecordRaw } from 'vue-router';
-import Layout from '@/layout/index.vue';
 
 const Route: RouteRecordRaw[] = [
   {
     path: '/navigation',
-    component: Layout,
+    component: () => import('@/layout/index.vue'),
     redirect: '/navigation/navigationList',
     meta: { title: '导航管理' },
     children: [

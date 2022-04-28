@@ -3,11 +3,6 @@
     <div class="operate-wrapper">
       <div class="operate-left-btn">
         <el-button plain @click="formVisible = true">新增</el-button>
-        <el-button plain type="danger">删除</el-button>
-      </div>
-      <div class="operate-right-btn">
-        <el-button type="primary">导入</el-button>
-        <el-button type="primary" @click="">导出</el-button>
       </div>
     </div>
     <el-tree

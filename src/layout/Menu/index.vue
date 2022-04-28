@@ -12,7 +12,7 @@
       :unique-opened="expandOneMenu"
     >
       <menu-item
-        v-for="(item, key) in sidebarMenus"
+        v-for="(item, key) in allRoutes"
         :key="key"
         :item="item"
         :base-path="item?.path"
@@ -23,22 +23,24 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
 import MenuItem from './MenuItem.vue';
+import { useUserStore } from '@/store/user';
 
 const store = useAppStore();
+const userStore = useUserStore();
 const { isCollapse, expandOneMenu } = storeToRefs(store);
 
-const allRoutes = useRouter()
-  .options.routes.filter((item) => !item.meta?.hidden)
-  .map((item) => {
+const allRoutes: RouteRecordRaw[] = userStore.showRoutes.map(
+  (item: RouteRecordRaw) => {
     if (item.path === '/' && item.children) {
       return item.children[0];
     }
     return item;
-  });
+  }
+);
 
 const route = useRoute();
 const activeMenu = computed(() => {
@@ -49,20 +51,21 @@ const activeMenu = computed(() => {
   return path;
 });
 
-const isRouteShow = (route: any) => {
-  return !route.meta?.hidden;
-};
+// const isRouteShow = (route: any) => {
+//   return !route.meta?.hidden;
+// };
 
-const sidebarMenus = computed(() => {
-  const result = allRoutes.map((item) => {
-    if (!isRouteShow(item)) return;
-    return {
-      ...item,
-      children: item.children ? item.children.filter(isRouteShow) : null,
-    };
-  });
-  return result;
-});
+// const sidebarMenus = computed(() => {
+//   const result = allRoutes.map((item) => {
+//     console.log(item, 'item1');
+//     if (!isRouteShow(item)) return;
+//     return {
+//       ...item,
+//       children: item.children ? item.children.filter(isRouteShow) : null,
+//     };
+//   });
+//   return result;
+// });
 </script>
 
 <style lang="scss" scoped>

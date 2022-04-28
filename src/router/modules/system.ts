@@ -1,10 +1,9 @@
 import { RouteRecordRaw } from 'vue-router';
-import Layout from '@/layout/index.vue';
 
 const Route: RouteRecordRaw[] = [
   {
     path: '/system',
-    component: Layout,
+    component: () => import('@/layout/index.vue'),
     redirect: '/system/advertise',
     meta: { title: '系统管理' },
     children: [
