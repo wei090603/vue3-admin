@@ -134,6 +134,7 @@ declare namespace API {
       path: string;
       icon: string;
       type: string;
+      status: boolean;
     };
 
     type State = {

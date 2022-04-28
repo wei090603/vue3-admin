@@ -70,10 +70,13 @@
           <el-input v-model="resourcesForm.icon"></el-input>
         </el-form-item>
         <el-form-item label="菜单/按钮" prop="type">
-          <el-select v-model="resourcesForm.type" placeholder="资源类型">
-            <el-option label="菜单" value="menu"></el-option>
-            <el-option label="按钮" value="button"></el-option>
-          </el-select>
+          <el-radio-group v-model="resourcesForm.type">
+            <el-radio-button label="menu" value="">菜单</el-radio-button>
+            <el-radio-button label="button" value="menu">按钮</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-switch v-model="resourcesForm.status" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSubmit">保存</el-button>
@@ -124,6 +127,7 @@ const resourcesForm = reactive<API.Resources.ResourcesItem>({
   path: '',
   icon: '',
   type: 'menu',
+  status: false,
 });
 
 const handleAppend = (item: API.Resources.ResourcesItem) => {
@@ -140,6 +144,7 @@ const handleUpdate = (item: API.Resources.ResourcesItem) => {
     resourcesForm.path = item.path;
     resourcesForm.icon = item.icon;
     resourcesForm.type = item.type;
+    resourcesForm.status = item.status;
   });
 };
 
@@ -163,6 +168,8 @@ const handleDelete = async (id: number) => {
 const rules = reactive({
   title: [{ required: true, message: '请输入资源名称', trigger: 'blur' }],
   path: [{ required: true, message: '请输入资源路径', trigger: 'blur' }],
+  type: [{ required: true, message: '请选择类型', trigger: 'change' }],
+  status: [{ required: true, message: '请选择状态', trigger: 'change' }],
 });
 
 const handleSubmit = async () => {
