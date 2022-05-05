@@ -1,5 +1,5 @@
 import { login, loginOut, userInfo } from '@/api/login';
-import { asyncRoutes, constantRoutes } from '@/router';
+import { constantRoutes } from '@/router';
 import { removeToken, setToken } from '@/utils/cookies';
 import { defineStore } from 'pinia';
 import { RouteRecordRaw } from 'vue-router';
@@ -35,12 +35,6 @@ export const filterAsyncRoutes = (routerlist: any) => {
           meta: { title: e.title, hidden: e.status },
         };
       }
-      // if (e.status === 0) {
-      //   eNew = { ...eNew, hidden: true };
-      // }
-      // if (e.title !== '') {
-      //   eNew = { ...eNew, meta: { title: e.title } };
-      // }
       router.push(eNew);
     });
   } catch (error) {
@@ -87,15 +81,8 @@ export const useUserStore = defineStore('user', {
       }
     },
     async generateRoutes() {
-      const superAdmin = this.roles.some(
-        (item: { mark: string }) => item.mark === 'root'
-      );
-      if (superAdmin) {
-        this.dynamicRoutes = asyncRoutes;
-      } else {
-        const data = await managerResourcest({});
-        this.dynamicRoutes = filterAsyncRoutes(data);
-      }
+      const data = await managerResourcest({});
+      this.dynamicRoutes = filterAsyncRoutes(data);
       this.dynamicRoutes.push({
         // 找不到路由重定向到404页面
         path: '/:pathMatch(.*)',

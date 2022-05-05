@@ -8,7 +8,7 @@ const Route: RouteRecordRaw[] = [
     meta: { title: 'dashboard' },
     children: [
       {
-        path: '/dashboard',
+        path: 'dashboard',
         name: 'dashboard',
         component: () => import('@/pages/dashboard/index.vue'),
         meta: { title: '首页', icon: 'el-icon-s-home', hideClose: true },

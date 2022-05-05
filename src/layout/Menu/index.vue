@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useRouter, useRoute, RouteRecordRaw } from 'vue-router';
+import { useRoute, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
 import MenuItem from './MenuItem.vue';

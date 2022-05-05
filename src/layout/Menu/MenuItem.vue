@@ -1,6 +1,6 @@
 <template>
   <el-sub-menu
-    v-if="item.children.length"
+    v-if="item.children?.length"
     :index="resolvePath(item.path)"
     popper-append-to-body
   >
@@ -13,7 +13,7 @@
     </template>
     <template v-for="child in item.children">
       <menu-item
-        v-if="child.children && child.children.length"
+        v-if="child.children?.length"
         :is-nest="true"
         :item="child"
         :base-path="resolvePath(child.path)"
@@ -29,6 +29,7 @@
       </app-link>
     </template>
   </el-sub-menu>
+
   <template v-else>
     <app-link
       v-if="item.meta"
@@ -60,6 +61,7 @@ const props = defineProps({
 });
 
 const resolvePath = (routePath: string) => {
+  console.log(routePath, 'routePath');
   if (isExternal(routePath)) {
     return routePath;
   }
