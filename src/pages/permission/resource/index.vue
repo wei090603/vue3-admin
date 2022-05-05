@@ -77,7 +77,7 @@
             <el-radio-button label="button" value="menu">按钮</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item label="是否隐藏" prop="status">
           <el-switch v-model="resourcesForm.status" />
         </el-form-item>
         <el-form-item>
