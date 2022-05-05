@@ -93,9 +93,8 @@ export const useUserStore = defineStore('user', {
     },
     async loginOut() {
       await loginOut();
-      this.roles = [];
-      this.info = {};
       removeToken();
+      window.localStorage.clear();
       location.reload();
     },
   },

@@ -61,7 +61,6 @@ const props = defineProps({
 });
 
 const resolvePath = (routePath: string) => {
-  console.log(routePath, 'routePath');
   if (isExternal(routePath)) {
     return routePath;
   }
