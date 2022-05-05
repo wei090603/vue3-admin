@@ -1,6 +1,6 @@
 <template>
   <el-sub-menu
-    v-if="item.children"
+    v-if="item.children.length"
     :index="resolvePath(item.path)"
     popper-append-to-body
   >

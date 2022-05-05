@@ -135,6 +135,7 @@ declare namespace API {
       icon: string;
       type: string;
       status: boolean;
+      component: string;
     };
 
     type State = {

@@ -71,51 +71,43 @@ onBeforeMount(() => {
 
 <style lang="scss" scoped>
 .app-wrapper {
-  position: relative;
+  display: flex;
   height: 100vh;
-  width: 100%;
 }
 .el-header {
   padding-left: 0;
   padding-right: 0;
 }
 .el-aside {
-  transition: width 0.28s;
-  // width: 210px !important;
-  background-color: #304156;
-  height: 100%;
-  position: fixed;
-  font-size: 0;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1001;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s;
+  overflow-x: hidden;
+  transition: 0.3s;
   &::-webkit-scrollbar {
     width: 0 !important;
   }
 }
 
 .main-container {
-  height: 100%;
-  transition: margin-left 0.28s;
-  margin-left: $sideBarWidth;
-  position: relative;
+  flex: 1;
 }
 
 .app-main {
+  background-color: #fff;
   position: relative;
+  flex: none;
+  top: 10px;
   height: calc(100% - 120px);
+  padding: 0;
   overflow-x: hidden;
   box-shadow: 0 4px 4px 0 rgb(26 38 70 / 10%);
-  background-color: #f0f2f5;
   :deep(.app-container) {
     min-height: 100%;
     padding: 15px;
     background: #fff;
   }
 }
-
 @media screen and (max-width: 1000px) {
   .el-aside {
     position: fixed;

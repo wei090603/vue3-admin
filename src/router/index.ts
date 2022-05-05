@@ -8,13 +8,14 @@ import Article from './modules/article';
 import Navigation from './modules/navigation';
 
 export const asyncRoutes: RouteRecordRaw[] = [
+  ...Dashboard,
   ...Navigation,
   ...Permission,
   ...Article,
   ...System,
 ];
 
-export const constantRoutes: RouteRecordRaw[] = [...Platform, ...Dashboard];
+export const constantRoutes: RouteRecordRaw[] = [...Platform];
 
 const router = createRouter({
   history: createWebHistory(),

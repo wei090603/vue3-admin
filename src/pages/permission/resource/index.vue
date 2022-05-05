@@ -61,6 +61,13 @@
         <el-form-item label="资源路由" prop="path">
           <el-input v-model="resourcesForm.path"></el-input>
         </el-form-item>
+        <el-form-item
+          label="资源组件"
+          prop="component"
+          v-if="resourcesForm.type === 'menu'"
+        >
+          <el-input v-model="resourcesForm.component"></el-input>
+        </el-form-item>
         <el-form-item label="Icon" prop="icon">
           <el-input v-model="resourcesForm.icon"></el-input>
         </el-form-item>
@@ -121,6 +128,7 @@ const resourcesForm = reactive<API.Resources.ResourcesItem>({
   title: '',
   path: '',
   icon: '',
+  component: '',
   type: 'menu',
   status: false,
 });
@@ -140,6 +148,7 @@ const handleUpdate = (item: API.Resources.ResourcesItem) => {
     resourcesForm.icon = item.icon;
     resourcesForm.type = item.type;
     resourcesForm.status = item.status;
+    resourcesForm.component = item.component;
   });
 };
 
@@ -163,6 +172,7 @@ const handleDelete = async (id: number) => {
 const rules = reactive({
   title: [{ required: true, message: '请输入资源名称', trigger: 'blur' }],
   path: [{ required: true, message: '请输入资源路径', trigger: 'blur' }],
+  component: [{ required: true, message: '请输入资源组件', trigger: 'blur' }],
   type: [{ required: true, message: '请选择类型', trigger: 'change' }],
   status: [{ required: true, message: '请选择状态', trigger: 'change' }],
 });

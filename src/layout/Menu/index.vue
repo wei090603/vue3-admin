@@ -15,7 +15,7 @@
         v-for="(item, key) in allRoutes"
         :key="key"
         :item="item"
-        :base-path="item?.path"
+        :base-path="item.path"
       />
     </el-menu>
   </el-scrollbar>
@@ -36,7 +36,10 @@ const { isCollapse, expandOneMenu } = storeToRefs(store);
 const allRoutes: RouteRecordRaw[] = userStore.showRoutes.map(
   (item: RouteRecordRaw) => {
     if (item.path === '/' && item.children) {
-      return item.children[0];
+      return {
+        ...item.children[0],
+        path: `/${item.children[0].path}`,
+      };
     }
     return item;
   }
@@ -50,22 +53,6 @@ const activeMenu = computed(() => {
   }
   return path;
 });
-
-// const isRouteShow = (route: any) => {
-//   return !route.meta?.hidden;
-// };
-
-// const sidebarMenus = computed(() => {
-//   const result = allRoutes.map((item) => {
-//     console.log(item, 'item1');
-//     if (!isRouteShow(item)) return;
-//     return {
-//       ...item,
-//       children: item.children ? item.children.filter(isRouteShow) : null,
-//     };
-//   });
-//   return result;
-// });
 </script>
 
 <style lang="scss" scoped>

@@ -9,6 +9,47 @@ interface State {
   roles: number[];
 }
 
+/**
+ * 生成路由
+ * @param {Array} routerlist 格式化路由
+ * @returns
+ */
+export const filterAsyncRoutes = (routerlist: any) => {
+  const router: RouteRecordRaw[] = [];
+  try {
+    routerlist.forEach((e: any) => {
+      let eNew: RouteRecordRaw = {
+        path: e.parentId === null ? '/' + e.path : e.path,
+        name: e.path,
+        component: () =>
+          e.parentId === null
+            ? import('@/layout/index.vue')
+            : import(`../pages/${e.component}/index.vue`),
+      };
+      if (e.children) {
+        const children = filterAsyncRoutes(e.children);
+        // 保存权限
+        eNew = {
+          ...eNew,
+          children,
+          meta: { title: e.title, hidden: e.status },
+        };
+      }
+      // if (e.status === 0) {
+      //   eNew = { ...eNew, hidden: true };
+      // }
+      // if (e.title !== '') {
+      //   eNew = { ...eNew, meta: { title: e.title } };
+      // }
+      router.push(eNew);
+    });
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+  return router;
+};
+
 // 对外部暴露一个 use 方法，该方法会导出我们定义的 state
 export const useUserStore = defineStore('user', {
   // state 表示数据源
@@ -41,7 +82,6 @@ export const useUserStore = defineStore('user', {
         this.permission = resourcesList.reduce((a: string | any[], b: any) =>
           a.concat(b)
         );
-        console.log(this.permission, 'resourcesList');
       } catch (error) {
         throw new Error(error as string);
       }
@@ -53,9 +93,8 @@ export const useUserStore = defineStore('user', {
       if (superAdmin) {
         this.dynamicRoutes = asyncRoutes;
       } else {
-        const { data } = await managerResourcest({});
-        console.log(data, 'data');
-        // this.dynamicRoutes = ;
+        const data = await managerResourcest({});
+        this.dynamicRoutes = filterAsyncRoutes(data);
       }
       this.dynamicRoutes.push({
         // 找不到路由重定向到404页面
