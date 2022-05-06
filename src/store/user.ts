@@ -20,6 +20,7 @@ export const filterAsyncRoutes = (routerlist: any) => {
     routerlist.forEach((e: any) => {
       let eNew: RouteRecordRaw = {
         path: e.parentId === null ? '/' + e.path : e.path,
+        redirect: e.path === '' ? '/dashboard' : '', // 防止直接进入重定向会有问题
         name: e.path,
         component: () =>
           e.parentId === null
