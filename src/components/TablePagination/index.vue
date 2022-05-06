@@ -1,143 +1,141 @@
 <template>
-  <div class="table">
-    <el-table
-      ref="table"
-      :data="
-        tableOpts.dynamic
-          ? tableOpts.data
-          : tableOpts.data.slice(
-              (tableOpts.currentPage - 1) * tableOpts.pageSize,
-              tableOpts.currentPage * tableOpts.pageSize
-            )
-      "
-      :border="!tableOpts.hideBorder"
-      :span-method="tableOpts.spanMethod"
-      row-key="id"
-      :child-key="tableOpts.rowKey"
-      default-expand-all
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
+  <el-table
+    ref="table"
+    :data="
+      tableOpts.dynamic
+        ? tableOpts.data
+        : tableOpts.data.slice(
+            (tableOpts.currentPage - 1) * tableOpts.pageSize,
+            tableOpts.currentPage * tableOpts.pageSize
+          )
+    "
+    :border="!tableOpts.hideBorder"
+    :span-method="tableOpts.spanMethod"
+    row-key="id"
+    :child-key="tableOpts.rowKey"
+    default-expand-all
+    :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+    style="width: 100%"
+    @selection-change="handleSelectionChange"
+  >
+    <el-table-column
+      v-if="tableOpts.multipleTable"
+      type="selection"
+      class-name="multiple-column"
+      width="45"
     >
+    </el-table-column>
+    <el-table-column
+      v-if="tableOpts.indexes"
+      type="index"
+      :label="tableOpts.indexes[0]"
+      class-name="serial-number"
+      :width="tableOpts.indexes[1] || 60"
+    >
+    </el-table-column>
+    <template v-for="(item, index) in tableOpts.column">
       <el-table-column
-        v-if="tableOpts.multipleTable"
-        type="selection"
-        class-name="multiple-column"
-        width="45"
+        v-if="!item.hidden"
+        :key="index"
+        :label="item.label"
+        :prop="item.prop"
+        :class-name="item.className || ''"
+        :width="item.width || ''"
+        :min-width="item.minWidth || ''"
+        align="center"
       >
-      </el-table-column>
-      <el-table-column
-        v-if="tableOpts.indexes"
-        type="index"
-        :label="tableOpts.indexes[0]"
-        class-name="serial-number"
-        :width="tableOpts.indexes[1] || 60"
-      >
-      </el-table-column>
-      <template v-for="(item, index) in tableOpts.column">
-        <el-table-column
-          v-if="!item.hidden"
-          :key="index"
-          :label="item.label"
-          :prop="item.prop"
-          :class-name="item.className || ''"
-          :width="item.width || ''"
-          :min-width="item.minWidth || ''"
-          align="center"
-        >
-          <template #header="scope">
-            <template v-if="item.useHeaderSlot">
-              <slot
-                :name="item.prop + 'Header'"
-                :data="scope"
-                :column="item"
-              ></slot>
-            </template>
-            <template v-else>{{ item.label }}</template>
+        <template #header="scope">
+          <template v-if="item.useHeaderSlot">
+            <slot
+              :name="item.prop + 'Header'"
+              :data="scope"
+              :column="item"
+            ></slot>
           </template>
-          <template #default="scope">
-            <template v-if="item.useSlot">
-              <slot
-                :name="item.prop"
-                :data="scope.row"
-                :index="scope.$index"
-                :value="scope.row[item.prop]"
-                :column="item"
-              ></slot>
-            </template>
-            <template v-else-if="item.render">
-              {{ item.render(scope.row[item.prop], scope.$index, scope.row) }}
-            </template>
-            <span v-else-if="item.filterParams">{{
-              commonFilter.filterFun(scope.row[item.prop], item.filterParams)
-            }}</span>
-            <template
-              v-else-if="
-                item.showPopover &&
-                scope.row[item.prop] &&
-                scope.row[item.prop].length > 20
-              "
-            >
-              <el-popover
-                placement="bottom-start"
-                width="200"
-                trigger="hover"
-                :content="scope.row[item.prop]"
-              >
-                <div slot="reference" class="text-hidden">
-                  {{ scope.row[item.prop] }}
-                </div>
-              </el-popover>
-            </template>
-            <span v-else>
-              {{ scope.row[item.prop] }}
-            </span>
-          </template>
-        </el-table-column>
-      </template>
-      <el-table-column
-        v-if="tableOpts.hasOperation"
-        fixed="right"
-        :label="tableOpts.operation.label"
-        :width="tableOpts.operation.width || ''"
-        :min-width="tableOpts.operation.minWidth || ''"
-        :class-name="tableOpts.operation.className || ''"
-      >
+          <template v-else>{{ item.label }}</template>
+        </template>
         <template #default="scope">
-          <template v-for="item in tableOpts.operation.data">
-            <el-button
-              v-if="item.isShow ? item.isShow(scope.row) : true"
-              :key="item.id"
-              :type="item.type || 'text'"
-              :size="item.size || 'default'"
-              :class="
-                item.classNameFun
-                  ? item.classNameFun(scope.row)
-                  : item.className || ''
-              "
-              @click.stop="
-                handleOperation(item.handleFunc, scope.row, scope.$index)
-              "
-              >{{ item.label }}
-            </el-button>
+          <template v-if="item.useSlot">
+            <slot
+              :name="item.prop"
+              :data="scope.row"
+              :index="scope.$index"
+              :value="scope.row[item.prop]"
+              :column="item"
+            ></slot>
           </template>
+          <template v-else-if="item.render">
+            {{ item.render(scope.row[item.prop], scope.$index, scope.row) }}
+          </template>
+          <span v-else-if="item.filterParams">{{
+            commonFilter.filterFun(scope.row[item.prop], item.filterParams)
+          }}</span>
+          <template
+            v-else-if="
+              item.showPopover &&
+              scope.row[item.prop] &&
+              scope.row[item.prop].length > 20
+            "
+          >
+            <el-popover
+              placement="bottom-start"
+              width="200"
+              trigger="hover"
+              :content="scope.row[item.prop]"
+            >
+              <div slot="reference" class="text-hidden">
+                {{ scope.row[item.prop] }}
+              </div>
+            </el-popover>
+          </template>
+          <span v-else>
+            {{ scope.row[item.prop] }}
+          </span>
         </template>
       </el-table-column>
-    </el-table>
-    <el-pagination
-      v-if="tableOpts.pagination"
-      v-model:currentPage="tableOpts.currentPage"
-      background
-      :page-sizes="tableOpts.pageList || [10, 20, 30, 40]"
-      v-show="tableOpts.total"
-      :page-size="tableOpts.pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="tableOpts.total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+    </template>
+    <el-table-column
+      v-if="tableOpts.hasOperation"
+      fixed="right"
+      :label="tableOpts.operation.label"
+      :width="tableOpts.operation.width || ''"
+      :min-width="tableOpts.operation.minWidth || ''"
+      :class-name="tableOpts.operation.className || ''"
     >
-    </el-pagination>
-  </div>
+      <template #default="scope">
+        <template v-for="item in tableOpts.operation.data">
+          <el-button
+            v-if="item.isShow ? item.isShow(scope.row) : true"
+            :key="item.id"
+            :type="item.type || 'text'"
+            :size="item.size || 'default'"
+            :class="
+              item.classNameFun
+                ? item.classNameFun(scope.row)
+                : item.className || ''
+            "
+            @click.stop="
+              handleOperation(item.handleFunc, scope.row, scope.$index)
+            "
+            >{{ item.label }}
+          </el-button>
+        </template>
+      </template>
+    </el-table-column>
+  </el-table>
+  <el-pagination
+    v-if="tableOpts.pagination"
+    v-model:currentPage="tableOpts.currentPage"
+    background
+    :page-sizes="tableOpts.pageList || [10, 20, 30, 40]"
+    v-show="tableOpts.total"
+    :page-size="tableOpts.pageSize"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="tableOpts.total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+  >
+  </el-pagination>
 </template>
 
 <script lang="ts" setup>
@@ -274,6 +272,15 @@ const handleSelectionChange = (val: any) => {
 </script>
 
 <style lang="scss" scoped>
+.el-pagination {
+  float: right;
+  margin-top: 25px;
+  padding-bottom: 25px;
+  span:not([class*='suffix']) {
+    font-size: 14px;
+  }
+}
+
 .operaters {
   .el-button {
     margin-right: 8px;

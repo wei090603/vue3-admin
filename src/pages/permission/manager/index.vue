@@ -166,13 +166,13 @@ const tableData = reactive({
     {
       label: '角色',
       prop: 'roles',
-      minWidth: '80',
+      minWidth: '120',
       useSlot: true,
     },
     {
       label: '状态',
       prop: 'status',
-      minWidth: '80',
+      minWidth: '120',
       useSlot: true,
     },
     {
@@ -184,7 +184,7 @@ const tableData = reactive({
       label: '创建日期',
       prop: 'createdAt',
       filterParams: ['formatTime', 'YYYY-MM-DD HH:MM:ss'],
-      minWidth: '100',
+      minWidth: '180',
     },
   ],
   operation: {

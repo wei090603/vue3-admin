@@ -8,7 +8,7 @@
       <Logo v-if="showLogo" />
       <Menu />
     </el-aside>
-    <div class="main-container">
+    <div :class="[{ active: isCollapse }, 'main-container']">
       <el-header v-show="!contentFullScreen">
         <Header />
       </el-header>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import Menu from './Menu/index.vue';
 import Logo from './Logo/index.vue';
@@ -90,24 +90,26 @@ onBeforeMount(() => {
 }
 
 .main-container {
-  flex: 1;
+  width: calc(100% - 250px);
+  &.active {
+    width: 100% !important;
+  }
 }
-
 .app-main {
-  background-color: #fff;
+  width: 100%;
   position: relative;
-  flex: none;
   top: 10px;
   height: calc(100% - 120px);
   padding: 0;
   overflow-x: hidden;
   box-shadow: 0 4px 4px 0 rgb(26 38 70 / 10%);
+  background-color: #fff;
   :deep(.app-container) {
-    min-height: 100%;
     padding: 15px;
     background: #fff;
   }
 }
+
 @media screen and (max-width: 1000px) {
   .el-aside {
     position: fixed;
