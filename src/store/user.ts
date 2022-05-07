@@ -4,6 +4,7 @@ import { removeToken, setToken } from '@/utils/cookies';
 import { defineStore } from 'pinia';
 import { RouteRecordRaw } from 'vue-router';
 import { managerResourcest } from '@/api/manager';
+import goldRoute from '@/goldRoute';
 
 interface State {
   roles: number[];
@@ -16,6 +17,8 @@ interface State {
  */
 export const filterAsyncRoutes = (routerlist: any) => {
   const router: RouteRecordRaw[] = [];
+  const pages = import.meta.glob('../pages/**/*.vue');
+  // pages[`../views/${e.component}.vue`],
   try {
     routerlist.forEach((e: any) => {
       let eNew: RouteRecordRaw = {
@@ -25,7 +28,7 @@ export const filterAsyncRoutes = (routerlist: any) => {
         component: () =>
           e.parentId === null
             ? import('@/layout/index.vue')
-            : import(`../pages/${e.component}/index.vue`),
+            : goldRoute(e.component),
       };
       if (e.children) {
         const children = filterAsyncRoutes(e.children);
