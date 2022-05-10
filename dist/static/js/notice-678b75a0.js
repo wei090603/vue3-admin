@@ -1,0 +1,1 @@
+import{s as t}from"./index-2f4a0259.js";const e=e=>t({url:"notice",method:"get",params:e}),o=e=>t({url:"notice",method:"post",data:e}),a=(e,o)=>t({url:`notice/${e}`,method:"put",data:o}),s=e=>t({url:`notice/${e}`,method:"delete"}),d=e=>t({url:`notice/${e}`,method:"get"});export{a,o as b,e as c,s as d,d as n};

@@ -1,0 +1,1 @@
+function t(t){return/^(https?:|mailto:|tel:)/.test(t)}function n(t){if(!t)return t;if("object"!=typeof t)return t;const r=new t.constructor;for(const o in t)t.hasOwnProperty(o)&&(r[o]=n(t[o]));return r}export{n as d,t as i};
