@@ -1,14 +1,15 @@
 <template>
   <div class="tabs">
     <div class="item-main">
-      <Item
-        v-for="menu in menuList"
-        :key="menu.meta.title"
-        :menu="menu"
-        :active="activeMenu.path === menu.path"
-        @close="delMenu(menu)"
-        @reload="pageReload"
-      />
+      <template v-if="menuList.length">
+        <Item
+          v-for="menu in menuList"
+          :key="menu.path"
+          :menu="menu"
+          :active="activeMenu === menu.path"
+          @close="delMenu(menu)"
+        />
+      </template>
     </div>
     <div class="handle">
       <el-dropdown placement="bottom">
@@ -17,9 +18,9 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item icon="el-icon-refresh-left" @click="pageReload"
+            <!-- <el-dropdown-item icon="el-icon-refresh-left" @click="pageReload"
               >重新加载</el-dropdown-item
-            >
+            > -->
             <el-dropdown-item
               icon="el-icon-circle-close"
               :disabled="currentDisabled"
@@ -79,32 +80,25 @@ const defaultMenu: any = {
 const { contentFullScreen } = storeToRefs(store);
 const currentDisabled = computed(() => route.path === defaultMenu.path);
 
-let activeMenu = reactive({ path: '' });
+let activeMenu = ref('');
 let menuList = ref(tabsHook.getItem());
 if (menuList.value.length === 0) {
   // 判断之前有没有调用过
   addMenu(defaultMenu);
 }
-watch(menuList.value, (newVal) => {
+
+watch(menuList, (newVal, oldVal) => {
   tabsHook.setItem(newVal);
 });
-watch(menuList, (newVal) => {
-  tabsHook.setItem(newVal);
-});
-router.afterEach(() => {
-  addMenu(route);
-  initMenu(route);
+
+router.afterEach((to, from) => {
+  addMenu(to);
 });
 
 // 全屏
 const onFullscreen = () => {
   store.contentFullScreen = !store.contentFullScreen;
 };
-
-// 当前页面组件重新加载
-function pageReload() {
-  // const self: any = route.matched[route.matched.length - 1].instances.default;
-}
 
 // 关闭当前标签，首页不关闭
 function closeCurrentRoute() {
@@ -129,7 +123,8 @@ function closeAllRoute() {
 // 添加新的菜单项
 function addMenu(menu: RouteLocationNormalizedLoaded) {
   let { path, meta, name } = menu;
-  if (meta?.hideTabs) {
+  activeMenu.value = path;
+  if (meta?.hidden) {
     return;
   }
   let hasMenu = menuList.value.some((obj: RouteRecordRaw) => {
@@ -151,21 +146,15 @@ function delMenu(menu: RouteLocationNormalizedLoaded) {
     index = menuList.value.findIndex((item: any) => item.path === menu.path);
     menuList.value.splice(index, 1);
   }
-  if (menu.path === activeMenu.path) {
+  if (menu.path === activeMenu.value) {
     index - 1 > 0
       ? router.push(menuList.value[index - 1].path)
       : router.push(defaultMenu.path);
   }
 }
 
-// 初始化activeMenu
-function initMenu(menu: { path: string }) {
-  activeMenu = menu;
-}
-
 // 初始化时调用：1. 新增菜单 2. 初始化activeMenu
 addMenu(route);
-initMenu(route);
 </script>
 
 <style lang="scss" scoped>

@@ -3,11 +3,11 @@
     <router-link v-if="menu.meta.title" :to="menu.path">
       {{ menu.meta.title }}
     </router-link>
-    <el-icon v-if="active" class="el-icon-refresh-right" @click.stop="reload">
+    <!-- <el-icon v-if="active" class="el-icon-refresh-right" @click.stop="reload">
       <refresh-right />
-    </el-icon>
+    </el-icon> -->
     <el-icon
-      v-if="!menu.meta.hideClose"
+      v-if="!menu.meta.hidden"
       class="el-icon-close"
       @click.stop="closeTab"
     >
@@ -25,7 +25,7 @@ const props = defineProps({
       return {
         path: '',
         meta: {
-          label: '',
+          title: '',
           hideClose: false,
         },
       };
@@ -37,13 +37,10 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['close', 'reload']);
+const emits = defineEmits(['close']);
+
 const closeTab = () => {
   emits('close');
-};
-// 刷新按钮
-const reload = () => {
-  emits('reload');
 };
 </script>
 
