@@ -30,10 +30,6 @@ router.beforeEach(
           try {
             await useUserStore().getInfo();
             await useUserStore().generateRoutes();
-            const { dynamicRoutes } = useUserStore();
-            dynamicRoutes.forEach((item) => {
-              router.addRoute(item);
-            });
             next({ ...to, replace: true });
           } catch (error) {
             await useUserStore().loginOut();

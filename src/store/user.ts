@@ -1,5 +1,5 @@
 import { login, loginOut, userInfo } from '@/api/login';
-import { constantRoutes } from '@/router';
+import router, { constantRoutes } from '@/router';
 import { removeToken, setToken } from '@/utils/cookies';
 import { defineStore } from 'pinia';
 import { RouteRecordRaw } from 'vue-router';
@@ -17,8 +17,6 @@ interface State {
  */
 export const filterAsyncRoutes = (routerlist: any) => {
   const router: RouteRecordRaw[] = [];
-  const pages = import.meta.glob('../pages/**/*.vue');
-  // pages[`../views/${e.component}.vue`],
   try {
     routerlist.forEach((e: any) => {
       let eNew: RouteRecordRaw = {
@@ -53,7 +51,8 @@ export const useUserStore = defineStore('user', {
   // state 表示数据源
   state: () => ({
     token: '',
-    roles: [],
+    roles: [] as any[],
+    superAdmin: false, // 是否超级管理员
     info: {}, // 用户信息
     routes: [] as RouteRecordRaw[],
     dynamicRoutes: [] as RouteRecordRaw[],
@@ -76,6 +75,7 @@ export const useUserStore = defineStore('user', {
         const { roles, ...info } = await userInfo();
         this.info = info;
         this.roles = roles;
+        this.superAdmin = roles.some((item: any) => item.mark === 'admin');
         const resourcesList = roles.map((item: any) => item.resources);
         this.permission = resourcesList.reduce((a: string | any[], b: any) =>
           a.concat(b)
@@ -86,14 +86,17 @@ export const useUserStore = defineStore('user', {
     },
     async generateRoutes() {
       const data = await managerResourcest({});
-      this.dynamicRoutes = filterAsyncRoutes(data);
+      const treeRouter = filterAsyncRoutes(data);
+      this.dynamicRoutes = constantRoutes.concat(treeRouter);
       this.dynamicRoutes.push({
         // 找不到路由重定向到404页面
         path: '/:pathMatch(.*)',
         redirect: '/404',
         meta: { title: '404', keepAlive: false, hidden: true },
       });
-      this.dynamicRoutes = constantRoutes.concat(this.dynamicRoutes);
+      this.dynamicRoutes.forEach((item) => {
+        router.addRoute(item);
+      });
     },
     async loginOut() {
       await loginOut();

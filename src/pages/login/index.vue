@@ -17,7 +17,7 @@
         </span> -->
         <el-input
           v-model="form.account"
-          placeholder="请输入用户名"
+          placeholder="请输入用户名 admin | test"
           name="username"
           type="text"
           :prefix-icon="Avatar"

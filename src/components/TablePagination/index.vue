@@ -140,7 +140,9 @@
 
 <script lang="ts" setup>
 import { ref, onActivated } from 'vue';
+import { useUserStore } from '@/store/user';
 import commonFilter from '@/utils/filters';
+import { ElMessage } from 'element-plus';
 
 const props = defineProps({
   tableOpts: {
@@ -200,8 +202,7 @@ const props = defineProps({
   },
 });
 
-// const emits = props.tableOpts.operation.data.map(item => item.handleFunc)
-// console.log(emits);
+const store = useUserStore();
 
 const emit = defineEmits([
   'handleEdit',
@@ -251,16 +252,16 @@ const handleCurrentChange = (currentPage: number) => {
  * @param subscript
  */
 const handleOperation = (handleName: any, row: any, subscript: any) => {
-  emit(handleName, row, subscript);
-  // if (sotre.getters.roles.includes('admin')) {
-  //   emit(handleName, row, subscript);
-  // } else {
-  //   proxy.$message({
-  //     showClose: true,
-  //     message: '对不起，您暂无权限执行该操作！',
-  //     type: 'warning',
-  //   })
-  // }
+  // emit(handleName, row, subscript);
+  if (store.superAdmin) {
+    emit(handleName, row, subscript);
+  } else {
+    ElMessage.error({
+      showClose: true,
+      message: '对不起，您暂无权限执行该操作！',
+      type: 'warning',
+    });
+  }
 };
 /**
  * 复选操作
