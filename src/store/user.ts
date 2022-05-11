@@ -23,10 +23,7 @@ export const filterAsyncRoutes = (routerlist: any) => {
         path: e.parentId === null ? '/' + e.path : e.path,
         redirect: e.path === '' ? '/dashboard' : '', // 防止直接进入重定向会有问题
         name: e.path,
-        component: () =>
-          e.parentId === null
-            ? import('@/layout/index.vue')
-            : goldRoute(e.component),
+        component: () => (e.parentId === null ? import('@/layout/index.vue') : goldRoute(e.component)),
       };
       if (e.children) {
         const children = filterAsyncRoutes(e.children);
@@ -53,15 +50,16 @@ export const useUserStore = defineStore('user', {
     token: '',
     roles: [] as any[],
     superAdmin: false, // 是否超级管理员
-    info: {}, // 用户信息
+    info: {
+      name: '',
+    }, // 用户信息
     routes: [] as RouteRecordRaw[],
     dynamicRoutes: [] as RouteRecordRaw[],
     permission: [],
   }),
   // getters 类似于 computed，可对 state 的值进行二次计算
   getters: {
-    showRoutes: (state) =>
-      state.dynamicRoutes.filter((item: RouteRecordRaw) => !item.meta?.hidden),
+    showRoutes: (state) => state.dynamicRoutes.filter((item: RouteRecordRaw) => !item.meta?.hidden),
   },
   // actions 用来修改 state
   actions: {
@@ -77,9 +75,7 @@ export const useUserStore = defineStore('user', {
         this.roles = roles;
         this.superAdmin = roles.some((item: any) => item.mark === 'admin');
         const resourcesList = roles.map((item: any) => item.resources);
-        this.permission = resourcesList.reduce((a: string | any[], b: any) =>
-          a.concat(b)
-        );
+        this.permission = resourcesList.reduce((a: string | any[], b: any) => a.concat(b));
       } catch (error) {
         throw new Error(error as string);
       }

@@ -1,10 +1,6 @@
 <template>
   <div class="app-wrapper">
-    <el-aside
-      v-show="!contentFullScreen"
-      :width="isCollapse ? '60px' : '250px'"
-      :class="isCollapse ? 'hide-aside' : 'show-side'"
-    >
+    <el-aside v-show="!contentFullScreen" :width="isCollapse ? '60px' : '250px'" :class="isCollapse ? 'hide-aside' : 'show-side'">
       <Logo v-if="showLogo" />
       <Menu />
     </el-aside>
@@ -17,11 +13,7 @@
         <router-view #default="{ Component, route }">
           <transition appear name="fade-transform" mode="out-in">
             <keep-alive>
-              <el-scrollbar
-                max-height="100%"
-                wrap-class="app-container"
-                :key="route.path"
-              >
+              <el-scrollbar max-height="100%" wrap-class="app-container" :key="route.path">
                 <component :is="Component" />
               </el-scrollbar>
             </keep-alive>
@@ -50,8 +42,7 @@ const hideMenu = (status = true) => {
 };
 
 // computed
-const { isCollapse, contentFullScreen, showLogo, showTabs } =
-  storeToRefs(store);
+const { isCollapse, contentFullScreen, showLogo, showTabs } = storeToRefs(store);
 // 页面宽度变化监听后执行的方法
 const resizeHandler = () => {
   if (document.body.clientWidth <= 1000 && !isCollapse.value) {

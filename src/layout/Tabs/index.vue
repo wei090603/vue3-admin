@@ -2,13 +2,7 @@
   <div class="tabs">
     <div class="item-main">
       <template v-if="menuList.length">
-        <Item
-          v-for="menu in menuList"
-          :key="menu.path"
-          :menu="menu"
-          :active="activeMenu === menu.path"
-          @close="delMenu(menu)"
-        />
+        <Item v-for="menu in menuList" :key="menu.path" :menu="menu" :active="activeMenu === menu.path" @close="delMenu(menu)" />
       </template>
     </div>
     <div class="handle">
@@ -21,36 +15,14 @@
             <!-- <el-dropdown-item icon="el-icon-refresh-left" @click="pageReload"
               >重新加载</el-dropdown-item
             > -->
-            <el-dropdown-item
-              icon="el-icon-circle-close"
-              :disabled="currentDisabled"
-              @click="closeCurrentRoute"
-              >关闭当前标签</el-dropdown-item
-            >
-            <el-dropdown-item
-              icon="el-icon-circle-close"
-              :disabled="menuList.length < 3"
-              @click="closeOtherRoute"
-              >关闭其他标签</el-dropdown-item
-            >
-            <el-dropdown-item
-              icon="el-icon-circle-close"
-              :disabled="menuList.length <= 1"
-              @click="closeAllRoute"
-              >关闭所有标签</el-dropdown-item
-            >
+            <el-dropdown-item icon="el-icon-circle-close" :disabled="currentDisabled" @click="closeCurrentRoute">关闭当前标签</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-circle-close" :disabled="menuList.length < 3" @click="closeOtherRoute">关闭其他标签</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-circle-close" :disabled="menuList.length <= 1" @click="closeAllRoute">关闭所有标签</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <el-tooltip
-        class="item"
-        effect="dark"
-        :content="contentFullScreen ? '退出全屏' : '内容全屏'"
-        placement="bottom"
-      >
-        <el-icon class="el-icon-full-screen" @click="onFullscreen"
-          ><full-screen
-        /></el-icon>
+      <el-tooltip class="item" effect="dark" :content="contentFullScreen ? '退出全屏' : '内容全屏'" placement="bottom">
+        <el-icon class="el-icon-full-screen" @click="onFullscreen"><full-screen /></el-icon>
       </el-tooltip>
     </div>
   </div>
@@ -59,12 +31,7 @@
 <script lang="ts" setup>
 import { computed, unref, watch, reactive, ref } from 'vue';
 import Item from './Item.vue';
-import {
-  RouteLocationNormalizedLoaded,
-  RouteRecordRaw,
-  useRoute,
-  useRouter,
-} from 'vue-router';
+import { RouteLocationNormalizedLoaded, RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 import tabsHook from './tabsHook';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app';
@@ -147,9 +114,7 @@ function delMenu(menu: RouteLocationNormalizedLoaded) {
     menuList.value.splice(index, 1);
   }
   if (menu.path === activeMenu.value) {
-    index - 1 > 0
-      ? router.push(menuList.value[index - 1].path)
-      : router.push(defaultMenu.path);
+    index - 1 > 0 ? router.push(menuList.value[index - 1].path) : router.push(defaultMenu.path);
   }
 }
 
@@ -163,8 +128,8 @@ addMenu(route);
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  position: relative;
-  z-index: 99;
+  // position: relative;
+  // z-index: 99;
   background: var(--system-header-background);
   border-bottom: 1px solid var(--system-header-border-color);
   border-top: 1px solid var(--system-header-border-color);

@@ -1,14 +1,7 @@
 <template>
   <el-table
     ref="table"
-    :data="
-      tableOpts.dynamic
-        ? tableOpts.data
-        : tableOpts.data.slice(
-            (tableOpts.currentPage - 1) * tableOpts.pageSize,
-            tableOpts.currentPage * tableOpts.pageSize
-          )
-    "
+    :data="tableOpts.dynamic ? tableOpts.data : tableOpts.data.slice((tableOpts.currentPage - 1) * tableOpts.pageSize, tableOpts.currentPage * tableOpts.pageSize)"
     :border="!tableOpts.hideBorder"
     :span-method="tableOpts.spanMethod"
     row-key="id"
@@ -18,21 +11,8 @@
     style="width: 100%"
     @selection-change="handleSelectionChange"
   >
-    <el-table-column
-      v-if="tableOpts.multipleTable"
-      type="selection"
-      class-name="multiple-column"
-      width="45"
-    >
-    </el-table-column>
-    <el-table-column
-      v-if="tableOpts.indexes"
-      type="index"
-      :label="tableOpts.indexes[0]"
-      class-name="serial-number"
-      :width="tableOpts.indexes[1] || 60"
-    >
-    </el-table-column>
+    <el-table-column v-if="tableOpts.multipleTable" type="selection" class-name="multiple-column" width="45"> </el-table-column>
+    <el-table-column v-if="tableOpts.indexes" type="index" :label="tableOpts.indexes[0]" class-name="serial-number" :width="tableOpts.indexes[1] || 60"> </el-table-column>
     <template v-for="(item, index) in tableOpts.column">
       <el-table-column
         v-if="!item.hidden"
@@ -46,43 +26,20 @@
       >
         <template #header="scope">
           <template v-if="item.useHeaderSlot">
-            <slot
-              :name="item.prop + 'Header'"
-              :data="scope"
-              :column="item"
-            ></slot>
+            <slot :name="item.prop + 'Header'" :data="scope" :column="item"></slot>
           </template>
           <template v-else>{{ item.label }}</template>
         </template>
         <template #default="scope">
           <template v-if="item.useSlot">
-            <slot
-              :name="item.prop"
-              :data="scope.row"
-              :index="scope.$index"
-              :value="scope.row[item.prop]"
-              :column="item"
-            ></slot>
+            <slot :name="item.prop" :data="scope.row" :index="scope.$index" :value="scope.row[item.prop]" :column="item"></slot>
           </template>
           <template v-else-if="item.render">
             {{ item.render(scope.row[item.prop], scope.$index, scope.row) }}
           </template>
-          <span v-else-if="item.filterParams">{{
-            commonFilter.filterFun(scope.row[item.prop], item.filterParams)
-          }}</span>
-          <template
-            v-else-if="
-              item.showPopover &&
-              scope.row[item.prop] &&
-              scope.row[item.prop].length > 20
-            "
-          >
-            <el-popover
-              placement="bottom-start"
-              width="200"
-              trigger="hover"
-              :content="scope.row[item.prop]"
-            >
+          <span v-else-if="item.filterParams">{{ commonFilter.filterFun(scope.row[item.prop], item.filterParams) }}</span>
+          <template v-else-if="item.showPopover && scope.row[item.prop] && scope.row[item.prop].length > 20">
+            <el-popover placement="bottom-start" width="200" trigger="hover" :content="scope.row[item.prop]">
               <div slot="reference" class="text-hidden">
                 {{ scope.row[item.prop] }}
               </div>
@@ -109,14 +66,8 @@
             :key="item.id"
             :type="item.type || 'text'"
             :size="item.size || 'default'"
-            :class="
-              item.classNameFun
-                ? item.classNameFun(scope.row)
-                : item.className || ''
-            "
-            @click.stop="
-              handleOperation(item.handleFunc, scope.row, scope.$index)
-            "
+            :class="item.classNameFun ? item.classNameFun(scope.row) : item.className || ''"
+            @click.stop="handleOperation(item.handleFunc, scope.row, scope.$index)"
             >{{ item.label }}
           </el-button>
         </template>
@@ -204,14 +155,7 @@ const props = defineProps({
 
 const store = useUserStore();
 
-const emit = defineEmits([
-  'handleEdit',
-  'handleRestPwd',
-  'handlePermission',
-  'handleDel',
-  'getTableData',
-  'handleCreate',
-]);
+const emit = defineEmits(['handleEdit', 'handleRestPwd', 'handlePermission', 'handleDel', 'getTableData', 'handleCreate']);
 
 /**
  * 每页显示条数切换
@@ -252,16 +196,16 @@ const handleCurrentChange = (currentPage: number) => {
  * @param subscript
  */
 const handleOperation = (handleName: any, row: any, subscript: any) => {
-  // emit(handleName, row, subscript);
-  if (store.superAdmin) {
-    emit(handleName, row, subscript);
-  } else {
-    ElMessage.error({
-      showClose: true,
-      message: '对不起，您暂无权限执行该操作！',
-      type: 'warning',
-    });
-  }
+  emit(handleName, row, subscript);
+  // if (store.superAdmin) {
+  //   emit(handleName, row, subscript);
+  // } else {
+  //   ElMessage.error({
+  //     showClose: true,
+  //     message: '对不起，您暂无权限执行该操作！',
+  //     type: 'warning',
+  //   });
+  // }
 };
 /**
  * 复选操作

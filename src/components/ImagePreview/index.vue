@@ -20,21 +20,12 @@
       >
         <img :key="url" :src="url" alt="" />
         <div class="operate-mask">
-          <el-icon class="el-icon el-icon-zoom-in" @click="visible = true"
-            ><circle-plus
-          /></el-icon>
+          <el-icon class="el-icon el-icon-zoom-in" @click="visible = true"><circle-plus /></el-icon>
         </div>
       </div>
       <span v-else class="empty-text">-</span>
     </span>
-    <el-dialog
-      v-if="url"
-      title="图片查看"
-      width="600px"
-      v-model="visible"
-      custom-class="preview-dialog"
-      :before-close="() => (visible = false)"
-    >
+    <el-dialog v-if="url" title="图片查看" width="600px" v-model="visible" append-to-body custom-class="preview-dialog" :before-close="() => (visible = false)">
       <img :src="url" alt="" />
     </el-dialog>
   </div>

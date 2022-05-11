@@ -13,13 +13,7 @@
   </div>
 
   <div class="table-container">
-    <table-pagination
-      :tableOpts.sync="tableData"
-      @getTableData="getTableData"
-      @handleEdit="handleEdit"
-      @handleDelete="handleDelete"
-      @handlePermission="handlePermission"
-    >
+    <table-pagination :tableOpts.sync="tableData" @getTableData="getTableData" @handleEdit="handleEdit" @handleDel="handleDel" @handlePermission="handlePermission">
     </table-pagination>
   </div>
 
@@ -31,14 +25,7 @@
     width="40%"
     :before-close="formClose"
   >
-    <el-form
-      ref="formEle"
-      :model="formData"
-      :rules="rules"
-      status-icon
-      label-width="100px"
-      class="demo-resourceForm"
-    >
+    <el-form ref="formEle" :model="formData" :rules="rules" status-icon label-width="100px" class="demo-resourceForm">
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model="formData.roleName"></el-input>
       </el-form-item>
@@ -55,24 +42,8 @@
     </el-form>
   </el-dialog>
 
-  <el-dialog
-    title="分配菜单"
-    v-model="resourcesVisible"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    width="40%"
-    :before-close="resourcesClose"
-  >
-    <el-tree
-      ref="tree"
-      :data="resourcesData"
-      show-checkbox
-      default-expand-all
-      :default-checked-keys="resourcesForm.rolesResources"
-      node-key="id"
-      highlight-current
-      :props="{ label: 'title' }"
-    />
+  <el-dialog title="分配菜单" v-model="resourcesVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="40%" :before-close="resourcesClose">
+    <el-tree ref="tree" :data="resourcesData" show-checkbox default-expand-all node-key="id" highlight-current :props="{ label: 'title' }" />
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="handleRolesMenu">保存</el-button>
@@ -87,14 +58,7 @@ import { reactive, ref, onMounted, nextTick, toRefs } from 'vue';
 import FilterGroup from '@/components/FilterGroup/index.vue';
 import { GroupFilterType } from '@/constants';
 import TablePagination from '@/components/TablePagination/index.vue';
-import {
-  rolesDel,
-  rolesGet,
-  rolesPost,
-  rolesPatch,
-  rolesMenuList,
-  rolesResourcesPatch,
-} from '@/api/roles';
+import { rolesDel, rolesGet, rolesPost, rolesPatch, rolesMenuList, rolesResourcesPatch } from '@/api/roles';
 import { ElForm, ElMessage, ElMessageBox } from 'element-plus';
 import { resourcesGet } from '@/api/resources';
 
@@ -131,7 +95,9 @@ const formClose = () => {
 
 const handleFilterChange = (filters: any) => {
   // 搜索后要回到第一页
-  console.log(filters, 'filters');
+  tableData.currentPage = 1;
+  state.searchForm = filters;
+  getTableData();
 };
 
 const formData = reactive<API.Role.RoleItem>({
@@ -143,7 +109,6 @@ const formData = reactive<API.Role.RoleItem>({
 
 const resourcesForm = reactive({
   id: '',
-  rolesResources: [],
 });
 
 const rules = reactive({
@@ -153,9 +118,7 @@ const rules = reactive({
 
 const handleSubmit = async () => {
   await formEle.value!.validate();
-  formData.id
-    ? await rolesPatch(+formData.id, formData)
-    : await rolesPost(formData);
+  formData.id ? await rolesPatch(+formData.id, formData) : await rolesPost(formData);
   getTableData();
   ElMessage({
     type: 'success',
@@ -178,12 +141,23 @@ const tree: any = ref(null);
 const handlePermission = async ({ id }: API.Role.RoleItem) => {
   state.resourcesVisible = true;
   resourcesForm.id = id as string;
-  resourcesForm.rolesResources = await rolesMenuList(+id);
+  const data = await rolesMenuList(+id);
+  nextTick(() => {
+    data.forEach((item: number) => {
+      var node = tree.value.getNode(item);
+      if (node.isLeaf) {
+        tree.value.setChecked(node, true);
+      }
+    });
+  });
 };
 
 const handleRolesMenu = async () => {
+  // 获取选中和半选节点
+  const checkLit = tree.value.getCheckedKeys();
+  const resourcesId = checkLit.concat(tree.value.getHalfCheckedKeys());
   await rolesResourcesPatch(+resourcesForm.id, {
-    resourcesId: tree.value.getCheckedKeys(),
+    resourcesId,
   });
   resourcesClose();
   ElMessage({
@@ -194,12 +168,11 @@ const handleRolesMenu = async () => {
 
 const resourcesClose = () => {
   tree.value!.setCheckedKeys([]);
-  resourcesForm.rolesResources = [];
   resourcesForm.id = '';
   resourcesVisible.value = false;
 };
 
-const handleDelete = async ({ id }: API.Role.RoleItem) => {
+const handleDel = async ({ id }: API.Role.RoleItem) => {
   ElMessageBox.confirm('确定删除该角色, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

@@ -2,9 +2,7 @@
   <FilterGroup v-bind="filterGroup"></FilterGroup>
   <div class="operate-wrapper">
     <div class="operate-left-btn">
-      <router-link to="/article/article/add"
-        ><el-button plain>新增</el-button></router-link
-      >
+      <router-link to="/article/article/add"><el-button plain>新增</el-button></router-link>
       <el-button plain type="danger">删除</el-button>
     </div>
     <div class="operate-right-btn">
@@ -12,15 +10,15 @@
       <el-button type="primary">导出</el-button>
     </div>
   </div>
-  <table-pagination
-    v-model:tableOpts="tableData"
-    @getTableData="getTableData"
-    @handleEdit="handleEdit"
-    @handleDel="handleDel"
-  >
-    <template #type="props">
-      <el-tag class="ml-2" type="success" v-if="props.value === 1">通知</el-tag>
-      <el-tag class="ml-2" type="success" v-if="props.value === 2">公告</el-tag>
+  <table-pagination v-model:tableOpts="tableData" @getTableData="getTableData" @handleEdit="handleEdit" @handleDel="handleDel">
+    <template #category="props">
+      <el-tag class="ml-2" type="success" v-if="props.data.category">{{ props.data.category.title }}</el-tag>
+    </template>
+    <template #tag="props">
+      <el-tag class="ml-2" type="success" v-for="item in props.data.tag" :key="item.item">{{ item.name }}</el-tag>
+    </template>
+    <template #author="props">
+      <span>{{ props.data.author?.nickName }}</span>
     </template>
   </table-pagination>
 </template>
@@ -113,8 +111,13 @@ const tableData = reactive({
       prop: 'title',
     },
     {
-      label: '类型',
-      prop: 'type',
+      label: '分类',
+      prop: 'category',
+      useSlot: true,
+    },
+    {
+      label: '标签',
+      prop: 'tag',
       useSlot: true,
     },
     {
@@ -123,8 +126,9 @@ const tableData = reactive({
       render: (value: boolean) => (value ? '正常' : '关闭'),
     },
     {
-      label: '创建人',
-      prop: 'createBy',
+      label: '作者',
+      prop: 'author',
+      useSlot: true,
     },
     {
       label: '创建日期',

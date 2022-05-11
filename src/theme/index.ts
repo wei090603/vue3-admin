@@ -37,6 +37,7 @@ export interface Style {
   dark: Colors;
   [propName: string]: Colors;
 }
+
 export const style: Style = {
   default: {
     name: '默认菜单风格',

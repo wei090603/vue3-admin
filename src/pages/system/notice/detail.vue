@@ -1,11 +1,5 @@
 <template>
-  <el-form
-    ref="formEle"
-    :model="formData"
-    :rules="rules"
-    label-width="100px"
-    class="demo-form"
-  >
+  <el-form ref="formEle" :model="formData" :rules="rules" label-width="100px" class="demo-form">
     <el-form-item label="标题：" prop="title">
       <el-input v-model="formData.title"></el-input>
     </el-form-item>
@@ -54,15 +48,12 @@ const handleGetDetail = async (id: number) => {
   formData.type = data.type;
   formData.status = data.status;
   formData.content = data.content;
-  console.log(data, 'data');
 };
 
 // 表单提交
 const handleSubmit = async () => {
   await formEle.value!.validate();
-  state.isEdit
-    ? await noticePut(route.params.id as string, formData)
-    : await noticePost(formData);
+  state.isEdit ? await noticePut(route.params.id as string, formData) : await noticePost(formData);
   ElMessage({
     type: 'success',
     message: state.isEdit ? '修改成功' : '新增成功',
