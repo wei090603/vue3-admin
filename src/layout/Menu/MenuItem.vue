@@ -5,7 +5,7 @@
     </template>
     <template v-for="child in item.children">
       <menu-item v-if="child.children?.length" :is-nest="true" :item="child" :base-path="resolvePath(child.path)" />
-      <app-link v-else :to="resolvePath(child.path)">
+      <app-link v-if="!child.children?.length && !child.meta.hidden" :to="resolvePath(child.path)">
         <el-menu-item :index="resolvePath(child.path)">
           <item v-if="child.meta" :icon="child.meta.icon" :title="child.meta.title" />
         </el-menu-item>

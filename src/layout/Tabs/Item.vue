@@ -6,11 +6,7 @@
     <!-- <el-icon v-if="active" class="el-icon-refresh-right" @click.stop="reload">
       <refresh-right />
     </el-icon> -->
-    <el-icon
-      v-if="!menu.meta.hidden"
-      class="el-icon-close"
-      @click.stop="closeTab"
-    >
+    <el-icon v-if="!menu.meta.hideClose" class="el-icon-close" @click.stop="closeTab">
       <Close />
     </el-icon>
   </div>
